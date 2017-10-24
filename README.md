@@ -6,6 +6,8 @@ la información matemática plasmada hacia el usuario por medio de pistas auditi
 
 ## Testing
 
+```
 # run the tests
+
 pytest
 ```
