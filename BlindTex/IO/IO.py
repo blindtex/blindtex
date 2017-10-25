@@ -9,8 +9,19 @@ import string
 import subprocess
 from sys import argv
 
-#Regular expression to match anything in math mode.
-mathMode = re.compile()#TODO create this regex. There is a temporal regex which works partially but by the moment it will not be included.
+#Regular expression to match anything in math mode. Altough there are better regex to do the same, this allows add new options easily.
+#If you want to proove it before,  you can do it in https://regex101.com/r/dSxw4f/2/
+#TODO The repetition of code is a signal it can be made in a more elegant way.
+mathMode = re.compile(r'''(?<!\\)( #Exclude escaped symbols
+											((\${2})(.*?)(?<!\\)(\${2}))| #Identify double $ formulas
+											((\$)(.*?)(?<!\\)(\$))| #Single $ formulas
+											((\\\()(.*?)(?<!\\)(\\\)))| #\(
+											((\\\[)(.*?)(?<!\\)(\\\]))| #\[
+											((\\begin\{equation\})(.*?)(?<!\\)(\\end\{equation\}))|
+											((\\begin\{equation\*\})(.*?)(?<!\\)(\\end\{equation\*\}))| #begin equation with and without *
+											((\\begin\{align\})(.*?)(?<!\\)(\\end\{align\}))|
+											((\\begin\{align\*\})(.*?)(?<!\\)(\\end\{align\*\})) # align and align*
+											)''',re.DOTALL|re.UNICODE|re.X)
 replaceString = "(LaTexStringNumber%d)"
 #HU1
 #Method to open a file and return its content as a string.
