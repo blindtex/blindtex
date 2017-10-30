@@ -22,6 +22,7 @@ mathMode = re.compile(r'''(?<!\\)( #Exclude escaped symbols
 											((\\begin\{align\})(.*?)(?<!\\)(\\end\{align\}))|
 											((\\begin\{align\*\})(.*?)(?<!\\)(\\end\{align\*\})) # align and align*
 											)''',re.DOTALL|re.UNICODE|re.X)
+
 replaceString = "(LaTexStringNumber%d)"
 #HU1
 #Method to open a file and return its content as a string.
@@ -75,7 +76,7 @@ def seekAndReplace(document, formulaFileName):
 	return otherDocument
 #EndOfFunction
 
-#Replace the document with the LaTeX math with the output of the function seekAndReplace. Write the content in a new file.
+#Replace the document containing the LaTeX math with the output of the function seekAndReplace. Write the content in a new file.
 def replaceAndWrite(contentList, replacedDocument, fileName):
 	newContentList = copy.deepcopy(contentList)
 	newContentList[1] = replacedDocument
@@ -88,7 +89,7 @@ def replaceAndWrite(contentList, replacedDocument, fileName):
 	print "replaceAndWrite completed."
 #EndOfFunction
 
-
+#HU6
 #Insert all the LaTeX formulas in the file formulaFile, already converted, the replacement is done in order of appearance with the marker put before.
 def insertConvertedFormulas(htmlString, formulaFile):
 	try:
@@ -110,13 +111,17 @@ def insertConvertedFormulas(htmlString, formulaFile):
 	return newString
 #EndOfFunction
 
-def main1(fileName):
+def GenerateNoTeX(fileName):
 	noExtensionName = fileName.replace(".tex","")
-
 	myContent = extractContent(openFile(fileName))
 	newDocument = seekAndReplace(myContent[1], noExtensionName + "_Formulae.txt")#Generates  txt file.
-	replaceAndWrite(myContent, newDocument, "NoTex"+fileName)#Generates  tex File
+	replaceAndWrite(myContent, newDocument, "NoTex"+fileName)#Generates  .tex file
+#EndOfFunction
 
+def convertToHtml1(fileName):
+	noExtensionName = fileName.replace(".tex","")
+	
+	GenerateNoTeX(fileName)
 	#HU7
 	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName], shell= True)#Generates xml file.
 	subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"], shell= True)#Generates xhtml file.
@@ -124,7 +129,7 @@ def main1(fileName):
 	htmlString = openFile(noExtensionName+".xhtml")
 	#TODO Call the method to convert the formulas and generate a file with them.
 	#HU6
-	htmlString = insertConvertedFormulas(htmlString, noExtensionName+ "_ConvertedFormulae.txt") #TODO Insert the converted Formulas.
+	htmlString = insertConvertedFormulas(htmlString, noExtensionName+ "_Formulae.txt") #TODO By the moment it will be the same formulas, untill we can convert them.
 
 	try:
 		newFile = open(noExtensionName+".xhtml", 'w')
@@ -140,13 +145,11 @@ def main1(fileName):
 #EndOfFunction
 
 #The same main but considering a bibliography.
-def main2(fileName, biblioName):
+def convertToHtml2(fileName, biblioName):
 	noExtensionName = fileName.replace(".tex","")
 	noExtensionBiblio = biblioName.replace(".bib","")
 
-	myContent = extractContent(openFile(fileName))
-	newDocument = seekAndReplace(myContent[1], noExtensionName + "_Formulae.txt")
-	replaceAndWrite(myContent, newDocument, "NoTex"+fileName)
+	generateNoTeX(fileName)
 
 	#HU7
 	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName], shell=True)
@@ -156,8 +159,7 @@ def main2(fileName, biblioName):
 	htmlString = openFile(noExtensionName+".xhtml")
 	#TODO Call the method to convert the formulas and generate a file with them.
 	#HU6
-	htmlString = insertConvertedFormulas(htmlString, noExtensionName+ "_ConvertedFormulae.txt") #TODO Insert the converted Formulas.
-
+	htmlString = insertConvertedFormulas(htmlString, noExtensionName+ "_Formulae.txt")#TODO By the moment it will be the same formulas, untill we can convert them.
 	try:
 		newFile = open(noExtensionName+".xhtml", 'w')
 		newFile.write(htmlString)
@@ -172,14 +174,5 @@ def main2(fileName, biblioName):
 	print "Process Ended"
 #EndOfFunction
 
-#The execution of the program.
-if(len(argv)==2):
-	main1(argv[1])
-	
-elif(len(argv)==3):
-	main2(argv[1],argv[2])
-	
-else:
-	print"Wrong number of arguments, expected one or two (file name or filename + bibliography) and received %d."%(len(argv) -1)
-#End of execution.
+
 
