@@ -2,9 +2,11 @@
 
 import ply.lex as lex
 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'COMMAND', 'ORD', 'FRAC')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC','SPACE')
 
 states = (('command', 'exclusive'),)
+
+
 
 def t_BEGINBLOCK(t):
 	r'\{'
@@ -39,10 +41,12 @@ def t_command_FRAC(t):
 
 
 def t_CHAR(t):
-	r'[^\{\}]+?'
+	r'[A-Za-z0-9]+?'
 	return t
 
-t_ignore_SPACE = r'[ \t]+'
+def t_SPACE(t):
+	r'[\s]+'
+	return t
 
 def t_error(t):
 	print("Illegal character '%s'" % t.value[0])
