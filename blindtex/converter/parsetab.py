@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CHAR SUP SUB BEGINBLOCK ENDBLOCK COMMAND ORD FRACstart : contentblock : BEGINBLOCK content ENDBLOCKcontent :  blockcontent : CHAR\n\t\t\t\t| ord ord : ORD content : block content\n\t\t\t\t  | content block\n\t\t\t\t  | ord content\n\t\t\t\t  | content ordcontent : scripted\n\t\t\t\t\t| command command : frac scripted : content SUP block\n\t\t\t| content SUP content\n\t\t\t| content SUP block SUB block\n\t\t\t| content SUP content SUB contentscripted : content SUB block\n\t\t\t| content SUB content\n\t\t\t| content SUB block SUP block\n\t\t\t| content SUB content SUP contentfrac : FRAC block block\n\t\t\t\t| FRAC content content '
+_lr_signature = 'leftSUPSUBFRACROOTCHAR SUP SUB BEGINBLOCK ENDBLOCK BEGINSBLOCK ENDSBLOCK ORD FRAC SPACE ROOTstart : contentsblock : BEGINSBLOCK content ENDSBLOCKblock : BEGINBLOCK content ENDBLOCKcontent : chars\n\t\t\t\t| blockchars : CHAR\n\t\t\t\t| ord\n\t\t\t\t| chars chars ord : ORD content : scripted\n\t\t\t\t\t| command command : frac\n\t\t\t\t| root scripted : content SUP content\n\t\t\t\t| content SUB content frac : FRAC content contentroot : ROOT content\n\t\t\t| ROOT sblock content '
     
-_lr_action_items = {'FRAC':([0,1,2,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24,25,26,27,28,29,30,32,34,35,36,37,],[7,-4,-13,-12,-11,7,7,7,-6,7,7,7,-10,-8,7,7,-9,-7,-19,7,-15,7,-23,7,7,7,-2,7,7,-15,-20,-17,-16,]),'SUB':([1,2,3,5,6,8,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,34,35,36,37,],[-4,-13,12,-12,-11,-5,-6,-3,-10,-8,12,-3,12,12,12,12,-3,32,33,12,-5,-3,-3,-2,32,-20,12,-16,]),'CHAR':([0,1,2,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24,25,26,27,28,29,30,32,34,35,36,37,],[1,-4,-13,-12,-11,1,1,1,-6,1,1,1,-10,-8,1,1,-9,-7,-19,1,-15,1,-23,1,1,1,-2,1,1,-15,-20,-17,-16,]),'SUP':([1,2,3,5,6,8,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,34,35,36,37,],[-4,-13,13,-12,-11,-5,-6,-3,-10,-8,13,-3,13,13,13,30,31,13,-3,13,-5,-3,-3,-2,13,-20,30,-16,]),'ORD':([0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,34,35,36,37,],[10,-4,-13,10,-12,-11,10,10,10,-6,10,10,10,-10,-8,10,10,10,10,10,10,10,10,10,10,10,10,10,-2,10,10,10,-20,10,-16,]),'BEGINBLOCK':([0,1,2,3,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,],[9,-4,-13,9,-12,-11,9,9,9,-6,9,9,9,-10,-8,9,9,9,9,9,9,9,9,9,9,9,9,9,-2,9,9,9,9,9,-20,9,-16,]),'ENDBLOCK':([1,2,5,6,8,10,11,14,15,18,19,20,21,22,23,24,25,26,27,28,29,34,35,36,37,],[-4,-13,-12,-11,-5,-6,-3,-10,-8,-9,29,-7,-19,-3,-15,-3,-23,-5,-3,-22,-2,-15,-20,-17,-16,]),'$end':([1,2,3,4,5,6,8,10,11,14,15,18,20,21,22,23,24,25,26,27,28,29,34,35,36,37,],[-4,-13,-1,0,-12,-11,-5,-6,-3,-10,-8,-9,-7,-19,-3,-15,-3,-23,-5,-3,-22,-2,-15,-20,-17,-16,]),}
+_lr_action_items = {'FRAC':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[1,1,-6,-12,-4,1,-11,-5,-13,-7,1,-9,-10,1,-8,1,1,1,-17,1,-16,-15,-14,-18,-3,-2,]),'SUB':([2,3,4,5,8,9,10,11,13,14,15,16,20,22,23,24,25,26,27,28,],[-6,-12,-4,17,-11,-5,-13,-7,-9,-10,17,-8,-17,17,-16,-15,-14,-18,17,-3,]),'BEGINBLOCK':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[12,12,-6,-12,-4,12,-11,-5,-13,-7,12,-9,-10,12,-8,12,12,12,-17,12,-16,-15,-14,-18,-3,-2,]),'CHAR':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[2,2,-6,-12,2,2,-11,-5,-13,-7,2,-9,-10,2,2,2,2,2,-17,2,-16,-15,-14,-18,-3,-2,]),'ENDSBLOCK':([2,3,4,8,9,10,11,13,14,16,20,23,24,25,26,27,28,],[-6,-12,-4,-11,-5,-13,-7,-9,-10,-8,-17,-16,-15,-14,-18,29,-3,]),'BEGINSBLOCK':([7,],[21,]),'SUP':([2,3,4,5,8,9,10,11,13,14,15,16,20,22,23,24,25,26,27,28,],[-6,-12,-4,18,-11,-5,-13,-7,-9,-10,18,-8,-17,18,-16,-15,-14,-18,18,-3,]),'ORD':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[13,13,-6,-12,13,13,-11,-5,-13,-7,13,-9,-10,13,13,13,13,13,-17,13,-16,-15,-14,-18,-3,-2,]),'ROOT':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[7,7,-6,-12,-4,7,-11,-5,-13,-7,7,-9,-10,7,-8,7,7,7,-17,7,-16,-15,-14,-18,-3,-2,]),'ENDBLOCK':([2,3,4,8,9,10,11,13,14,16,20,22,23,24,25,26,28,],[-6,-12,-4,-11,-5,-13,-7,-9,-10,-8,-17,28,-16,-15,-14,-18,-3,]),'$end':([2,3,4,5,6,8,9,10,11,13,14,16,20,23,24,25,26,28,],[-6,-12,-4,-1,0,-11,-5,-13,-7,-9,-10,-8,-17,-16,-15,-14,-18,-3,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'frac':([0,7,8,9,11,12,13,16,17,22,24,26,27,28,30,32,],[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,]),'content':([0,7,8,9,11,12,13,16,17,22,24,26,27,28,30,32,],[3,16,18,19,20,21,23,25,20,20,20,18,20,20,34,36,]),'start':([0,],[4,]),'command':([0,7,8,9,11,12,13,16,17,22,24,26,27,28,30,32,],[5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,]),'block':([0,3,7,8,9,11,12,13,16,17,18,19,20,21,22,23,24,25,26,27,28,30,31,32,33,34,36,],[11,15,17,11,11,11,22,24,27,28,15,15,15,15,11,15,11,15,11,11,11,24,35,22,37,15,15,]),'ord':([0,3,7,8,9,11,12,13,16,17,18,19,20,21,22,23,24,25,26,27,28,30,32,34,36,],[8,14,8,8,8,8,8,8,26,8,14,14,14,14,8,14,8,14,8,8,8,8,8,14,14,]),'scripted':([0,7,8,9,11,12,13,16,17,22,24,26,27,28,30,32,],[6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,]),}
+_lr_goto_items = {'frac':([0,1,7,12,15,17,18,19,21,],[3,3,3,3,3,3,3,3,3,]),'chars':([0,1,4,7,12,15,16,17,18,19,21,],[4,4,16,4,4,4,16,4,4,4,4,]),'sblock':([7,],[19,]),'content':([0,1,7,12,15,17,18,19,21,],[5,15,20,22,23,24,25,26,27,]),'start':([0,],[6,]),'command':([0,1,7,12,15,17,18,19,21,],[8,8,8,8,8,8,8,8,8,]),'block':([0,1,7,12,15,17,18,19,21,],[9,9,9,9,9,9,9,9,9,]),'ord':([0,1,4,7,12,15,16,17,18,19,21,],[11,11,11,11,11,11,11,11,11,11,11,]),'root':([0,1,7,12,15,17,18,19,21,],[10,10,10,10,10,10,10,10,10,]),'scripted':([0,1,7,12,15,17,18,19,21,],[14,14,14,14,14,14,14,14,14,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,27 +26,22 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> content','start',1,'p_start','PyParser.py',8),
-  ('block -> BEGINBLOCK content ENDBLOCK','block',3,'p_block','PyParser.py',13),
-  ('content -> block','content',1,'p_content','PyParser.py',17),
-  ('content -> CHAR','content',1,'p_contentOrd','PyParser.py',21),
-  ('content -> ord','content',1,'p_contentOrd','PyParser.py',22),
-  ('ord -> ORD','ord',1,'p_ord','PyParser.py',26),
-  ('content -> block content','content',2,'p_contentCon','PyParser.py',31),
-  ('content -> content block','content',2,'p_contentCon','PyParser.py',32),
-  ('content -> ord content','content',2,'p_contentCon','PyParser.py',33),
-  ('content -> content ord','content',2,'p_contentCon','PyParser.py',34),
-  ('content -> scripted','content',1,'p_tree','PyParser.py',38),
-  ('content -> command','content',1,'p_tree','PyParser.py',39),
-  ('command -> frac','command',1,'p_command','PyParser.py',43),
-  ('scripted -> content SUP block','scripted',3,'p_scriptedSup','PyParser.py',50),
-  ('scripted -> content SUP content','scripted',3,'p_scriptedSup','PyParser.py',51),
-  ('scripted -> content SUP block SUB block','scripted',5,'p_scriptedSup','PyParser.py',52),
-  ('scripted -> content SUP content SUB content','scripted',5,'p_scriptedSup','PyParser.py',53),
-  ('scripted -> content SUB block','scripted',3,'p_scriptedSub','PyParser.py',60),
-  ('scripted -> content SUB content','scripted',3,'p_scriptedSub','PyParser.py',61),
-  ('scripted -> content SUB block SUP block','scripted',5,'p_scriptedSub','PyParser.py',62),
-  ('scripted -> content SUB content SUP content','scripted',5,'p_scriptedSub','PyParser.py',63),
-  ('frac -> FRAC block block','frac',3,'p_frac','PyParser.py',70),
-  ('frac -> FRAC content content','frac',3,'p_frac','PyParser.py',71),
+  ('start -> content','start',1,'p_start','PyParser.py',17),
+  ('sblock -> BEGINSBLOCK content ENDSBLOCK','sblock',3,'p_sblock','PyParser.py',21),
+  ('block -> BEGINBLOCK content ENDBLOCK','block',3,'p_block','PyParser.py',25),
+  ('content -> chars','content',1,'p_content','PyParser.py',29),
+  ('content -> block','content',1,'p_content','PyParser.py',30),
+  ('chars -> CHAR','chars',1,'p_chars','PyParser.py',34),
+  ('chars -> ord','chars',1,'p_chars','PyParser.py',35),
+  ('chars -> chars chars','chars',2,'p_chars','PyParser.py',36),
+  ('ord -> ORD','ord',1,'p_ord','PyParser.py',43),
+  ('content -> scripted','content',1,'p_tree','PyParser.py',47),
+  ('content -> command','content',1,'p_tree','PyParser.py',48),
+  ('command -> frac','command',1,'p_command','PyParser.py',52),
+  ('command -> root','command',1,'p_command','PyParser.py',53),
+  ('scripted -> content SUP content','scripted',3,'p_scripted','PyParser.py',61),
+  ('scripted -> content SUB content','scripted',3,'p_scripted','PyParser.py',62),
+  ('frac -> FRAC content content','frac',3,'p_frac','PyParser.py',69),
+  ('root -> ROOT content','root',2,'p_root','PyParser.py',73),
+  ('root -> ROOT sblock content','root',3,'p_root','PyParser.py',74),
 ]

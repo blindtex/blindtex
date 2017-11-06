@@ -2,55 +2,56 @@ Created by PLY version 3.10 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    COMMAND
+    SPACE
 
 Grammar
 
 Rule 0     S' -> start
 Rule 1     start -> content
-Rule 2     block -> BEGINBLOCK content ENDBLOCK
-Rule 3     content -> block
-Rule 4     content -> CHAR
-Rule 5     content -> ord
-Rule 6     ord -> ORD
-Rule 7     content -> block content
-Rule 8     content -> content block
-Rule 9     content -> ord content
-Rule 10    content -> content ord
-Rule 11    content -> scripted
-Rule 12    content -> command
-Rule 13    command -> frac
-Rule 14    scripted -> content SUP block
-Rule 15    scripted -> content SUP content
-Rule 16    scripted -> content SUP block SUB block
-Rule 17    scripted -> content SUP content SUB content
-Rule 18    scripted -> content SUB block
-Rule 19    scripted -> content SUB content
-Rule 20    scripted -> content SUB block SUP block
-Rule 21    scripted -> content SUB content SUP content
-Rule 22    frac -> FRAC block block
-Rule 23    frac -> FRAC content content
+Rule 2     sblock -> BEGINSBLOCK content ENDSBLOCK
+Rule 3     block -> BEGINBLOCK content ENDBLOCK
+Rule 4     content -> chars
+Rule 5     content -> block
+Rule 6     chars -> CHAR
+Rule 7     chars -> ord
+Rule 8     chars -> chars chars
+Rule 9     ord -> ORD
+Rule 10    content -> scripted
+Rule 11    content -> command
+Rule 12    command -> frac
+Rule 13    command -> root
+Rule 14    scripted -> content SUP content
+Rule 15    scripted -> content SUB content
+Rule 16    frac -> FRAC content content
+Rule 17    root -> ROOT content
+Rule 18    root -> ROOT sblock content
 
 Terminals, with rules where they appear
 
-BEGINBLOCK           : 2
-CHAR                 : 4
-COMMAND              : 
-ENDBLOCK             : 2
-FRAC                 : 22 23
-ORD                  : 6
-SUB                  : 16 17 18 19 20 21
-SUP                  : 14 15 16 17 20 21
+BEGINBLOCK           : 3
+BEGINSBLOCK          : 2
+CHAR                 : 6
+ENDBLOCK             : 3
+ENDSBLOCK            : 2
+FRAC                 : 16
+ORD                  : 9
+ROOT                 : 17 18
+SPACE                : 
+SUB                  : 15
+SUP                  : 14
 error                : 
 
 Nonterminals, with rules where they appear
 
-block                : 3 7 8 14 16 16 18 20 20 22 22
-command              : 12
-content              : 1 2 7 8 9 10 14 15 15 16 17 17 17 18 19 19 20 21 21 21 23 23
-frac                 : 13
-ord                  : 5 9 10
-scripted             : 11
+block                : 5
+chars                : 4 8 8
+command              : 11
+content              : 1 2 3 14 14 15 15 16 16 17 18
+frac                 : 12
+ord                  : 7
+root                 : 13
+sblock               : 18
+scripted             : 10
 start                : 0
 
 Parsing method: LALR
@@ -59,1420 +60,685 @@ state 0
 
     (0) S' -> . start
     (1) start -> . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 3
-    start                          shift and go to state 4
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 5
+    start                          shift and go to state 6
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 1
 
-    (4) content -> CHAR .
+    (16) frac -> FRAC . content content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-    SUP             reduce using rule 4 (content -> CHAR .)
-    SUB             reduce using rule 4 (content -> CHAR .)
-    BEGINBLOCK      reduce using rule 4 (content -> CHAR .)
-    ORD             reduce using rule 4 (content -> CHAR .)
-    $end            reduce using rule 4 (content -> CHAR .)
-    CHAR            reduce using rule 4 (content -> CHAR .)
-    FRAC            reduce using rule 4 (content -> CHAR .)
-    ENDBLOCK        reduce using rule 4 (content -> CHAR .)
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 15
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 2
 
-    (13) command -> frac .
+    (6) chars -> CHAR .
 
-    SUP             reduce using rule 13 (command -> frac .)
-    SUB             reduce using rule 13 (command -> frac .)
-    BEGINBLOCK      reduce using rule 13 (command -> frac .)
-    ORD             reduce using rule 13 (command -> frac .)
-    $end            reduce using rule 13 (command -> frac .)
-    CHAR            reduce using rule 13 (command -> frac .)
-    FRAC            reduce using rule 13 (command -> frac .)
-    ENDBLOCK        reduce using rule 13 (command -> frac .)
+    CHAR            reduce using rule 6 (chars -> CHAR .)
+    ORD             reduce using rule 6 (chars -> CHAR .)
+    SUP             reduce using rule 6 (chars -> CHAR .)
+    SUB             reduce using rule 6 (chars -> CHAR .)
+    $end            reduce using rule 6 (chars -> CHAR .)
+    BEGINBLOCK      reduce using rule 6 (chars -> CHAR .)
+    FRAC            reduce using rule 6 (chars -> CHAR .)
+    ROOT            reduce using rule 6 (chars -> CHAR .)
+    ENDBLOCK        reduce using rule 6 (chars -> CHAR .)
+    ENDSBLOCK       reduce using rule 6 (chars -> CHAR .)
 
 
 state 3
 
-    (1) start -> content .
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (12) command -> frac .
 
-    $end            reduce using rule 1 (start -> content .)
-    SUP             shift and go to state 13
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    ENDSBLOCK       reduce using rule 12 (command -> frac .)
+    SUP             reduce using rule 12 (command -> frac .)
+    SUB             reduce using rule 12 (command -> frac .)
+    ENDBLOCK        reduce using rule 12 (command -> frac .)
+    $end            reduce using rule 12 (command -> frac .)
+    CHAR            reduce using rule 12 (command -> frac .)
+    BEGINBLOCK      reduce using rule 12 (command -> frac .)
+    ORD             reduce using rule 12 (command -> frac .)
+    FRAC            reduce using rule 12 (command -> frac .)
+    ROOT            reduce using rule 12 (command -> frac .)
 
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
 
 state 4
+
+    (4) content -> chars .
+    (8) chars -> chars . chars
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (9) ord -> . ORD
+
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for ORD resolved as shift
+    SUP             reduce using rule 4 (content -> chars .)
+    SUB             reduce using rule 4 (content -> chars .)
+    BEGINBLOCK      reduce using rule 4 (content -> chars .)
+    FRAC            reduce using rule 4 (content -> chars .)
+    ROOT            reduce using rule 4 (content -> chars .)
+    $end            reduce using rule 4 (content -> chars .)
+    ENDBLOCK        reduce using rule 4 (content -> chars .)
+    ENDSBLOCK       reduce using rule 4 (content -> chars .)
+    CHAR            shift and go to state 2
+    ORD             shift and go to state 13
+
+  ! CHAR            [ reduce using rule 4 (content -> chars .) ]
+  ! ORD             [ reduce using rule 4 (content -> chars .) ]
+
+    chars                          shift and go to state 16
+    ord                            shift and go to state 11
+
+state 5
+
+    (1) start -> content .
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
+
+    $end            reduce using rule 1 (start -> content .)
+    SUP             shift and go to state 18
+    SUB             shift and go to state 17
+
+
+state 6
 
     (0) S' -> start .
 
 
 
-state 5
-
-    (12) content -> command .
-
-    SUP             reduce using rule 12 (content -> command .)
-    SUB             reduce using rule 12 (content -> command .)
-    BEGINBLOCK      reduce using rule 12 (content -> command .)
-    ORD             reduce using rule 12 (content -> command .)
-    $end            reduce using rule 12 (content -> command .)
-    CHAR            reduce using rule 12 (content -> command .)
-    FRAC            reduce using rule 12 (content -> command .)
-    ENDBLOCK        reduce using rule 12 (content -> command .)
-
-
-state 6
-
-    (11) content -> scripted .
-
-    SUP             reduce using rule 11 (content -> scripted .)
-    SUB             reduce using rule 11 (content -> scripted .)
-    BEGINBLOCK      reduce using rule 11 (content -> scripted .)
-    ORD             reduce using rule 11 (content -> scripted .)
-    $end            reduce using rule 11 (content -> scripted .)
-    CHAR            reduce using rule 11 (content -> scripted .)
-    FRAC            reduce using rule 11 (content -> scripted .)
-    ENDBLOCK        reduce using rule 11 (content -> scripted .)
-
-
 state 7
 
-    (22) frac -> FRAC . block block
-    (23) frac -> FRAC . content content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (17) root -> ROOT . content
+    (18) root -> ROOT . sblock content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (2) sblock -> . BEGINSBLOCK content ENDSBLOCK
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-    BEGINBLOCK      shift and go to state 9
-    CHAR            shift and go to state 1
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    BEGINSBLOCK     shift and go to state 21
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 16
-    command                        shift and go to state 5
-    block                          shift and go to state 17
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    sblock                         shift and go to state 19
+    content                        shift and go to state 20
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 8
 
-    (5) content -> ord .
-    (9) content -> ord . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (11) content -> command .
 
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUP             reduce using rule 5 (content -> ord .)
-    SUB             reduce using rule 5 (content -> ord .)
-    $end            reduce using rule 5 (content -> ord .)
-    ENDBLOCK        reduce using rule 5 (content -> ord .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    SUP             reduce using rule 11 (content -> command .)
+    SUB             reduce using rule 11 (content -> command .)
+    CHAR            reduce using rule 11 (content -> command .)
+    BEGINBLOCK      reduce using rule 11 (content -> command .)
+    ORD             reduce using rule 11 (content -> command .)
+    FRAC            reduce using rule 11 (content -> command .)
+    ROOT            reduce using rule 11 (content -> command .)
+    $end            reduce using rule 11 (content -> command .)
+    ENDBLOCK        reduce using rule 11 (content -> command .)
+    ENDSBLOCK       reduce using rule 11 (content -> command .)
 
-  ! BEGINBLOCK      [ reduce using rule 5 (content -> ord .) ]
-  ! ORD             [ reduce using rule 5 (content -> ord .) ]
-  ! CHAR            [ reduce using rule 5 (content -> ord .) ]
-  ! FRAC            [ reduce using rule 5 (content -> ord .) ]
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 18
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 9
 
-    (2) block -> BEGINBLOCK . content ENDBLOCK
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (5) content -> block .
 
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    SUP             reduce using rule 5 (content -> block .)
+    SUB             reduce using rule 5 (content -> block .)
+    CHAR            reduce using rule 5 (content -> block .)
+    BEGINBLOCK      reduce using rule 5 (content -> block .)
+    ORD             reduce using rule 5 (content -> block .)
+    FRAC            reduce using rule 5 (content -> block .)
+    ROOT            reduce using rule 5 (content -> block .)
+    $end            reduce using rule 5 (content -> block .)
+    ENDBLOCK        reduce using rule 5 (content -> block .)
+    ENDSBLOCK       reduce using rule 5 (content -> block .)
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 19
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 10
 
-    (6) ord -> ORD .
+    (13) command -> root .
 
-    SUP             reduce using rule 6 (ord -> ORD .)
-    SUB             reduce using rule 6 (ord -> ORD .)
-    BEGINBLOCK      reduce using rule 6 (ord -> ORD .)
-    ORD             reduce using rule 6 (ord -> ORD .)
-    $end            reduce using rule 6 (ord -> ORD .)
-    CHAR            reduce using rule 6 (ord -> ORD .)
-    FRAC            reduce using rule 6 (ord -> ORD .)
-    ENDBLOCK        reduce using rule 6 (ord -> ORD .)
+    ENDSBLOCK       reduce using rule 13 (command -> root .)
+    SUP             reduce using rule 13 (command -> root .)
+    SUB             reduce using rule 13 (command -> root .)
+    ENDBLOCK        reduce using rule 13 (command -> root .)
+    $end            reduce using rule 13 (command -> root .)
+    CHAR            reduce using rule 13 (command -> root .)
+    BEGINBLOCK      reduce using rule 13 (command -> root .)
+    ORD             reduce using rule 13 (command -> root .)
+    FRAC            reduce using rule 13 (command -> root .)
+    ROOT            reduce using rule 13 (command -> root .)
 
 
 state 11
 
-    (3) content -> block .
-    (7) content -> block . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (7) chars -> ord .
 
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUP             reduce using rule 3 (content -> block .)
-    SUB             reduce using rule 3 (content -> block .)
-    $end            reduce using rule 3 (content -> block .)
-    ENDBLOCK        reduce using rule 3 (content -> block .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    CHAR            reduce using rule 7 (chars -> ord .)
+    ORD             reduce using rule 7 (chars -> ord .)
+    SUP             reduce using rule 7 (chars -> ord .)
+    SUB             reduce using rule 7 (chars -> ord .)
+    $end            reduce using rule 7 (chars -> ord .)
+    BEGINBLOCK      reduce using rule 7 (chars -> ord .)
+    FRAC            reduce using rule 7 (chars -> ord .)
+    ROOT            reduce using rule 7 (chars -> ord .)
+    ENDBLOCK        reduce using rule 7 (chars -> ord .)
+    ENDSBLOCK       reduce using rule 7 (chars -> ord .)
 
-  ! BEGINBLOCK      [ reduce using rule 3 (content -> block .) ]
-  ! ORD             [ reduce using rule 3 (content -> block .) ]
-  ! CHAR            [ reduce using rule 3 (content -> block .) ]
-  ! FRAC            [ reduce using rule 3 (content -> block .) ]
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 20
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 12
 
-    (18) scripted -> content SUB . block
-    (19) scripted -> content SUB . content
-    (20) scripted -> content SUB . block SUP block
-    (21) scripted -> content SUB . content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (3) block -> BEGINBLOCK . content ENDBLOCK
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-    BEGINBLOCK      shift and go to state 9
-    CHAR            shift and go to state 1
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 21
-    command                        shift and go to state 5
-    block                          shift and go to state 22
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 22
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 13
 
-    (14) scripted -> content SUP . block
-    (15) scripted -> content SUP . content
-    (16) scripted -> content SUP . block SUB block
-    (17) scripted -> content SUP . content SUB content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (9) ord -> ORD .
 
-    BEGINBLOCK      shift and go to state 9
-    CHAR            shift and go to state 1
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    CHAR            reduce using rule 9 (ord -> ORD .)
+    ORD             reduce using rule 9 (ord -> ORD .)
+    ENDSBLOCK       reduce using rule 9 (ord -> ORD .)
+    SUP             reduce using rule 9 (ord -> ORD .)
+    SUB             reduce using rule 9 (ord -> ORD .)
+    $end            reduce using rule 9 (ord -> ORD .)
+    BEGINBLOCK      reduce using rule 9 (ord -> ORD .)
+    FRAC            reduce using rule 9 (ord -> ORD .)
+    ROOT            reduce using rule 9 (ord -> ORD .)
+    ENDBLOCK        reduce using rule 9 (ord -> ORD .)
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 23
-    command                        shift and go to state 5
-    block                          shift and go to state 24
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 14
 
-    (10) content -> content ord .
+    (10) content -> scripted .
 
-    SUP             reduce using rule 10 (content -> content ord .)
-    SUB             reduce using rule 10 (content -> content ord .)
-    BEGINBLOCK      reduce using rule 10 (content -> content ord .)
-    ORD             reduce using rule 10 (content -> content ord .)
-    $end            reduce using rule 10 (content -> content ord .)
-    CHAR            reduce using rule 10 (content -> content ord .)
-    FRAC            reduce using rule 10 (content -> content ord .)
-    ENDBLOCK        reduce using rule 10 (content -> content ord .)
+    SUP             reduce using rule 10 (content -> scripted .)
+    SUB             reduce using rule 10 (content -> scripted .)
+    CHAR            reduce using rule 10 (content -> scripted .)
+    BEGINBLOCK      reduce using rule 10 (content -> scripted .)
+    ORD             reduce using rule 10 (content -> scripted .)
+    FRAC            reduce using rule 10 (content -> scripted .)
+    ROOT            reduce using rule 10 (content -> scripted .)
+    $end            reduce using rule 10 (content -> scripted .)
+    ENDBLOCK        reduce using rule 10 (content -> scripted .)
+    ENDSBLOCK       reduce using rule 10 (content -> scripted .)
 
 
 state 15
 
-    (8) content -> content block .
+    (16) frac -> FRAC content . content
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-    SUP             reduce using rule 8 (content -> content block .)
-    SUB             reduce using rule 8 (content -> content block .)
-    BEGINBLOCK      reduce using rule 8 (content -> content block .)
-    ORD             reduce using rule 8 (content -> content block .)
-    $end            reduce using rule 8 (content -> content block .)
-    CHAR            reduce using rule 8 (content -> content block .)
-    FRAC            reduce using rule 8 (content -> content block .)
-    ENDBLOCK        reduce using rule 8 (content -> content block .)
+    SUP             shift and go to state 18
+    SUB             shift and go to state 17
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 23
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 16
 
-    (23) frac -> FRAC content . content
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (8) chars -> chars chars .
+    (8) chars -> chars . chars
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (9) ord -> . ORD
 
-    SUP             shift and go to state 13
-    SUB             shift and go to state 12
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+  ! shift/reduce conflict for CHAR resolved as shift
+  ! shift/reduce conflict for ORD resolved as shift
+    SUP             reduce using rule 8 (chars -> chars chars .)
+    SUB             reduce using rule 8 (chars -> chars chars .)
+    $end            reduce using rule 8 (chars -> chars chars .)
+    BEGINBLOCK      reduce using rule 8 (chars -> chars chars .)
+    FRAC            reduce using rule 8 (chars -> chars chars .)
+    ROOT            reduce using rule 8 (chars -> chars chars .)
+    ENDBLOCK        reduce using rule 8 (chars -> chars chars .)
+    ENDSBLOCK       reduce using rule 8 (chars -> chars chars .)
+    CHAR            shift and go to state 2
+    ORD             shift and go to state 13
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 25
-    command                        shift and go to state 5
-    block                          shift and go to state 27
-    ord                            shift and go to state 26
-    scripted                       shift and go to state 6
+  ! CHAR            [ reduce using rule 8 (chars -> chars chars .) ]
+  ! ORD             [ reduce using rule 8 (chars -> chars chars .) ]
+
+    chars                          shift and go to state 16
+    ord                            shift and go to state 11
 
 state 17
 
-    (22) frac -> FRAC block . block
-    (3) content -> block .
-    (7) content -> block . content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (15) scripted -> content SUB . content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUP             reduce using rule 3 (content -> block .)
-    SUB             reduce using rule 3 (content -> block .)
-    BEGINBLOCK      shift and go to state 9
-    CHAR            shift and go to state 1
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-  ! CHAR            [ reduce using rule 3 (content -> block .) ]
-  ! BEGINBLOCK      [ reduce using rule 3 (content -> block .) ]
-  ! ORD             [ reduce using rule 3 (content -> block .) ]
-  ! FRAC            [ reduce using rule 3 (content -> block .) ]
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 20
-    command                        shift and go to state 5
-    block                          shift and go to state 28
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 24
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 18
 
-    (9) content -> ord content .
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (14) scripted -> content SUP . content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    $end            reduce using rule 9 (content -> ord content .)
-    CHAR            reduce using rule 9 (content -> ord content .)
-    FRAC            reduce using rule 9 (content -> ord content .)
-    ENDBLOCK        reduce using rule 9 (content -> ord content .)
-    SUP             shift and go to state 13
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-  ! SUP             [ reduce using rule 9 (content -> ord content .) ]
-  ! SUB             [ reduce using rule 9 (content -> ord content .) ]
-  ! BEGINBLOCK      [ reduce using rule 9 (content -> ord content .) ]
-  ! ORD             [ reduce using rule 9 (content -> ord content .) ]
-
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 25
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 19
 
-    (2) block -> BEGINBLOCK content . ENDBLOCK
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (18) root -> ROOT sblock . content
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-    ENDBLOCK        shift and go to state 29
-    SUP             shift and go to state 13
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 26
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 20
 
-    (7) content -> block content .
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (17) root -> ROOT content .
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    $end            reduce using rule 7 (content -> block content .)
-    CHAR            reduce using rule 7 (content -> block content .)
-    FRAC            reduce using rule 7 (content -> block content .)
-    ENDBLOCK        reduce using rule 7 (content -> block content .)
-    SUP             shift and go to state 13
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    ENDBLOCK        reduce using rule 17 (root -> ROOT content .)
+    SUP             reduce using rule 17 (root -> ROOT content .)
+    SUB             reduce using rule 17 (root -> ROOT content .)
+    $end            reduce using rule 17 (root -> ROOT content .)
+    CHAR            reduce using rule 17 (root -> ROOT content .)
+    BEGINBLOCK      reduce using rule 17 (root -> ROOT content .)
+    ORD             reduce using rule 17 (root -> ROOT content .)
+    FRAC            reduce using rule 17 (root -> ROOT content .)
+    ROOT            reduce using rule 17 (root -> ROOT content .)
+    ENDSBLOCK       reduce using rule 17 (root -> ROOT content .)
 
-  ! SUP             [ reduce using rule 7 (content -> block content .) ]
-  ! SUB             [ reduce using rule 7 (content -> block content .) ]
-  ! BEGINBLOCK      [ reduce using rule 7 (content -> block content .) ]
-  ! ORD             [ reduce using rule 7 (content -> block content .) ]
+  ! SUP             [ shift and go to state 18 ]
+  ! SUB             [ shift and go to state 17 ]
 
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
 
 state 21
 
-    (19) scripted -> content SUB content .
-    (21) scripted -> content SUB content . SUP content
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (2) sblock -> BEGINSBLOCK . content ENDSBLOCK
+    (4) content -> . chars
+    (5) content -> . block
+    (10) content -> . scripted
+    (11) content -> . command
+    (6) chars -> . CHAR
+    (7) chars -> . ord
+    (8) chars -> . chars chars
+    (3) block -> . BEGINBLOCK content ENDBLOCK
+    (14) scripted -> . content SUP content
+    (15) scripted -> . content SUB content
+    (12) command -> . frac
+    (13) command -> . root
+    (9) ord -> . ORD
+    (16) frac -> . FRAC content content
+    (17) root -> . ROOT content
+    (18) root -> . ROOT sblock content
 
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    $end            reduce using rule 19 (scripted -> content SUB content .)
-    CHAR            reduce using rule 19 (scripted -> content SUB content .)
-    FRAC            reduce using rule 19 (scripted -> content SUB content .)
-    ENDBLOCK        reduce using rule 19 (scripted -> content SUB content .)
-    SUP             shift and go to state 30
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    CHAR            shift and go to state 2
+    BEGINBLOCK      shift and go to state 12
+    ORD             shift and go to state 13
+    FRAC            shift and go to state 1
+    ROOT            shift and go to state 7
 
-  ! SUP             [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! SUB             [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! BEGINBLOCK      [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! ORD             [ reduce using rule 19 (scripted -> content SUB content .) ]
-
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
+    frac                           shift and go to state 3
+    chars                          shift and go to state 4
+    content                        shift and go to state 27
+    command                        shift and go to state 8
+    block                          shift and go to state 9
+    ord                            shift and go to state 11
+    root                           shift and go to state 10
+    scripted                       shift and go to state 14
 
 state 22
 
-    (18) scripted -> content SUB block .
-    (20) scripted -> content SUB block . SUP block
-    (3) content -> block .
-    (7) content -> block . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (3) block -> BEGINBLOCK content . ENDBLOCK
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for SUP resolved as shift
-  ! reduce/reduce conflict for SUB resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for ORD resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for $end resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for CHAR resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for FRAC resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for ENDBLOCK resolved using rule 3 (content -> block .)
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUP             shift and go to state 31
-    SUB             reduce using rule 3 (content -> block .)
-    $end            reduce using rule 3 (content -> block .)
-    ENDBLOCK        reduce using rule 3 (content -> block .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    ENDBLOCK        shift and go to state 28
+    SUP             shift and go to state 18
+    SUB             shift and go to state 17
 
-  ! SUP             [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! SUB             [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! BEGINBLOCK      [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! ORD             [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! $end            [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! CHAR            [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! FRAC            [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! ENDBLOCK        [ reduce using rule 18 (scripted -> content SUB block .) ]
-  ! SUP             [ reduce using rule 3 (content -> block .) ]
-  ! BEGINBLOCK      [ reduce using rule 3 (content -> block .) ]
-  ! ORD             [ reduce using rule 3 (content -> block .) ]
-  ! CHAR            [ reduce using rule 3 (content -> block .) ]
-  ! FRAC            [ reduce using rule 3 (content -> block .) ]
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 20
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 23
 
-    (15) scripted -> content SUP content .
-    (17) scripted -> content SUP content . SUB content
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (16) frac -> FRAC content content .
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    $end            reduce using rule 15 (scripted -> content SUP content .)
-    CHAR            reduce using rule 15 (scripted -> content SUP content .)
-    FRAC            reduce using rule 15 (scripted -> content SUP content .)
-    ENDBLOCK        reduce using rule 15 (scripted -> content SUP content .)
-    SUB             shift and go to state 32
-    SUP             shift and go to state 13
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    SUP             reduce using rule 16 (frac -> FRAC content content .)
+    SUB             reduce using rule 16 (frac -> FRAC content content .)
+    CHAR            reduce using rule 16 (frac -> FRAC content content .)
+    BEGINBLOCK      reduce using rule 16 (frac -> FRAC content content .)
+    ORD             reduce using rule 16 (frac -> FRAC content content .)
+    FRAC            reduce using rule 16 (frac -> FRAC content content .)
+    ROOT            reduce using rule 16 (frac -> FRAC content content .)
+    $end            reduce using rule 16 (frac -> FRAC content content .)
+    ENDBLOCK        reduce using rule 16 (frac -> FRAC content content .)
+    ENDSBLOCK       reduce using rule 16 (frac -> FRAC content content .)
 
-  ! SUP             [ reduce using rule 15 (scripted -> content SUP content .) ]
-  ! SUB             [ reduce using rule 15 (scripted -> content SUP content .) ]
-  ! BEGINBLOCK      [ reduce using rule 15 (scripted -> content SUP content .) ]
-  ! ORD             [ reduce using rule 15 (scripted -> content SUP content .) ]
+  ! SUP             [ shift and go to state 18 ]
+  ! SUB             [ shift and go to state 17 ]
 
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
 
 state 24
 
-    (14) scripted -> content SUP block .
-    (16) scripted -> content SUP block . SUB block
-    (3) content -> block .
-    (7) content -> block . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (15) scripted -> content SUB content .
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! shift/reduce conflict for SUB resolved as shift
-  ! reduce/reduce conflict for SUP resolved using rule 3 (content -> block .)
-  ! shift/reduce conflict for SUB resolved as shift
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for ORD resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for $end resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for CHAR resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for FRAC resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for ENDBLOCK resolved using rule 3 (content -> block .)
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUB             shift and go to state 33
-    SUP             reduce using rule 3 (content -> block .)
-    $end            reduce using rule 3 (content -> block .)
-    ENDBLOCK        reduce using rule 3 (content -> block .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    ENDBLOCK        reduce using rule 15 (scripted -> content SUB content .)
+    SUP             reduce using rule 15 (scripted -> content SUB content .)
+    SUB             reduce using rule 15 (scripted -> content SUB content .)
+    $end            reduce using rule 15 (scripted -> content SUB content .)
+    CHAR            reduce using rule 15 (scripted -> content SUB content .)
+    BEGINBLOCK      reduce using rule 15 (scripted -> content SUB content .)
+    ORD             reduce using rule 15 (scripted -> content SUB content .)
+    FRAC            reduce using rule 15 (scripted -> content SUB content .)
+    ROOT            reduce using rule 15 (scripted -> content SUB content .)
+    ENDSBLOCK       reduce using rule 15 (scripted -> content SUB content .)
 
-  ! SUP             [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! SUB             [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! BEGINBLOCK      [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! ORD             [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! $end            [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! CHAR            [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! FRAC            [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! ENDBLOCK        [ reduce using rule 14 (scripted -> content SUP block .) ]
-  ! SUB             [ reduce using rule 3 (content -> block .) ]
-  ! BEGINBLOCK      [ reduce using rule 3 (content -> block .) ]
-  ! ORD             [ reduce using rule 3 (content -> block .) ]
-  ! CHAR            [ reduce using rule 3 (content -> block .) ]
-  ! FRAC            [ reduce using rule 3 (content -> block .) ]
+  ! SUP             [ shift and go to state 18 ]
+  ! SUB             [ shift and go to state 17 ]
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 20
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 25
 
-    (23) frac -> FRAC content content .
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
+    (14) scripted -> content SUP content .
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    CHAR            reduce using rule 23 (frac -> FRAC content content .)
-    FRAC            reduce using rule 23 (frac -> FRAC content content .)
-    ENDBLOCK        reduce using rule 23 (frac -> FRAC content content .)
-    $end            reduce using rule 23 (frac -> FRAC content content .)
-    SUP             shift and go to state 13
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
+    ENDBLOCK        reduce using rule 14 (scripted -> content SUP content .)
+    SUP             reduce using rule 14 (scripted -> content SUP content .)
+    SUB             reduce using rule 14 (scripted -> content SUP content .)
+    $end            reduce using rule 14 (scripted -> content SUP content .)
+    CHAR            reduce using rule 14 (scripted -> content SUP content .)
+    BEGINBLOCK      reduce using rule 14 (scripted -> content SUP content .)
+    ORD             reduce using rule 14 (scripted -> content SUP content .)
+    FRAC            reduce using rule 14 (scripted -> content SUP content .)
+    ROOT            reduce using rule 14 (scripted -> content SUP content .)
+    ENDSBLOCK       reduce using rule 14 (scripted -> content SUP content .)
 
-  ! SUP             [ reduce using rule 23 (frac -> FRAC content content .) ]
-  ! SUB             [ reduce using rule 23 (frac -> FRAC content content .) ]
-  ! BEGINBLOCK      [ reduce using rule 23 (frac -> FRAC content content .) ]
-  ! ORD             [ reduce using rule 23 (frac -> FRAC content content .) ]
+  ! SUP             [ shift and go to state 18 ]
+  ! SUB             [ shift and go to state 17 ]
 
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
 
 state 26
 
-    (10) content -> content ord .
-    (5) content -> ord .
-    (9) content -> ord . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (18) root -> ROOT sblock content .
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! reduce/reduce conflict for SUP resolved using rule 5 (content -> ord .)
-  ! reduce/reduce conflict for SUB resolved using rule 5 (content -> ord .)
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 5 (content -> ord .)
-  ! reduce/reduce conflict for ORD resolved using rule 5 (content -> ord .)
-  ! reduce/reduce conflict for CHAR resolved using rule 5 (content -> ord .)
-  ! reduce/reduce conflict for FRAC resolved using rule 5 (content -> ord .)
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUP             reduce using rule 5 (content -> ord .)
-    SUB             reduce using rule 5 (content -> ord .)
-    $end            reduce using rule 5 (content -> ord .)
-    ENDBLOCK        reduce using rule 5 (content -> ord .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    ENDBLOCK        reduce using rule 18 (root -> ROOT sblock content .)
+    SUP             reduce using rule 18 (root -> ROOT sblock content .)
+    SUB             reduce using rule 18 (root -> ROOT sblock content .)
+    $end            reduce using rule 18 (root -> ROOT sblock content .)
+    CHAR            reduce using rule 18 (root -> ROOT sblock content .)
+    BEGINBLOCK      reduce using rule 18 (root -> ROOT sblock content .)
+    ORD             reduce using rule 18 (root -> ROOT sblock content .)
+    FRAC            reduce using rule 18 (root -> ROOT sblock content .)
+    ROOT            reduce using rule 18 (root -> ROOT sblock content .)
+    ENDSBLOCK       reduce using rule 18 (root -> ROOT sblock content .)
 
-  ! SUP             [ reduce using rule 10 (content -> content ord .) ]
-  ! SUB             [ reduce using rule 10 (content -> content ord .) ]
-  ! CHAR            [ reduce using rule 10 (content -> content ord .) ]
-  ! BEGINBLOCK      [ reduce using rule 10 (content -> content ord .) ]
-  ! ORD             [ reduce using rule 10 (content -> content ord .) ]
-  ! FRAC            [ reduce using rule 10 (content -> content ord .) ]
-  ! BEGINBLOCK      [ reduce using rule 5 (content -> ord .) ]
-  ! ORD             [ reduce using rule 5 (content -> ord .) ]
-  ! CHAR            [ reduce using rule 5 (content -> ord .) ]
-  ! FRAC            [ reduce using rule 5 (content -> ord .) ]
+  ! SUP             [ shift and go to state 18 ]
+  ! SUB             [ shift and go to state 17 ]
 
-    frac                           shift and go to state 2
-    content                        shift and go to state 18
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 27
 
-    (8) content -> content block .
-    (3) content -> block .
-    (7) content -> block . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (2) sblock -> BEGINSBLOCK content . ENDSBLOCK
+    (14) scripted -> content . SUP content
+    (15) scripted -> content . SUB content
 
-  ! reduce/reduce conflict for SUP resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for SUB resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for ORD resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for CHAR resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for FRAC resolved using rule 3 (content -> block .)
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    SUP             reduce using rule 3 (content -> block .)
-    SUB             reduce using rule 3 (content -> block .)
-    $end            reduce using rule 3 (content -> block .)
-    ENDBLOCK        reduce using rule 3 (content -> block .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    ENDSBLOCK       shift and go to state 29
+    SUP             shift and go to state 18
+    SUB             shift and go to state 17
 
-  ! SUP             [ reduce using rule 8 (content -> content block .) ]
-  ! SUB             [ reduce using rule 8 (content -> content block .) ]
-  ! CHAR            [ reduce using rule 8 (content -> content block .) ]
-  ! BEGINBLOCK      [ reduce using rule 8 (content -> content block .) ]
-  ! ORD             [ reduce using rule 8 (content -> content block .) ]
-  ! FRAC            [ reduce using rule 8 (content -> content block .) ]
-  ! BEGINBLOCK      [ reduce using rule 3 (content -> block .) ]
-  ! ORD             [ reduce using rule 3 (content -> block .) ]
-  ! CHAR            [ reduce using rule 3 (content -> block .) ]
-  ! FRAC            [ reduce using rule 3 (content -> block .) ]
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 20
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 28
 
-    (22) frac -> FRAC block block .
-    (3) content -> block .
-    (7) content -> block . content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
+    (3) block -> BEGINBLOCK content ENDBLOCK .
 
-  ! reduce/reduce conflict for SUP resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for SUB resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for ORD resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for CHAR resolved using rule 3 (content -> block .)
-  ! reduce/reduce conflict for FRAC resolved using rule 3 (content -> block .)
-  ! shift/reduce conflict for CHAR resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-  ! shift/reduce conflict for FRAC resolved as shift
-    ENDBLOCK        reduce using rule 22 (frac -> FRAC block block .)
-    $end            reduce using rule 22 (frac -> FRAC block block .)
-    SUP             reduce using rule 3 (content -> block .)
-    SUB             reduce using rule 3 (content -> block .)
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
+    SUP             reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    SUB             reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    $end            reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    CHAR            reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    BEGINBLOCK      reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    ORD             reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    FRAC            reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    ROOT            reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    ENDBLOCK        reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
+    ENDSBLOCK       reduce using rule 3 (block -> BEGINBLOCK content ENDBLOCK .)
 
-  ! SUP             [ reduce using rule 22 (frac -> FRAC block block .) ]
-  ! SUB             [ reduce using rule 22 (frac -> FRAC block block .) ]
-  ! BEGINBLOCK      [ reduce using rule 22 (frac -> FRAC block block .) ]
-  ! ORD             [ reduce using rule 22 (frac -> FRAC block block .) ]
-  ! CHAR            [ reduce using rule 22 (frac -> FRAC block block .) ]
-  ! FRAC            [ reduce using rule 22 (frac -> FRAC block block .) ]
-  ! BEGINBLOCK      [ reduce using rule 3 (content -> block .) ]
-  ! ORD             [ reduce using rule 3 (content -> block .) ]
-  ! CHAR            [ reduce using rule 3 (content -> block .) ]
-  ! FRAC            [ reduce using rule 3 (content -> block .) ]
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 20
-    command                        shift and go to state 5
-    block                          shift and go to state 11
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
 
 state 29
 
-    (2) block -> BEGINBLOCK content ENDBLOCK .
+    (2) sblock -> BEGINSBLOCK content ENDSBLOCK .
 
-    CHAR            reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    BEGINBLOCK      reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    ORD             reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    FRAC            reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    SUP             reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    SUB             reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    $end            reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-    ENDBLOCK        reduce using rule 2 (block -> BEGINBLOCK content ENDBLOCK .)
-
-
-state 30
-
-    (21) scripted -> content SUB content SUP . content
-    (14) scripted -> content SUP . block
-    (15) scripted -> content SUP . content
-    (16) scripted -> content SUP . block SUB block
-    (17) scripted -> content SUP . content SUB content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
-
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 34
-    command                        shift and go to state 5
-    block                          shift and go to state 24
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
-
-state 31
-
-    (20) scripted -> content SUB block SUP . block
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-
-    BEGINBLOCK      shift and go to state 9
-
-    block                          shift and go to state 35
-
-state 32
-
-    (17) scripted -> content SUP content SUB . content
-    (18) scripted -> content SUB . block
-    (19) scripted -> content SUB . content
-    (20) scripted -> content SUB . block SUP block
-    (21) scripted -> content SUB . content SUP content
-    (3) content -> . block
-    (4) content -> . CHAR
-    (5) content -> . ord
-    (7) content -> . block content
-    (8) content -> . content block
-    (9) content -> . ord content
-    (10) content -> . content ord
-    (11) content -> . scripted
-    (12) content -> . command
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-    (14) scripted -> . content SUP block
-    (15) scripted -> . content SUP content
-    (16) scripted -> . content SUP block SUB block
-    (17) scripted -> . content SUP content SUB content
-    (18) scripted -> . content SUB block
-    (19) scripted -> . content SUB content
-    (20) scripted -> . content SUB block SUP block
-    (21) scripted -> . content SUB content SUP content
-    (13) command -> . frac
-    (22) frac -> . FRAC block block
-    (23) frac -> . FRAC content content
-
-    CHAR            shift and go to state 1
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-    FRAC            shift and go to state 7
-
-    frac                           shift and go to state 2
-    content                        shift and go to state 36
-    command                        shift and go to state 5
-    block                          shift and go to state 22
-    ord                            shift and go to state 8
-    scripted                       shift and go to state 6
-
-state 33
-
-    (16) scripted -> content SUP block SUB . block
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-
-    BEGINBLOCK      shift and go to state 9
-
-    block                          shift and go to state 37
-
-state 34
-
-    (21) scripted -> content SUB content SUP content .
-    (15) scripted -> content SUP content .
-    (17) scripted -> content SUP content . SUB content
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-
-  ! reduce/reduce conflict for SUP resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for SUB resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for ORD resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for $end resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for CHAR resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for FRAC resolved using rule 15 (scripted -> content SUP content .)
-  ! reduce/reduce conflict for ENDBLOCK resolved using rule 15 (scripted -> content SUP content .)
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    $end            reduce using rule 15 (scripted -> content SUP content .)
-    CHAR            reduce using rule 15 (scripted -> content SUP content .)
-    FRAC            reduce using rule 15 (scripted -> content SUP content .)
-    ENDBLOCK        reduce using rule 15 (scripted -> content SUP content .)
-    SUB             shift and go to state 32
-    SUP             shift and go to state 13
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-
-  ! SUP             [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! SUB             [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! BEGINBLOCK      [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! ORD             [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! $end            [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! CHAR            [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! FRAC            [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! ENDBLOCK        [ reduce using rule 21 (scripted -> content SUB content SUP content .) ]
-  ! SUP             [ reduce using rule 15 (scripted -> content SUP content .) ]
-  ! SUB             [ reduce using rule 15 (scripted -> content SUP content .) ]
-  ! BEGINBLOCK      [ reduce using rule 15 (scripted -> content SUP content .) ]
-  ! ORD             [ reduce using rule 15 (scripted -> content SUP content .) ]
-
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
-
-state 35
-
-    (20) scripted -> content SUB block SUP block .
-
-    SUP             reduce using rule 20 (scripted -> content SUB block SUP block .)
-    SUB             reduce using rule 20 (scripted -> content SUB block SUP block .)
-    BEGINBLOCK      reduce using rule 20 (scripted -> content SUB block SUP block .)
-    ORD             reduce using rule 20 (scripted -> content SUB block SUP block .)
-    $end            reduce using rule 20 (scripted -> content SUB block SUP block .)
-    CHAR            reduce using rule 20 (scripted -> content SUB block SUP block .)
-    FRAC            reduce using rule 20 (scripted -> content SUB block SUP block .)
-    ENDBLOCK        reduce using rule 20 (scripted -> content SUB block SUP block .)
-
-
-state 36
-
-    (17) scripted -> content SUP content SUB content .
-    (19) scripted -> content SUB content .
-    (21) scripted -> content SUB content . SUP content
-    (8) content -> content . block
-    (10) content -> content . ord
-    (14) scripted -> content . SUP block
-    (15) scripted -> content . SUP content
-    (16) scripted -> content . SUP block SUB block
-    (17) scripted -> content . SUP content SUB content
-    (18) scripted -> content . SUB block
-    (19) scripted -> content . SUB content
-    (20) scripted -> content . SUB block SUP block
-    (21) scripted -> content . SUB content SUP content
-    (2) block -> . BEGINBLOCK content ENDBLOCK
-    (6) ord -> . ORD
-
-  ! reduce/reduce conflict for SUP resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for SUB resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for BEGINBLOCK resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for ORD resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for $end resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for CHAR resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for FRAC resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! reduce/reduce conflict for ENDBLOCK resolved using rule 17 (scripted -> content SUP content SUB content .)
-  ! shift/reduce conflict for SUP resolved as shift
-  ! shift/reduce conflict for SUB resolved as shift
-  ! shift/reduce conflict for BEGINBLOCK resolved as shift
-  ! shift/reduce conflict for ORD resolved as shift
-    $end            reduce using rule 17 (scripted -> content SUP content SUB content .)
-    CHAR            reduce using rule 17 (scripted -> content SUP content SUB content .)
-    FRAC            reduce using rule 17 (scripted -> content SUP content SUB content .)
-    ENDBLOCK        reduce using rule 17 (scripted -> content SUP content SUB content .)
-    SUP             shift and go to state 30
-    SUB             shift and go to state 12
-    BEGINBLOCK      shift and go to state 9
-    ORD             shift and go to state 10
-
-  ! SUP             [ reduce using rule 17 (scripted -> content SUP content SUB content .) ]
-  ! SUB             [ reduce using rule 17 (scripted -> content SUP content SUB content .) ]
-  ! BEGINBLOCK      [ reduce using rule 17 (scripted -> content SUP content SUB content .) ]
-  ! ORD             [ reduce using rule 17 (scripted -> content SUP content SUB content .) ]
-  ! SUP             [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! SUB             [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! BEGINBLOCK      [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! ORD             [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! $end            [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! CHAR            [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! FRAC            [ reduce using rule 19 (scripted -> content SUB content .) ]
-  ! ENDBLOCK        [ reduce using rule 19 (scripted -> content SUB content .) ]
-
-    ord                            shift and go to state 14
-    block                          shift and go to state 15
-
-state 37
-
-    (16) scripted -> content SUP block SUB block .
-
-    SUP             reduce using rule 16 (scripted -> content SUP block SUB block .)
-    SUB             reduce using rule 16 (scripted -> content SUP block SUB block .)
-    BEGINBLOCK      reduce using rule 16 (scripted -> content SUP block SUB block .)
-    ORD             reduce using rule 16 (scripted -> content SUP block SUB block .)
-    $end            reduce using rule 16 (scripted -> content SUP block SUB block .)
-    CHAR            reduce using rule 16 (scripted -> content SUP block SUB block .)
-    FRAC            reduce using rule 16 (scripted -> content SUP block SUB block .)
-    ENDBLOCK        reduce using rule 16 (scripted -> content SUP block SUB block .)
+    CHAR            reduce using rule 2 (sblock -> BEGINSBLOCK content ENDSBLOCK .)
+    BEGINBLOCK      reduce using rule 2 (sblock -> BEGINSBLOCK content ENDSBLOCK .)
+    ORD             reduce using rule 2 (sblock -> BEGINSBLOCK content ENDSBLOCK .)
+    FRAC            reduce using rule 2 (sblock -> BEGINSBLOCK content ENDSBLOCK .)
+    ROOT            reduce using rule 2 (sblock -> BEGINSBLOCK content ENDSBLOCK .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for CHAR in state 8 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 8 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 8 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 8 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 11 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 11 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 11 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 11 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 17 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 17 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 17 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 17 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 18 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 18 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 18 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 18 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 20 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 20 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 20 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 20 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 21 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 21 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 21 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 21 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 22 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 22 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 22 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 22 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 22 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 22 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 23 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 23 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 23 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 23 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 24 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 24 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 24 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 24 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 24 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 24 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 25 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 25 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 25 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 25 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 26 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 26 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 26 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 26 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 27 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 27 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 27 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 27 resolved as shift
-WARNING: shift/reduce conflict for CHAR in state 28 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 28 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 28 resolved as shift
-WARNING: shift/reduce conflict for FRAC in state 28 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 34 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 34 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 34 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 34 resolved as shift
-WARNING: shift/reduce conflict for SUP in state 36 resolved as shift
-WARNING: shift/reduce conflict for SUB in state 36 resolved as shift
-WARNING: shift/reduce conflict for BEGINBLOCK in state 36 resolved as shift
-WARNING: shift/reduce conflict for ORD in state 36 resolved as shift
-WARNING: reduce/reduce conflict in state 22 resolved using rule (content -> block)
-WARNING: rejected rule (scripted -> content SUB block) in state 22
-WARNING: reduce/reduce conflict in state 24 resolved using rule (content -> block)
-WARNING: rejected rule (scripted -> content SUP block) in state 24
-WARNING: reduce/reduce conflict in state 26 resolved using rule (content -> ord)
-WARNING: rejected rule (content -> content ord) in state 26
-WARNING: reduce/reduce conflict in state 27 resolved using rule (content -> block)
-WARNING: rejected rule (content -> content block) in state 27
-WARNING: reduce/reduce conflict in state 28 resolved using rule (content -> block)
-WARNING: rejected rule (frac -> FRAC block block) in state 28
-WARNING: reduce/reduce conflict in state 34 resolved using rule (scripted -> content SUP content)
-WARNING: rejected rule (scripted -> content SUB content SUP content) in state 34
-WARNING: reduce/reduce conflict in state 36 resolved using rule (scripted -> content SUP content SUB content)
-WARNING: rejected rule (scripted -> content SUB content) in state 36
-WARNING: Rule (scripted -> content SUB block) is never reduced
-WARNING: Rule (scripted -> content SUP block) is never reduced
-WARNING: Rule (scripted -> content SUB content SUP content) is never reduced
+WARNING: shift/reduce conflict for CHAR in state 4 resolved as shift
+WARNING: shift/reduce conflict for ORD in state 4 resolved as shift
+WARNING: shift/reduce conflict for CHAR in state 16 resolved as shift
+WARNING: shift/reduce conflict for ORD in state 16 resolved as shift
