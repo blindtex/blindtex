@@ -38,7 +38,7 @@ def t_COMMAND(t):
 	pass
 
 def t_command_ORD(t):
-	r'(alpha)|(beta)'
+	r'(alpha)|(beta)|aleph|hbar|imath|jmath|ell|vp|Re|Im|partial|infty|prime|emptyset|nabla|surd|top|bot|\||angle|triangle|backslash|forall|exists|neg|flat|natural|sharp|clubsuit|diamondsuit|heartsuit|spadsuit'
 	t.lexer.begin('INITIAL')
 	return t
 
