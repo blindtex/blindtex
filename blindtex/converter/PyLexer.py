@@ -2,7 +2,7 @@
 
 import ply.lex as lex
 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC','SPACE', 'ROOT')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP')
 
 states = (('command', 'exclusive'),)
 
@@ -38,7 +38,7 @@ def t_COMMAND(t):
 	pass
 
 def t_command_ORD(t):
-	r'(alpha)|(beta)|aleph|hbar|imath|jmath|ell|vp|Re|Im|partial|infty|prime|emptyset|nabla|surd|top|bot|\||angle|triangle|backslash|forall|exists|neg|flat|natural|sharp|clubsuit|diamondsuit|heartsuit|spadsuit'
+	r'(alpha)|(beta)|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega|aleph|hbar|imath|jmath|ell|vp|Re|Im|partial|infty|prime|emptyset|nabla|surd|top|bot|\||angle|triangle|backslash|forall|exists|neg|flat|natural|sharp|clubsuit|diamondsuit|heartsuit|spadsuit'
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -49,6 +49,11 @@ def t_command_FRAC(t):
 
 def t_command_ROOT(t):
 	r'sqrt'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_LARGEOP(t):
+	r'sum|prod|coprod|int|oint|bigcap|bigcup|bigsqcup|bigvee|bigwedge|bigodot|bigotimes|bigoplus|biguplus'
 	t.lexer.begin('INITIAL')
 	return t
 

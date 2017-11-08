@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftSUPSUBFRACROOTCHAR SUP SUB BEGINBLOCK ENDBLOCK BEGINSBLOCK ENDSBLOCK ORD FRAC SPACE ROOTstart : contentsblock : BEGINSBLOCK content ENDSBLOCKblock : BEGINBLOCK content ENDBLOCKcontent : chars\n\t\t\t\t| blockchars : CHAR\n\t\t\t\t| ord\n\t\t\t\t| chars chars ord : ORD content : scripted\n\t\t\t\t\t| command command : frac\n\t\t\t\t| root scripted : content SUP content\n\t\t\t\t| content SUB content frac : FRAC content contentroot : ROOT content\n\t\t\t| ROOT sblock content '
+_lr_signature = 'leftSUPSUBFRACROOTCHAR SUP SUB BEGINBLOCK ENDBLOCK BEGINSBLOCK ENDSBLOCK ORD FRAC ROOT LARGEOPstart : contentsblock : BEGINSBLOCK content ENDSBLOCKblock : BEGINBLOCK content ENDBLOCKcontent : chars\n\t\t\t\t| block\n\t\t\t\t| scripted\n\t\t\t\t| commandchars : CHAR\n\t\t\t\t| ord\n\t\t\t\t| chars chars ord : ORD command : frac\n\t\t\t\t| root scripted : content SUP content\n\t\t\t\t| content SUB content frac : FRAC content contentroot : ROOT content\n\t\t\t| ROOT sblock content '
     
-_lr_action_items = {'FRAC':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[1,1,-6,-12,-4,1,-11,-5,-13,-7,1,-9,-10,1,-8,1,1,1,-17,1,-16,-15,-14,-18,-3,-2,]),'SUB':([2,3,4,5,8,9,10,11,13,14,15,16,20,22,23,24,25,26,27,28,],[-6,-12,-4,17,-11,-5,-13,-7,-9,-10,17,-8,-17,17,-16,-15,-14,-18,17,-3,]),'BEGINBLOCK':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[12,12,-6,-12,-4,12,-11,-5,-13,-7,12,-9,-10,12,-8,12,12,12,-17,12,-16,-15,-14,-18,-3,-2,]),'CHAR':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[2,2,-6,-12,2,2,-11,-5,-13,-7,2,-9,-10,2,2,2,2,2,-17,2,-16,-15,-14,-18,-3,-2,]),'ENDSBLOCK':([2,3,4,8,9,10,11,13,14,16,20,23,24,25,26,27,28,],[-6,-12,-4,-11,-5,-13,-7,-9,-10,-8,-17,-16,-15,-14,-18,29,-3,]),'BEGINSBLOCK':([7,],[21,]),'SUP':([2,3,4,5,8,9,10,11,13,14,15,16,20,22,23,24,25,26,27,28,],[-6,-12,-4,18,-11,-5,-13,-7,-9,-10,18,-8,-17,18,-16,-15,-14,-18,18,-3,]),'ORD':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[13,13,-6,-12,13,13,-11,-5,-13,-7,13,-9,-10,13,13,13,13,13,-17,13,-16,-15,-14,-18,-3,-2,]),'ROOT':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[7,7,-6,-12,-4,7,-11,-5,-13,-7,7,-9,-10,7,-8,7,7,7,-17,7,-16,-15,-14,-18,-3,-2,]),'ENDBLOCK':([2,3,4,8,9,10,11,13,14,16,20,22,23,24,25,26,28,],[-6,-12,-4,-11,-5,-13,-7,-9,-10,-8,-17,28,-16,-15,-14,-18,-3,]),'$end':([2,3,4,5,6,8,9,10,11,13,14,16,20,23,24,25,26,28,],[-6,-12,-4,-1,0,-11,-5,-13,-7,-9,-10,-8,-17,-16,-15,-14,-18,-3,]),}
+_lr_action_items = {'FRAC':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[1,1,-8,-12,-4,1,-7,-5,-13,-9,1,-11,-6,1,-10,1,1,1,-17,1,-16,-15,-14,-18,-3,-2,]),'SUB':([2,3,4,5,8,9,10,11,13,14,15,16,20,22,23,24,25,26,27,28,],[-8,-12,-4,17,-7,-5,-13,-9,-11,-6,17,-10,-17,17,-16,-15,-14,-18,17,-3,]),'BEGINBLOCK':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[12,12,-8,-12,-4,12,-7,-5,-13,-9,12,-11,-6,12,-10,12,12,12,-17,12,-16,-15,-14,-18,-3,-2,]),'CHAR':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[2,2,-8,-12,2,2,-7,-5,-13,-9,2,-11,-6,2,2,2,2,2,-17,2,-16,-15,-14,-18,-3,-2,]),'ENDSBLOCK':([2,3,4,8,9,10,11,13,14,16,20,23,24,25,26,27,28,],[-8,-12,-4,-7,-5,-13,-9,-11,-6,-10,-17,-16,-15,-14,-18,29,-3,]),'BEGINSBLOCK':([7,],[21,]),'SUP':([2,3,4,5,8,9,10,11,13,14,15,16,20,22,23,24,25,26,27,28,],[-8,-12,-4,18,-7,-5,-13,-9,-11,-6,18,-10,-17,18,-16,-15,-14,-18,18,-3,]),'ORD':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[13,13,-8,-12,13,13,-7,-5,-13,-9,13,-11,-6,13,13,13,13,13,-17,13,-16,-15,-14,-18,-3,-2,]),'ROOT':([0,1,2,3,4,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,28,29,],[7,7,-8,-12,-4,7,-7,-5,-13,-9,7,-11,-6,7,-10,7,7,7,-17,7,-16,-15,-14,-18,-3,-2,]),'ENDBLOCK':([2,3,4,8,9,10,11,13,14,16,20,22,23,24,25,26,28,],[-8,-12,-4,-7,-5,-13,-9,-11,-6,-10,-17,28,-16,-15,-14,-18,-3,]),'$end':([2,3,4,5,6,8,9,10,11,13,14,16,20,23,24,25,26,28,],[-8,-12,-4,-1,0,-7,-5,-13,-9,-11,-6,-10,-17,-16,-15,-14,-18,-3,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -26,22 +26,22 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> start","S'",1,None,None,None),
-  ('start -> content','start',1,'p_start','PyParser.py',17),
-  ('sblock -> BEGINSBLOCK content ENDSBLOCK','sblock',3,'p_sblock','PyParser.py',21),
-  ('block -> BEGINBLOCK content ENDBLOCK','block',3,'p_block','PyParser.py',25),
-  ('content -> chars','content',1,'p_content','PyParser.py',29),
-  ('content -> block','content',1,'p_content','PyParser.py',30),
-  ('chars -> CHAR','chars',1,'p_chars','PyParser.py',34),
-  ('chars -> ord','chars',1,'p_chars','PyParser.py',35),
-  ('chars -> chars chars','chars',2,'p_chars','PyParser.py',36),
-  ('ord -> ORD','ord',1,'p_ord','PyParser.py',43),
-  ('content -> scripted','content',1,'p_tree','PyParser.py',47),
-  ('content -> command','content',1,'p_tree','PyParser.py',48),
-  ('command -> frac','command',1,'p_command','PyParser.py',52),
-  ('command -> root','command',1,'p_command','PyParser.py',53),
-  ('scripted -> content SUP content','scripted',3,'p_scripted','PyParser.py',61),
-  ('scripted -> content SUB content','scripted',3,'p_scripted','PyParser.py',62),
-  ('frac -> FRAC content content','frac',3,'p_frac','PyParser.py',69),
-  ('root -> ROOT content','root',2,'p_root','PyParser.py',73),
-  ('root -> ROOT sblock content','root',3,'p_root','PyParser.py',74),
+  ('start -> content','start',1,'p_start','PyParser.py',33),
+  ('sblock -> BEGINSBLOCK content ENDSBLOCK','sblock',3,'p_sblock','PyParser.py',37),
+  ('block -> BEGINBLOCK content ENDBLOCK','block',3,'p_block','PyParser.py',41),
+  ('content -> chars','content',1,'p_content','PyParser.py',45),
+  ('content -> block','content',1,'p_content','PyParser.py',46),
+  ('content -> scripted','content',1,'p_content','PyParser.py',47),
+  ('content -> command','content',1,'p_content','PyParser.py',48),
+  ('chars -> CHAR','chars',1,'p_chars','PyParser.py',52),
+  ('chars -> ord','chars',1,'p_chars','PyParser.py',53),
+  ('chars -> chars chars','chars',2,'p_chars','PyParser.py',54),
+  ('ord -> ORD','ord',1,'p_ord','PyParser.py',61),
+  ('command -> frac','command',1,'p_command','PyParser.py',66),
+  ('command -> root','command',1,'p_command','PyParser.py',67),
+  ('scripted -> content SUP content','scripted',3,'p_scripted','PyParser.py',76),
+  ('scripted -> content SUB content','scripted',3,'p_scripted','PyParser.py',77),
+  ('frac -> FRAC content content','frac',3,'p_frac','PyParser.py',84),
+  ('root -> ROOT content','root',2,'p_root','PyParser.py',88),
+  ('root -> ROOT sblock content','root',3,'p_root','PyParser.py',89),
 ]

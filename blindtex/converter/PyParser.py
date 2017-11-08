@@ -13,8 +13,11 @@ def addWord(key,value):
 #--------------------------------------------------------------------------
 
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
-Ordinary = {'alpha': 'alfa', 'beta': 'beta', 'gamma' : 'gamma', 'delta' : 'delta' ,'epsilon' : 'epsilon' , 'zeta' : 'zeta', 'eta':'eta', 'theta' : 'teta', 'iota' : 'iota', 'kappa':'kappa', 'lambda':'lambda', 'mu':'mu', 'nu':'nu', 'xi':'xi', 'omicron':'omicron', 'pi':'pi', 'rho':'ro', 'sigma':'sigma', 'tau':'tau', 'upsilon':'ipsilon', 'phi':'fi', 'chi':'ji', 'psi':'psi', 'omega':'omega',
+Ordinary = {'alpha': 'alfa', 'beta': 'beta', 'gamma' : 'gamma', 'delta' : 'delta' ,'epsilon' : 'epsilon', 'varepsilon':'var epsilon' , 'zeta' : 'zeta', 'eta':'eta', 'theta' : 'teta','vartheta':'var teta', 'iota' : 'iota', 'kappa':'kappa', 'lambda':'lambda', 'mu':'mi', 'nu':'ni', 'xi':'xi', 'pi':'pi', 'varpi': 'var pi', 'rho':'ro', 'varrho': 'var ro','sigma':'sigma', 'varsigma': 'var sigma', 'tau':'tau', 'upsilon':'ipsilon', 'phi':'fi', 'varphi':'var fi', 'chi':'ji', 'psi':'psi', 'omega':'omega', 'Gamma': 'gama may&uacute;scula', 'Delta':'delta may&uacute;scula', 'Theta': 'teta may&uacute;scula', 'Lambda': 'lambda may&uacute;scula', 'Xi': 'xi may&uacute;scula', 'Pi': 'pi may&uacute;scula', 'Sigma': 'sigma may&uacute;scula', 'Upsilon': 'ipsilon may&uacute;scula', 'Phi': 'fi may&uacute;scula', 'Psi': 'psi may&uacute;scula', 'Omega': 'omega may&uacute;scula', 
 			'aleph': 'alef', 'hbar': 'hache barra', 'imath': 'i caligr&aacute;fica, sin punto', 'jmath': 'j caligr&aacute;fica, sin punto', 'ell' : 'ele caligr&aacute;fica','vp': 'p caligr&aacute;fica', 'Re': 'parte real','Im': 'parte imaginaria', 'partial': 'parcial', 'infty': 'infinito','prime': 'prima','emptyset':'conjunto vac&iacute;o','nabla':'nabla','surd':'ra&iacute;z','top': 'transpuesto', 'bot': 'perpendicular','|': 'paralelo, norma', 'angle': '&aacute;ngulo', 'triangle': 'tri&aacute;ngulo','backslash': 'barra invertida', 'forall':'para todo','exists':'existe','neg': 'negaci&oacute;n', 'flat': 'bemol', 'natural':'becuadro','sharp':'sostenido','clubsuit':'trebol','diamondsuit': 'diamante','heartsuit': 'corazón','spadsuit': 'picas'}
+
+#TODO: Acordar los nombres de algunos operadores.
+LargeOperators ={'sum': 'suma','prod':'producto', 'coprod':'coproducto','int': 'integral', 'oint': 'integral de contorno', 'bigcap': 'intersecci&oacute;n','bigcup': 'uni&oacute;n', 'bigsqcup':'Uni&oacute;n rect&aacute;ngular', 'bigvee' :'disyunci&oacute;n','bigwedge' : 'conjunci&oacute;n', 'bigodot': 'circumpunto','bigotimes': 'prducto tensorial','bigoplus': 'circumsuma', 'biguplus': 'uni&oacute;n con suma'}
 
 #Función para agregar al diccionario elementos
 key = ''
@@ -22,7 +25,7 @@ value = ''#Estas variables de entrada se reconocerán posteriormente las dejo as
 #addWord(key,value) Descomentar la línea cuando la función vaya a ser utulizada
 
 
-precedence = (
+precedence = (	
 	('left','SUP','SUB', 'FRAC','ROOT'),
 )
 
@@ -40,8 +43,10 @@ def p_block(p):
 
 def p_content(p):
 	'''content : chars
-				| block'''
-	p[0] = p[1]
+				| block
+				| scripted
+				| command'''
+	p[0]=p[1]
 
 def p_chars(p):
 	'''chars : CHAR
@@ -56,10 +61,6 @@ def p_ord(p):
 	'''ord : ORD '''
 	p[0] =  '<span aria-label=\"' + Ordinary[p[1]] + '\">&nbsp;</span>'
 
-def p_tree(p):
-	'''content : scripted
-					| command '''
-	p[0] = p[1]
 
 def p_command(p):
 	'''command : frac
@@ -69,7 +70,8 @@ def p_command(p):
 #------------------------------------------------------------------------------------------------------
 
 
-#TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez con una función.
+#TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez que p[0] = "una función que depende de los otros p[i]".
+
 def p_scripted(p):
 	'''scripted : content SUP content
 				| content SUB content '''
@@ -89,6 +91,9 @@ def p_root(p):
 		p[0] = '<span aria-label=\"ra&iacute;z cuadrada de\">&nbsp;</span>' + p[2] + '<span aria-label=\"termina ra&iacute;z\">&nbsp;</span>'
 	else:
 		p[0] = '<span aria-label=\"ra&iacute;z\">&nbsp;</span>' + p[2] + '<span aria-label=\"de\" >&nbsp;</span>' + p[3] + '<span aria-label=\"termina ra&iacute;z\">&nbsp;</span>'
+
+
+
 
 def p_error(p):
 	if p:

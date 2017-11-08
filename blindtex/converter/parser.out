@@ -2,7 +2,7 @@ Created by PLY version 3.10 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    SPACE
+    LARGEOP
 
 Grammar
 
@@ -12,12 +12,12 @@ Rule 2     sblock -> BEGINSBLOCK content ENDSBLOCK
 Rule 3     block -> BEGINBLOCK content ENDBLOCK
 Rule 4     content -> chars
 Rule 5     content -> block
-Rule 6     chars -> CHAR
-Rule 7     chars -> ord
-Rule 8     chars -> chars chars
-Rule 9     ord -> ORD
-Rule 10    content -> scripted
-Rule 11    content -> command
+Rule 6     content -> scripted
+Rule 7     content -> command
+Rule 8     chars -> CHAR
+Rule 9     chars -> ord
+Rule 10    chars -> chars chars
+Rule 11    ord -> ORD
 Rule 12    command -> frac
 Rule 13    command -> root
 Rule 14    scripted -> content SUP content
@@ -30,13 +30,13 @@ Terminals, with rules where they appear
 
 BEGINBLOCK           : 3
 BEGINSBLOCK          : 2
-CHAR                 : 6
+CHAR                 : 8
 ENDBLOCK             : 3
 ENDSBLOCK            : 2
 FRAC                 : 16
-ORD                  : 9
+LARGEOP              : 
+ORD                  : 11
 ROOT                 : 17 18
-SPACE                : 
 SUB                  : 15
 SUP                  : 14
 error                : 
@@ -44,14 +44,14 @@ error                :
 Nonterminals, with rules where they appear
 
 block                : 5
-chars                : 4 8 8
-command              : 11
+chars                : 4 10 10
+command              : 7
 content              : 1 2 3 14 14 15 15 16 16 17 18
 frac                 : 12
-ord                  : 7
+ord                  : 9
 root                 : 13
 sblock               : 18
-scripted             : 10
+scripted             : 6
 start                : 0
 
 Parsing method: LALR
@@ -62,17 +62,17 @@ state 0
     (1) start -> . content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -98,17 +98,17 @@ state 1
     (16) frac -> FRAC . content content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -130,18 +130,18 @@ state 1
 
 state 2
 
-    (6) chars -> CHAR .
+    (8) chars -> CHAR .
 
-    CHAR            reduce using rule 6 (chars -> CHAR .)
-    ORD             reduce using rule 6 (chars -> CHAR .)
-    SUP             reduce using rule 6 (chars -> CHAR .)
-    SUB             reduce using rule 6 (chars -> CHAR .)
-    $end            reduce using rule 6 (chars -> CHAR .)
-    BEGINBLOCK      reduce using rule 6 (chars -> CHAR .)
-    FRAC            reduce using rule 6 (chars -> CHAR .)
-    ROOT            reduce using rule 6 (chars -> CHAR .)
-    ENDBLOCK        reduce using rule 6 (chars -> CHAR .)
-    ENDSBLOCK       reduce using rule 6 (chars -> CHAR .)
+    CHAR            reduce using rule 8 (chars -> CHAR .)
+    ORD             reduce using rule 8 (chars -> CHAR .)
+    SUP             reduce using rule 8 (chars -> CHAR .)
+    SUB             reduce using rule 8 (chars -> CHAR .)
+    $end            reduce using rule 8 (chars -> CHAR .)
+    BEGINBLOCK      reduce using rule 8 (chars -> CHAR .)
+    FRAC            reduce using rule 8 (chars -> CHAR .)
+    ROOT            reduce using rule 8 (chars -> CHAR .)
+    ENDBLOCK        reduce using rule 8 (chars -> CHAR .)
+    ENDSBLOCK       reduce using rule 8 (chars -> CHAR .)
 
 
 state 3
@@ -163,11 +163,11 @@ state 3
 state 4
 
     (4) content -> chars .
-    (8) chars -> chars . chars
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
-    (9) ord -> . ORD
+    (10) chars -> chars . chars
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
+    (11) ord -> . ORD
 
   ! shift/reduce conflict for CHAR resolved as shift
   ! shift/reduce conflict for ORD resolved as shift
@@ -211,18 +211,18 @@ state 7
     (18) root -> ROOT . sblock content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
+    (6) content -> . scripted
+    (7) content -> . command
     (2) sblock -> . BEGINSBLOCK content ENDSBLOCK
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -246,18 +246,18 @@ state 7
 
 state 8
 
-    (11) content -> command .
+    (7) content -> command .
 
-    SUP             reduce using rule 11 (content -> command .)
-    SUB             reduce using rule 11 (content -> command .)
-    CHAR            reduce using rule 11 (content -> command .)
-    BEGINBLOCK      reduce using rule 11 (content -> command .)
-    ORD             reduce using rule 11 (content -> command .)
-    FRAC            reduce using rule 11 (content -> command .)
-    ROOT            reduce using rule 11 (content -> command .)
-    $end            reduce using rule 11 (content -> command .)
-    ENDBLOCK        reduce using rule 11 (content -> command .)
-    ENDSBLOCK       reduce using rule 11 (content -> command .)
+    SUP             reduce using rule 7 (content -> command .)
+    SUB             reduce using rule 7 (content -> command .)
+    CHAR            reduce using rule 7 (content -> command .)
+    BEGINBLOCK      reduce using rule 7 (content -> command .)
+    ORD             reduce using rule 7 (content -> command .)
+    FRAC            reduce using rule 7 (content -> command .)
+    ROOT            reduce using rule 7 (content -> command .)
+    $end            reduce using rule 7 (content -> command .)
+    ENDBLOCK        reduce using rule 7 (content -> command .)
+    ENDSBLOCK       reduce using rule 7 (content -> command .)
 
 
 state 9
@@ -294,18 +294,18 @@ state 10
 
 state 11
 
-    (7) chars -> ord .
+    (9) chars -> ord .
 
-    CHAR            reduce using rule 7 (chars -> ord .)
-    ORD             reduce using rule 7 (chars -> ord .)
-    SUP             reduce using rule 7 (chars -> ord .)
-    SUB             reduce using rule 7 (chars -> ord .)
-    $end            reduce using rule 7 (chars -> ord .)
-    BEGINBLOCK      reduce using rule 7 (chars -> ord .)
-    FRAC            reduce using rule 7 (chars -> ord .)
-    ROOT            reduce using rule 7 (chars -> ord .)
-    ENDBLOCK        reduce using rule 7 (chars -> ord .)
-    ENDSBLOCK       reduce using rule 7 (chars -> ord .)
+    CHAR            reduce using rule 9 (chars -> ord .)
+    ORD             reduce using rule 9 (chars -> ord .)
+    SUP             reduce using rule 9 (chars -> ord .)
+    SUB             reduce using rule 9 (chars -> ord .)
+    $end            reduce using rule 9 (chars -> ord .)
+    BEGINBLOCK      reduce using rule 9 (chars -> ord .)
+    FRAC            reduce using rule 9 (chars -> ord .)
+    ROOT            reduce using rule 9 (chars -> ord .)
+    ENDBLOCK        reduce using rule 9 (chars -> ord .)
+    ENDSBLOCK       reduce using rule 9 (chars -> ord .)
 
 
 state 12
@@ -313,17 +313,17 @@ state 12
     (3) block -> BEGINBLOCK . content ENDBLOCK
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -345,34 +345,34 @@ state 12
 
 state 13
 
-    (9) ord -> ORD .
+    (11) ord -> ORD .
 
-    CHAR            reduce using rule 9 (ord -> ORD .)
-    ORD             reduce using rule 9 (ord -> ORD .)
-    ENDSBLOCK       reduce using rule 9 (ord -> ORD .)
-    SUP             reduce using rule 9 (ord -> ORD .)
-    SUB             reduce using rule 9 (ord -> ORD .)
-    $end            reduce using rule 9 (ord -> ORD .)
-    BEGINBLOCK      reduce using rule 9 (ord -> ORD .)
-    FRAC            reduce using rule 9 (ord -> ORD .)
-    ROOT            reduce using rule 9 (ord -> ORD .)
-    ENDBLOCK        reduce using rule 9 (ord -> ORD .)
+    CHAR            reduce using rule 11 (ord -> ORD .)
+    ORD             reduce using rule 11 (ord -> ORD .)
+    ENDSBLOCK       reduce using rule 11 (ord -> ORD .)
+    SUP             reduce using rule 11 (ord -> ORD .)
+    SUB             reduce using rule 11 (ord -> ORD .)
+    $end            reduce using rule 11 (ord -> ORD .)
+    BEGINBLOCK      reduce using rule 11 (ord -> ORD .)
+    FRAC            reduce using rule 11 (ord -> ORD .)
+    ROOT            reduce using rule 11 (ord -> ORD .)
+    ENDBLOCK        reduce using rule 11 (ord -> ORD .)
 
 
 state 14
 
-    (10) content -> scripted .
+    (6) content -> scripted .
 
-    SUP             reduce using rule 10 (content -> scripted .)
-    SUB             reduce using rule 10 (content -> scripted .)
-    CHAR            reduce using rule 10 (content -> scripted .)
-    BEGINBLOCK      reduce using rule 10 (content -> scripted .)
-    ORD             reduce using rule 10 (content -> scripted .)
-    FRAC            reduce using rule 10 (content -> scripted .)
-    ROOT            reduce using rule 10 (content -> scripted .)
-    $end            reduce using rule 10 (content -> scripted .)
-    ENDBLOCK        reduce using rule 10 (content -> scripted .)
-    ENDSBLOCK       reduce using rule 10 (content -> scripted .)
+    SUP             reduce using rule 6 (content -> scripted .)
+    SUB             reduce using rule 6 (content -> scripted .)
+    CHAR            reduce using rule 6 (content -> scripted .)
+    BEGINBLOCK      reduce using rule 6 (content -> scripted .)
+    ORD             reduce using rule 6 (content -> scripted .)
+    FRAC            reduce using rule 6 (content -> scripted .)
+    ROOT            reduce using rule 6 (content -> scripted .)
+    $end            reduce using rule 6 (content -> scripted .)
+    ENDBLOCK        reduce using rule 6 (content -> scripted .)
+    ENDSBLOCK       reduce using rule 6 (content -> scripted .)
 
 
 state 15
@@ -382,17 +382,17 @@ state 15
     (15) scripted -> content . SUB content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -416,28 +416,28 @@ state 15
 
 state 16
 
-    (8) chars -> chars chars .
-    (8) chars -> chars . chars
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
-    (9) ord -> . ORD
+    (10) chars -> chars chars .
+    (10) chars -> chars . chars
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
+    (11) ord -> . ORD
 
   ! shift/reduce conflict for CHAR resolved as shift
   ! shift/reduce conflict for ORD resolved as shift
-    SUP             reduce using rule 8 (chars -> chars chars .)
-    SUB             reduce using rule 8 (chars -> chars chars .)
-    $end            reduce using rule 8 (chars -> chars chars .)
-    BEGINBLOCK      reduce using rule 8 (chars -> chars chars .)
-    FRAC            reduce using rule 8 (chars -> chars chars .)
-    ROOT            reduce using rule 8 (chars -> chars chars .)
-    ENDBLOCK        reduce using rule 8 (chars -> chars chars .)
-    ENDSBLOCK       reduce using rule 8 (chars -> chars chars .)
+    SUP             reduce using rule 10 (chars -> chars chars .)
+    SUB             reduce using rule 10 (chars -> chars chars .)
+    $end            reduce using rule 10 (chars -> chars chars .)
+    BEGINBLOCK      reduce using rule 10 (chars -> chars chars .)
+    FRAC            reduce using rule 10 (chars -> chars chars .)
+    ROOT            reduce using rule 10 (chars -> chars chars .)
+    ENDBLOCK        reduce using rule 10 (chars -> chars chars .)
+    ENDSBLOCK       reduce using rule 10 (chars -> chars chars .)
     CHAR            shift and go to state 2
     ORD             shift and go to state 13
 
-  ! CHAR            [ reduce using rule 8 (chars -> chars chars .) ]
-  ! ORD             [ reduce using rule 8 (chars -> chars chars .) ]
+  ! CHAR            [ reduce using rule 10 (chars -> chars chars .) ]
+  ! ORD             [ reduce using rule 10 (chars -> chars chars .) ]
 
     chars                          shift and go to state 16
     ord                            shift and go to state 11
@@ -447,17 +447,17 @@ state 17
     (15) scripted -> content SUB . content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -482,17 +482,17 @@ state 18
     (14) scripted -> content SUP . content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -517,17 +517,17 @@ state 19
     (18) root -> ROOT sblock . content
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
@@ -573,17 +573,17 @@ state 21
     (2) sblock -> BEGINSBLOCK . content ENDSBLOCK
     (4) content -> . chars
     (5) content -> . block
-    (10) content -> . scripted
-    (11) content -> . command
-    (6) chars -> . CHAR
-    (7) chars -> . ord
-    (8) chars -> . chars chars
+    (6) content -> . scripted
+    (7) content -> . command
+    (8) chars -> . CHAR
+    (9) chars -> . ord
+    (10) chars -> . chars chars
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (14) scripted -> . content SUP content
     (15) scripted -> . content SUB content
     (12) command -> . frac
     (13) command -> . root
-    (9) ord -> . ORD
+    (11) ord -> . ORD
     (16) frac -> . FRAC content content
     (17) root -> . ROOT content
     (18) root -> . ROOT sblock content
