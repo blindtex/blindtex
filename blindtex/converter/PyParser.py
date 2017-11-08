@@ -3,11 +3,24 @@
 
 import ply.yacc as yacc
 from PyLexer import tokens
-
+#Funciones: en esta sección, dejaremos todas las funciones que se requieran
+def addWord(key,value):
+    global Ordinary
+    if (Ordinary.get(key) is not None):
+        print('Key is alredy exist')
+    else:
+        Ordinary[str(key)] = value
+#--------------------------------------------------------------------------
 
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
-Ordinary = {'alpha': 'alfa', 'beta': 'beta', 'aleph': 'alef', 'hbar': 'hache barra', 'imath': 'i caligr&aacute;fica, sin punto', 'jmath': 'j caligr&aacute;fica, sin punto', 'ell' : 'ele caligr&aacute;fica','vp': 'p caligr&aacute;fica', 'Re': 'parte real','Im': 'parte imaginaria', 'partial': 'parcial', 'infty': 'infinito','prime': 'prima','emptyset':'conjunto vac&iacute;o','nabla':'nabla','surd':'ra&iacute;z','top': 'transpuesto', 'bot': 'perpendicular','|': 'paralelo, norma', 'angle': '&aacute;ngulo', 'triangle': 'tri&aacute;ngulo','backslash': 'barra invertida', 'forall':'para todo','exists':'existe','neg': 'negaci&oacute;n', 'flat': 'bemol', 'natural':'becuadro','sharp':'sostenido','clubsuit':'trebol','diamondsuit': 'diamante','heartsuit': 'corazón','spadsuit': 'picas'}
-#TODO Insertar la lectura lineal!!!
+Ordinary = {'alpha': 'alfa', 'beta': 'beta', 'gamma' : 'gamma', 'delta' : 'delta' ,'epsilon' : 'epsilon' , 'zeta' : 'zeta', 'eta':'eta', 'theta' : 'teta', 'iota' : 'iota', 'kappa':'kappa', 'lambda':'lambda', 'mu':'mu', 'nu':'nu', 'xi':'xi', 'omicron':'omicron', 'pi':'pi', 'rho':'ro', 'sigma':'sigma', 'tau':'tau', 'upsilon':'ipsilon', 'phi':'fi', 'chi':'ji', 'psi':'psi', 'omega':'omega',
+			'aleph': 'alef', 'hbar': 'hache barra', 'imath': 'i caligr&aacute;fica, sin punto', 'jmath': 'j caligr&aacute;fica, sin punto', 'ell' : 'ele caligr&aacute;fica','vp': 'p caligr&aacute;fica', 'Re': 'parte real','Im': 'parte imaginaria', 'partial': 'parcial', 'infty': 'infinito','prime': 'prima','emptyset':'conjunto vac&iacute;o','nabla':'nabla','surd':'ra&iacute;z','top': 'transpuesto', 'bot': 'perpendicular','|': 'paralelo, norma', 'angle': '&aacute;ngulo', 'triangle': 'tri&aacute;ngulo','backslash': 'barra invertida', 'forall':'para todo','exists':'existe','neg': 'negaci&oacute;n', 'flat': 'bemol', 'natural':'becuadro','sharp':'sostenido','clubsuit':'trebol','diamondsuit': 'diamante','heartsuit': 'corazón','spadsuit': 'picas'}
+
+#Función para agregar al diccionario elementos
+key = ''
+value = ''#Estas variables de entrada se reconocerán posteriormente las dejo así por el momento, para probar con la GUI
+#addWord(key,value) Descomentar la línea cuando la función vaya a ser utulizada
+
 
 precedence = (
 	('left','SUP','SUB', 'FRAC','ROOT'),
