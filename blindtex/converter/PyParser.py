@@ -91,7 +91,7 @@ def p_chars(p):
 
 def p_ord(p):
 	'''ord : ORD '''
-	p[0] =  formulate(Ordinary[p[1]])
+	p[0] =  formulate(showReading[p[1]])
 
 
 def p_command(p):
