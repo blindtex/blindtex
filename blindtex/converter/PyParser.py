@@ -10,6 +10,24 @@ def addWord(key,value):
         print('Key is alredy exist')
     else:
         Ordinary[str(key)] = value
+
+def formulate(label):
+	'''
+	Function to put in a span tag with the desired label.
+
+	Args:
+		label(str): The label that is needed in a span tag, 
+						if the label has accents it is recomended put them as html asks.
+
+	Returns:
+		str: The string with the aria-label already put.
+
+	Examples:
+		>>>print(formulate('integral'))
+		'<span aria-label=\"integral\">&nbsp;</span>'
+	'''
+	return '<span aria-label=\"'+ label + '\">&nbsp;</span>'
+#EndOfFunction
 #--------------------------------------------------------------------------
 
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
@@ -76,21 +94,21 @@ def p_scripted(p):
 	'''scripted : content SUP content
 				| content SUB content '''
 	if(p[2] == '^'):
-		p[0] = p[1] + '<span aria-label=\"sup &iacute;ndice\">&nbsp;</span>' + p[3] + '<span aria-label=\"fin sup &iacute;ndice\">&nbsp;</span>'
+		p[0] = p[1] + formulate('sup &iacute;ndice') + p[3] + formulate('fin sup &iacute;ndice')
 	else:
-		p[0] = p[1] + '<span aria-label=\"sub &iacute;ndice\">&nbsp;</span>' + p[3] + '<span aria-label=\"fin sub &iacute;ndice\">&nbsp;</span>'
+		p[0] = p[1] + formulate('sub &iacute;ndice') + p[3] + formulate('fin sub &iacute;ndice')
 	
 def p_frac(p):
 	'''frac : FRAC content content'''
-	p[0] = '<span aria-label=\"comienza fracción\">&nbsp;</span>' + p[2] + '<span aria-label=\"sobre\">&nbsp;</span>' + p[3] + '<span aria-label=\"fin fracción\">&nbsp;</span>'
+	p[0] = formulate('comienza fracci&oacute;n') + p[2] + formulate('sobre') + p[3] + formulate('fin fracci&oacute;n')
 
 def p_root(p):
 	'''root : ROOT content
 			| ROOT sblock content '''
 	if(len(p) == 3):
-		p[0] = '<span aria-label=\"ra&iacute;z cuadrada de\">&nbsp;</span>' + p[2] + '<span aria-label=\"termina ra&iacute;z\">&nbsp;</span>'
+		p[0] = formulate('ra&iacute;z cuadrada de') + p[2] + formulate('termina ra&iacute;z')
 	else:
-		p[0] = '<span aria-label=\"ra&iacute;z\">&nbsp;</span>' + p[2] + '<span aria-label=\"de\" >&nbsp;</span>' + p[3] + '<span aria-label=\"termina ra&iacute;z\">&nbsp;</span>'
+		p[0] = formulate('ra&iacute;z') + p[2] + formulate('de') + p[3] + formulate('termina ra&iacute;z')
 
 
 
@@ -102,6 +120,7 @@ def p_error(p):
 		parser.errok()
 	else:
 		print("Syntax error at EOF")
+	
 
 parser = yacc.yacc()
 
