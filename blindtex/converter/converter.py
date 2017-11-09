@@ -1,6 +1,7 @@
 from sys import argv
-from PyParser import *
-print convert(argv[1])
+from blindtex.converter.PyParser import convert
+
+print(convert(argv[1]))
 
 
 

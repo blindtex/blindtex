@@ -2,7 +2,9 @@
 #Parser
 
 import ply.yacc as yacc
+from MathDictionary import *
 from PyLexer import tokens
+<<<<<<< HEAD
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
 def addWord(key,value):
     global Ordinary
@@ -30,13 +32,17 @@ def formulate(label):
 #EndOfFunction
 #--------------------------------------------------------------------------
 
+
+
+
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
-Ordinary = {'alpha': 'alfa', 'beta': 'beta', 'gamma' : 'gamma', 'delta' : 'delta' ,'epsilon' : 'epsilon', 'varepsilon':'var epsilon' , 'zeta' : 'zeta', 'eta':'eta', 'theta' : 'teta','vartheta':'var teta', 'iota' : 'iota', 'kappa':'kappa', 'lambda':'lambda', 'mu':'mi', 'nu':'ni', 'xi':'xi', 'pi':'pi', 'varpi': 'var pi', 'rho':'ro', 'varrho': 'var ro','sigma':'sigma', 'varsigma': 'var sigma', 'tau':'tau', 'upsilon':'ipsilon', 'phi':'fi', 'varphi':'var fi', 'chi':'ji', 'psi':'psi', 'omega':'omega', 'Gamma': 'gama may&uacute;scula', 'Delta':'delta may&uacute;scula', 'Theta': 'teta may&uacute;scula', 'Lambda': 'lambda may&uacute;scula', 'Xi': 'xi may&uacute;scula', 'Pi': 'pi may&uacute;scula', 'Sigma': 'sigma may&uacute;scula', 'Upsilon': 'ipsilon may&uacute;scula', 'Phi': 'fi may&uacute;scula', 'Psi': 'psi may&uacute;scula', 'Omega': 'omega may&uacute;scula', 
-			'aleph': 'alef', 'hbar': 'hache barra', 'imath': 'i caligr&aacute;fica, sin punto', 'jmath': 'j caligr&aacute;fica, sin punto', 'ell' : 'ele caligr&aacute;fica','vp': 'p caligr&aacute;fica', 'Re': 'parte real','Im': 'parte imaginaria', 'partial': 'parcial', 'infty': 'infinito','prime': 'prima','emptyset':'conjunto vac&iacute;o','nabla':'nabla','surd':'ra&iacute;z','top': 'transpuesto', 'bot': 'perpendicular','|': 'paralelo, norma', 'angle': '&aacute;ngulo', 'triangle': 'tri&aacute;ngulo','backslash': 'barra invertida', 'forall':'para todo','exists':'existe','neg': 'negaci&oacute;n', 'flat': 'bemol', 'natural':'becuadro','sharp':'sostenido','clubsuit':'trebol','diamondsuit': 'diamante','heartsuit': 'coraz&oacute;n','spadsuit': 'picas'}
+
+>>>>>>> ea12a7d2ffe770698211c0cd256b49b7ad60d5a3
 
 #TODO: Acordar los nombres de algunos operadores.
 LargeOperators ={'sum': 'suma','prod':'producto', 'coprod':'coproducto','int': 'integral', 'oint': 'integral de contorno', 'bigcap': 'intersecci&oacute;n','bigcup': 'uni&oacute;n', 'bigsqcup':'Uni&oacute;n rect&aacute;ngular', 'bigvee' :'disyunci&oacute;n','bigwedge' : 'conjunci&oacute;n', 'bigodot': 'circumpunto','bigotimes': 'prducto tensorial','bigoplus': 'circumsuma', 'biguplus': 'uni&oacute;n con suma'}
 
+<<<<<<< HEAD
 BinaryOperators ={'+':'m&aacute;s', '-':'menos', '*':'por', '/':'dividido entre', 'pm':'m&aacute;s menos', 'mp':'menos m&aacute;s','setminus':'diferencia conjuntos', 'cdot':'punto','times':'producto', 'ast':'asterisco', 'star':'estrella', 'diamond':'operaci&oacute;n diamante','circ':'c&iacute;rculo','bullet':'c&iacute;rculo relleno','div':'dividido entre','cap': 'intersecci&oacute;n','cup':'uni&oacute;n','uplus':'uni&oacute;n con suma','sqcap':'intersecci&oacute;n rect&aacute;ngular','sqcup':'uni&oacute;n rect&aacute;ngular','triangleleft':'tri&aacute;angulo a la izquierda','triangleright':'tri&aacute;ngulo a la derecha','wr':'producto corona','bigcirc':'círculo grande','bigtriangleup':'tri&aacute;ngulo grande hacia arriba','bigtriangledown':'tri&aacute;ngulo grande hacia abajo','vee':'disyunci&oacute;n','wedge':'conjunci&oacute;n','oplus':'circunsuma','ominus':'circunresta','otimes':'circuncruz','oslash':'circunbarra','odot':'circunpunto', 'dagger': 'daga','ddagger': 'doble daga','amalg':'amalgamaci&oacute;n'}
 #Función para agregar al diccionario elementos
 key = ''
@@ -45,6 +51,8 @@ value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las d
 
 #-------------------------------------------------------------------------------
 #The grammar.
+=======
+>>>>>>> ea12a7d2ffe770698211c0cd256b49b7ad60d5a3
 precedence = (	
 	('left','SUP','SUB', 'FRAC','ROOT'),
 )
