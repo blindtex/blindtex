@@ -4,7 +4,7 @@
 import ply.yacc as yacc
 from MathDictionary import *
 from PyLexer import tokens
-<<<<<<< HEAD
+
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
 def addWord(key,value):
     global Ordinary
@@ -37,12 +37,12 @@ def formulate(label):
 
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
 
->>>>>>> ea12a7d2ffe770698211c0cd256b49b7ad60d5a3
+
 
 #TODO: Acordar los nombres de algunos operadores.
 LargeOperators ={'sum': 'suma','prod':'producto', 'coprod':'coproducto','int': 'integral', 'oint': 'integral de contorno', 'bigcap': 'intersecci&oacute;n','bigcup': 'uni&oacute;n', 'bigsqcup':'Uni&oacute;n rect&aacute;ngular', 'bigvee' :'disyunci&oacute;n','bigwedge' : 'conjunci&oacute;n', 'bigodot': 'circumpunto','bigotimes': 'prducto tensorial','bigoplus': 'circumsuma', 'biguplus': 'uni&oacute;n con suma'}
 
-<<<<<<< HEAD
+
 BinaryOperators ={'+':'m&aacute;s', '-':'menos', '*':'por', '/':'dividido entre', 'pm':'m&aacute;s menos', 'mp':'menos m&aacute;s','setminus':'diferencia conjuntos', 'cdot':'punto','times':'producto', 'ast':'asterisco', 'star':'estrella', 'diamond':'operaci&oacute;n diamante','circ':'c&iacute;rculo','bullet':'c&iacute;rculo relleno','div':'dividido entre','cap': 'intersecci&oacute;n','cup':'uni&oacute;n','uplus':'uni&oacute;n con suma','sqcap':'intersecci&oacute;n rect&aacute;ngular','sqcup':'uni&oacute;n rect&aacute;ngular','triangleleft':'tri&aacute;angulo a la izquierda','triangleright':'tri&aacute;ngulo a la derecha','wr':'producto corona','bigcirc':'círculo grande','bigtriangleup':'tri&aacute;ngulo grande hacia arriba','bigtriangledown':'tri&aacute;ngulo grande hacia abajo','vee':'disyunci&oacute;n','wedge':'conjunci&oacute;n','oplus':'circunsuma','ominus':'circunresta','otimes':'circuncruz','oslash':'circunbarra','odot':'circunpunto', 'dagger': 'daga','ddagger': 'doble daga','amalg':'amalgamaci&oacute;n'}
 #Función para agregar al diccionario elementos
 key = ''
@@ -51,8 +51,7 @@ value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las d
 
 #-------------------------------------------------------------------------------
 #The grammar.
-=======
->>>>>>> ea12a7d2ffe770698211c0cd256b49b7ad60d5a3
+
 precedence = (	
 	('left','SUP','SUB', 'FRAC','ROOT'),
 )
