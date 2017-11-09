@@ -2,16 +2,12 @@
 #Parser
 
 import ply.yacc as yacc
-from MathDictionary import *
+from blindtex.converter.MathDictionary import *
+#from MathDictionary import *
 from PyLexer import tokens
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
-def addWord(key,value):
-    global Ordinary
-    if (Ordinary.get(key) is not None):
-        print('Key is alredy exist')
-    else:
-        Ordinary[str(key)] = value
+
 
 def formulate(label):
 	'''
