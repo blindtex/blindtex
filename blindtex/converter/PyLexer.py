@@ -2,7 +2,7 @@
 
 import ply.lex as lex
 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP')
 
 states = (('command', 'exclusive'),)
 
@@ -54,6 +54,15 @@ def t_command_ROOT(t):
 
 def t_command_LARGEOP(t):
 	r'sum|prod|coprod|int|oint|bigcap|bigcup|bigsqcup|bigvee|bigwedge|bigodot|bigotimes|bigoplus|biguplus'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_KBINOP(t):#Binary operators that can be made from the keyboard.
+	r'\+|-|\*|/'
+	return t
+	
+def t_command_BINOP(t):
+	r'pm|mp|setminus|cdot|times|ast|star|diamond|circ|bullet|div|cap|cup|uplus|sqcap|sqcup|triangleleft|triangleright|wr|bigcirc|bigtriangleup|bigtriangledown|vee|wedge|oplus|ominus|otimes|oslash|odot|dagger|ddagger|amalg'
 	t.lexer.begin('INITIAL')
 	return t
 

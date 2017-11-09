@@ -32,24 +32,30 @@ def formulate(label):
 
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
 Ordinary = {'alpha': 'alfa', 'beta': 'beta', 'gamma' : 'gamma', 'delta' : 'delta' ,'epsilon' : 'epsilon', 'varepsilon':'var epsilon' , 'zeta' : 'zeta', 'eta':'eta', 'theta' : 'teta','vartheta':'var teta', 'iota' : 'iota', 'kappa':'kappa', 'lambda':'lambda', 'mu':'mi', 'nu':'ni', 'xi':'xi', 'pi':'pi', 'varpi': 'var pi', 'rho':'ro', 'varrho': 'var ro','sigma':'sigma', 'varsigma': 'var sigma', 'tau':'tau', 'upsilon':'ipsilon', 'phi':'fi', 'varphi':'var fi', 'chi':'ji', 'psi':'psi', 'omega':'omega', 'Gamma': 'gama may&uacute;scula', 'Delta':'delta may&uacute;scula', 'Theta': 'teta may&uacute;scula', 'Lambda': 'lambda may&uacute;scula', 'Xi': 'xi may&uacute;scula', 'Pi': 'pi may&uacute;scula', 'Sigma': 'sigma may&uacute;scula', 'Upsilon': 'ipsilon may&uacute;scula', 'Phi': 'fi may&uacute;scula', 'Psi': 'psi may&uacute;scula', 'Omega': 'omega may&uacute;scula', 
-			'aleph': 'alef', 'hbar': 'hache barra', 'imath': 'i caligr&aacute;fica, sin punto', 'jmath': 'j caligr&aacute;fica, sin punto', 'ell' : 'ele caligr&aacute;fica','vp': 'p caligr&aacute;fica', 'Re': 'parte real','Im': 'parte imaginaria', 'partial': 'parcial', 'infty': 'infinito','prime': 'prima','emptyset':'conjunto vac&iacute;o','nabla':'nabla','surd':'ra&iacute;z','top': 'transpuesto', 'bot': 'perpendicular','|': 'paralelo, norma', 'angle': '&aacute;ngulo', 'triangle': 'tri&aacute;ngulo','backslash': 'barra invertida', 'forall':'para todo','exists':'existe','neg': 'negaci&oacute;n', 'flat': 'bemol', 'natural':'becuadro','sharp':'sostenido','clubsuit':'trebol','diamondsuit': 'diamante','heartsuit': 'corazón','spadsuit': 'picas'}
+			'aleph': 'alef', 'hbar': 'hache barra', 'imath': 'i caligr&aacute;fica, sin punto', 'jmath': 'j caligr&aacute;fica, sin punto', 'ell' : 'ele caligr&aacute;fica','vp': 'p caligr&aacute;fica', 'Re': 'parte real','Im': 'parte imaginaria', 'partial': 'parcial', 'infty': 'infinito','prime': 'prima','emptyset':'conjunto vac&iacute;o','nabla':'nabla','surd':'ra&iacute;z','top': 'transpuesto', 'bot': 'perpendicular','|': 'paralelo, norma', 'angle': '&aacute;ngulo', 'triangle': 'tri&aacute;ngulo','backslash': 'barra invertida', 'forall':'para todo','exists':'existe','neg': 'negaci&oacute;n', 'flat': 'bemol', 'natural':'becuadro','sharp':'sostenido','clubsuit':'trebol','diamondsuit': 'diamante','heartsuit': 'coraz&oacute;n','spadsuit': 'picas'}
 
 #TODO: Acordar los nombres de algunos operadores.
 LargeOperators ={'sum': 'suma','prod':'producto', 'coprod':'coproducto','int': 'integral', 'oint': 'integral de contorno', 'bigcap': 'intersecci&oacute;n','bigcup': 'uni&oacute;n', 'bigsqcup':'Uni&oacute;n rect&aacute;ngular', 'bigvee' :'disyunci&oacute;n','bigwedge' : 'conjunci&oacute;n', 'bigodot': 'circumpunto','bigotimes': 'prducto tensorial','bigoplus': 'circumsuma', 'biguplus': 'uni&oacute;n con suma'}
 
+BinaryOperators ={'+':'m&aacute;s', '-':'menos', '*':'por', '/':'dividido entre', 'pm':'m&aacute;s menos', 'mp':'menos m&aacute;s','setminus':'diferencia conjuntos', 'cdot':'punto','times':'producto', 'ast':'asterisco', 'star':'estrella', 'diamond':'operaci&oacute;n diamante','circ':'c&iacute;rculo','bullet':'c&iacute;rculo relleno','div':'dividido entre','cap': 'intersecci&oacute;n','cup':'uni&oacute;n','uplus':'uni&oacute;n con suma','sqcap':'intersecci&oacute;n rect&aacute;ngular','sqcup':'uni&oacute;n rect&aacute;ngular','triangleleft':'tri&aacute;angulo a la izquierda','triangleright':'tri&aacute;ngulo a la derecha','wr':'producto corona','bigcirc':'círculo grande','bigtriangleup':'tri&aacute;ngulo grande hacia arriba','bigtriangledown':'tri&aacute;ngulo grande hacia abajo','vee':'disyunci&oacute;n','wedge':'conjunci&oacute;n','oplus':'circunsuma','ominus':'circunresta','otimes':'circuncruz','oslash':'circunbarra','odot':'circunpunto', 'dagger': 'daga','ddagger': 'doble daga','amalg':'amalgamaci&oacute;n'}
 #Función para agregar al diccionario elementos
 key = ''
-value = ''#Estas variables de entrada se reconocerán posteriormente las dejo así por el momento, para probar con la GUI
-#addWord(key,value) Descomentar la línea cuando la función vaya a ser utulizada
+value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las dejo así por el momento, para probar con la GUI
+#addWord(key,value) Descomentar la línea cuando la funci&oacute;n vaya a ser utulizada
 
-
+#-------------------------------------------------------------------------------
+#The grammar.
 precedence = (	
 	('left','SUP','SUB', 'FRAC','ROOT'),
 )
 
 def p_start(p):
-	'''start : content'''
-	p[0] =  p[1] 
+	'''start : content
+				| start content'''
+	if(len(p) == 3):
+		p[0] =  p[1] +p[2]
+	else:
+		p[0] = p[1]
 
 def p_sblock(p):
 	'''sblock : BEGINSBLOCK content ENDSBLOCK'''
@@ -77,12 +83,13 @@ def p_chars(p):
 
 def p_ord(p):
 	'''ord : ORD '''
-	p[0] =  '<span aria-label=\"' + Ordinary[p[1]] + '\">&nbsp;</span>'
+	p[0] =  formulate(Ordinary[p[1]])
 
 
 def p_command(p):
 	'''command : frac
-				| root '''
+				| root
+				| binop '''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -110,7 +117,10 @@ def p_root(p):
 	else:
 		p[0] = formulate('ra&iacute;z') + p[2] + formulate('de') + p[3] + formulate('termina ra&iacute;z')
 
-
+def p_binOp(p):
+	'''binop : BINOP
+				| KBINOP '''
+	p[0] = formulate(BinaryOperators[p[1]])	
 
 
 def p_error(p):
@@ -120,7 +130,8 @@ def p_error(p):
 		parser.errok()
 	else:
 		print("Syntax error at EOF")
-	
+
+#-------------------------------------------------------------------------------	
 
 parser = yacc.yacc()
 
