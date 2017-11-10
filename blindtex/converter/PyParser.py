@@ -2,8 +2,8 @@
 #Parser
 
 import ply.yacc as yacc
-from blindtex.converter.MathDictionary import *
-#from MathDictionary import *
+#from blindtex.converter.MathDictionary import *
+from MathDictionary import *
 from PyLexer import tokens
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
@@ -104,9 +104,9 @@ def p_scripted(p):
 	'''scripted : content SUP content
 				| content SUB content '''
 	if(p[2] == '^'):
-		p[0] = p[1] + formulate('sup &iacute;ndice') + p[3] + formulate('fin sup &iacute;ndice')
+		p[0] = p[1] + formulate('s&uacute;per') + p[3] + formulate('fin sups&uacute;per')
 	else:
-		p[0] = p[1] + formulate('sub &iacute;ndice') + p[3] + formulate('fin sub &iacute;ndice')
+		p[0] = p[1] + formulate('sub') + p[3] + formulate('fin sub')
 	
 def p_frac(p):
 	'''frac : FRAC content content'''

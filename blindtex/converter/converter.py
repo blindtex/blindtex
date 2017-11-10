@@ -1,5 +1,5 @@
 from sys import argv
-from blindtex.converter.PyParser import convert
+from PyParser import convert
 
 print(convert(argv[1]))
 
