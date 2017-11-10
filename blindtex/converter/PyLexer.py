@@ -2,7 +2,7 @@
 
 import ply.lex as lex
 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT')
 
 states = (('command', 'exclusive'),)
 
@@ -63,6 +63,21 @@ def t_KBINOP(t):#Binary operators that can be made from the keyboard.
 	
 def t_command_BINOP(t):
 	r'pm|mp|setminus|cdot|times|ast|star|diamond|circ|bullet|div|cap|cup|uplus|sqcap|sqcup|triangleleft|triangleright|wr|bigcirc|bigtriangleup|bigtriangledown|vee|wedge|oplus|ominus|otimes|oslash|odot|dagger|ddagger|amalg'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_KBINREL(t):
+	r'[=<>]'	
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_BINREL(t):
+	r'leq|geq|equiv|prec|succ|sim|preceq|succeq|simeq|ll|gg|asymp|subset|supset|approx|subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|in|ni|propto|vdash|dashv|models|smile|mid|doteq|frown|parallel|perp|neq|notin'	
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_NOT(t):
+	r'not'
 	t.lexer.begin('INITIAL')
 	return t
 

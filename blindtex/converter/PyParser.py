@@ -40,6 +40,8 @@ LargeOperators ={'sum': 'suma','prod':'producto', 'coprod':'coproducto','int': '
 
 
 BinaryOperators ={'+':'m&aacute;s', '-':'menos', '*':'por', '/':'dividido entre', 'pm':'m&aacute;s menos', 'mp':'menos m&aacute;s','setminus':'diferencia conjuntos', 'cdot':'punto','times':'producto', 'ast':'asterisco', 'star':'estrella', 'diamond':'operaci&oacute;n diamante','circ':'c&iacute;rculo','bullet':'c&iacute;rculo relleno','div':'dividido entre','cap': 'intersecci&oacute;n','cup':'uni&oacute;n','uplus':'uni&oacute;n con suma','sqcap':'intersecci&oacute;n rect&aacute;ngular','sqcup':'uni&oacute;n rect&aacute;ngular','triangleleft':'tri&aacute;angulo a la izquierda','triangleright':'tri&aacute;ngulo a la derecha','wr':'producto corona','bigcirc':'círculo grande','bigtriangleup':'tri&aacute;ngulo grande hacia arriba','bigtriangledown':'tri&aacute;ngulo grande hacia abajo','vee':'disyunci&oacute;n','wedge':'conjunci&oacute;n','oplus':'circunsuma','ominus':'circunresta','otimes':'circuncruz','oslash':'circunbarra','odot':'circunpunto', 'dagger': 'daga','ddagger': 'doble daga','amalg':'amalgamaci&oacute;n'}
+
+BinaryRelations ={'=':'igual','<':'menor','>':'mayor','leq':'menor igual', 'geq':'mayor igual', 'equiv':'equivalente', 'prec':'precede', 'succ':'sucede', 'sim':'similar', 'preceq':'precede igual', 'succeq':'sucede igual', 'simeq':'similar igual', 'll':'mucho menor', 'gg':'mucho mayor', 'asymp':'asint&oacute;tico', 'subset':'subconjunto', 'supset':'superconjunto', 'approx':'aproximado', 'subseteq':'subconjunto igual', 'supseteq':'super conjunto igual', 'cong':'congruente', 'sqsubseteq':'subconjunto rect&aacute;ngular', 'sqsupseteq':'superconjunto rect&aacute;ngular', 'bowtie':'junta', 'in':'est&aacute; en', 'ni':'contiene a', 'propto':'proporcional', 'vdash':'deduce', 'dashv':'deducido', 'models':'modela','smile':'sonrisa', 'mid':'medio', 'doteq':'igual puntuado','frown':'fruncido', 'parallel':'paralelo','perp':'perpendicular', 'neq':'no igual', 'notin':'no est&aacute; en'}
 #Función para agregar al diccionario elementos
 key = ''
 value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las dejo así por el momento, para probar con la GUI
@@ -92,7 +94,9 @@ def p_ord(p):
 def p_command(p):
 	'''command : frac
 				| root
-				| binop '''
+				| binop
+				| binrel
+				| not'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -123,7 +127,16 @@ def p_root(p):
 def p_binOp(p):
 	'''binop : BINOP
 				| KBINOP '''
-	p[0] = formulate(BinaryOperators[p[1]])	
+	p[0] = formulate(BinaryOperators[p[1]])
+
+def p_binRel(p):
+	'''binrel : BINREL
+				| KBINREL'''
+	p[0] = formulate(BinaryRelations[p[1]])
+
+def p_not(p):
+	'''not : NOT '''
+	p[0]= formulate('no')	
 
 
 def p_error(p):
