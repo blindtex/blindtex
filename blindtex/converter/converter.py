@@ -1,5 +1,5 @@
 from sys import argv
-from PyParser import convert
+from parser import convert
 
 print(convert(argv[1]))
 

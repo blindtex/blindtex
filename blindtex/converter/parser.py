@@ -3,9 +3,9 @@
 
 import ply.yacc as yacc
 #from ply import yacc
-from blindtex.converter.dictionary import *
+from dictionary import *
 #from dictionary import *
-from blindtex.converter.lexer import tokens
+from lexer import tokens
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
 
