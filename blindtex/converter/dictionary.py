@@ -47,7 +47,7 @@ def showReading(key):
     str(key)
     global Ordinary
     if (Ordinary.get(key) is None):
-        print('Key does not alredy exist')
+        return('Key does not alredy exist')
     else:
         return(Ordinary.get(key)[0])
 #--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ def showReading(key):
 def showLaTex(key):
     str(key)
     if (Ordinary.get(key) is None):
-        print('Key does not alredy exist')
+        return('Key does not alredy exist')
     else:
         return(key)
 #--------------------------------------------------------------------------
