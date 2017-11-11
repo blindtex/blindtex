@@ -24,7 +24,7 @@ def formulate(label):
 		>>>print(formulate('integral'))
 		'<span aria-label=\"integral\">&nbsp;</span>'
 	'''
-	return '<span aria-label=\"'+ label + '\">&nbsp;</span>'
+	return '<span aria-label=\"'+ label + '\"></span>'
 #EndOfFunction
 #--------------------------------------------------------------------------
 
@@ -74,8 +74,12 @@ def p_content(p):
 	'''content : chars
 				| block
 				| scripted
-				| command'''
-	p[0]=p[1]
+				| command
+				| content content'''
+	if(len(p) == 3):
+		p[0] =p[1]+p[2]
+	else:
+		p[0]=p[1]
 
 def p_chars(p):
 	'''chars : CHAR
@@ -108,7 +112,7 @@ def p_scripted(p):
 	'''scripted : content SUP content
 				| content SUB content '''
 	if(p[2] == '^'):
-		p[0] = p[1] + formulate('s&uacute;per') + p[3] + formulate('fin sups&uacute;per')
+		p[0] = p[1] + formulate('s&uacute;per') + p[3] + formulate('fin s&uacute;per')
 	else:
 		p[0] = p[1] + formulate('sub') + p[3] + formulate('fin sub')
 	
