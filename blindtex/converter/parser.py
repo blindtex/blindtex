@@ -2,6 +2,7 @@
 #Parser
 
 import ply.yacc as yacc
+#from ply import yacc
 from blindtex.converter.dictionary import *
 #from dictionary import *
 from blindtex.converter.lexer import tokens

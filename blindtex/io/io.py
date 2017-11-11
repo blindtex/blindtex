@@ -123,8 +123,8 @@ def convertToHtml1(fileName):
 	
 	GenerateNoTeX(fileName)
 	#HU7
-	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName], shell= True)#Generates xml file.
-	subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"], shell= True)#Generates xhtml file.
+	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName])#, shell= True)#Generates xml file.
+	subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"])#, shell= True)#Generates xhtml file.
 
 	htmlString = openFile(noExtensionName+".xhtml")
 	#TODO Call the method to convert the formulas and generate a file with them.
@@ -153,7 +153,7 @@ def convertToHtml2(fileName, biblioName):
 
 	#HU7
 	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName], shell=True)
-	subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName], shell= True)
+	subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName])#, shell= True)
 	subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"], shell=True)
 
 	htmlString = openFile(noExtensionName+".xhtml")
