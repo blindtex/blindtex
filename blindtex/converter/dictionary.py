@@ -49,7 +49,7 @@ def showReading(key):
     if (Ordinary.get(key) is None):
         print('Key does not alredy exist')
     else:
-        return(Ordinary.get(key))
+        return(Ordinary.get(key)[0])
 #--------------------------------------------------------------------------
 
 def showLaTex(key):
