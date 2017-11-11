@@ -2,9 +2,9 @@
 #Parser
 
 import ply.yacc as yacc
-#from blindtex.converter.MathDictionary import *
-from MathDictionary import *
-from PyLexer import tokens
+from blindtex.converter.dictionary import *
+#from dictionary import *
+from blindtex.converter.lexer import tokens
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
 
@@ -33,7 +33,8 @@ def formulate(label):
 
 #TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
 
-
+#dictionary LargeOperators(LagrgeOperator) = new...
+#LargeOperators.Fun...
 
 #TODO: Acordar los nombres de algunos operadores.
 LargeOperators ={'sum': ['suma'],'prod':['producto'], 'coprod':['coproducto'],'int': ['integral'], 'oint': ['integral de contorno'], 'bigcap': ['intersecci&oacute;n'],'bigcup': ['uni&oacute;n'], 'bigsqcup':['Uni&oacute;n rect&aacute;ngular'], 'bigvee' :['disyunci&oacute;n'],'bigwedge' : ['conjunci&oacute;n'], 'bigodot': ['circumpunto'],'bigotimes': ['prducto tensorial'],'bigoplus': ['circumsuma'], 'biguplus': ['uni&oacute;n con suma']}

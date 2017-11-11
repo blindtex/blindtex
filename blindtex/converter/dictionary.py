@@ -18,7 +18,7 @@ Ordinary = {'alpha': ['alfa'], 'beta': ['beta'], 'gamma' : ['gamma'], 'delta' : 
 
 
 #TODO Agrega un comando con su respectiva lectura
-def addReading(key,value):
+def addReading(key,value):#Agregar el comando y la lectura
     str(value)
     str(key)
     global Ordinary
@@ -28,7 +28,7 @@ def addReading(key,value):
         Ordinary[str(key)] = value
 #--------------------------------------------------------------------------
 
-def changeReading(key,value):
+def changeReading(key,value):#Agregar una lectura nueva
     str(value)
     str(key)
     global Ordinary
@@ -43,7 +43,7 @@ def changeReading(key,value):
         Ordinary[str(key)] = value
 #--------------------------------------------------------------------------
 
-def showReading(key):
+def showReading(key):#Retorna la lectura configurada
     str(key)
     global Ordinary
     if (Ordinary.get(key) is None):
@@ -52,7 +52,7 @@ def showReading(key):
         return(Ordinary.get(key)[0])
 #--------------------------------------------------------------------------
 
-def showlatex(value):
+def showlatex(value):#Devuelve el comando al que está asociado el valor
     for key in Ordinary.keys():
         if value in Ordinary.get(key):
             return key
@@ -65,3 +65,6 @@ def isThere(key):
         return(True)
     else:
         return(False)
+
+#def showCommand():#listara los comandos del diccionario
+    #alpha : 'mm a' 'aaa'
