@@ -23,7 +23,7 @@ def addReading(key,value):
     str(key)
     global Ordinary
     if (Ordinary.get(key) is not None):
-        print('Key is alredy exist')
+        return('Key is alredy exist')
     else:
         Ordinary[str(key)] = value
 #--------------------------------------------------------------------------
@@ -52,12 +52,12 @@ def showReading(key):
         return(Ordinary.get(key)[0])
 #--------------------------------------------------------------------------
 
-def showLaTex(key):
-    str(key)
-    if (Ordinary.get(key) is None):
-        return('Key does not alredy exist')
-    else:
-        return(key)
+def showlatex(value):
+    for key in Ordinary.keys():
+        if value in Ordinary.get(key):
+            return key
+        else:
+            return 'The value does not key'
 #--------------------------------------------------------------------------
 
 def isThere(key):
