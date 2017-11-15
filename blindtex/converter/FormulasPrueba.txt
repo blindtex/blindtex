@@ -1,0 +1,17 @@
+a^b
+a^{b}
+a_b
+a_{b}
+a^b_c
+a^{b}_c
+a^{b}_{c}
+a^b_{c}
+a^{b}_{c}
+\\frac{a}{b}
+\\frac{a}b
+\\frac\ a{b}
+\\sqrt{a}
+\\sqrt\ a
+\\sqrt[b]{a}
+\\sqrt[b]a
+
