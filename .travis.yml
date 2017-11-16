@@ -3,8 +3,11 @@ python:
   - "2.7"
 before_install:
     - pip install pytest pytest-cov
-    - pip install coveralls
+    - pip install coveralls coverage
+install:
+    - pip install -r requirements.txt
 script:
-    - py.test # or py.test for Python version 3.5 and below
+    - coverage run -m py.test
+    - coverage report -m
 after_success:
     - coveralls

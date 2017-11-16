@@ -2,3 +2,4 @@
 omit =  
     */python?.?/*
     *__init__*
+    *test_*.py
