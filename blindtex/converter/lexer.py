@@ -2,7 +2,7 @@
 
 import ply.lex as lex
 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'BEGINSBLOCK','ENDSBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER')
 
 states = (('command', 'exclusive'),)
 
@@ -14,14 +14,6 @@ def t_BEGINBLOCK(t):
 
 def t_ENDBLOCK(t):
 	r'\}'
-	return t
-
-def t_BEGINSBLOCK(t):
-	r'\['
-	return t
-
-def t_ENDSBLOCK(t):
-	r'\]'
 	return t
 
 def t_SUP(t):
@@ -67,7 +59,7 @@ def t_KBINREL(t):
 	return t
 
 def t_command_BINREL(t):
-	r'leq|geq|equiv|prec|succ|sim|preceq|succeq|simeq|ll|gg|asymp|subset|supset|approx|subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|in|ni|propto|vdash|dashv|models|smile|mid|doteq|frown|parallel|perp|neq|notin'	
+	r'leq|geq|equiv|prec|succ|sim|preceq|succeq|simeq|ll|gg|asymp|subset|supset|approx|subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|in|ni|propto|vdash|dashv|models|smile|mid|doteq|frown|parallel|perp|neq|notin|ne'	
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -86,6 +78,25 @@ def t_command_LARGEOP(t):
 	t.lexer.begin('INITIAL')
 	return t
 
+def t_command_ARROW(t):
+	r'leftarrow|Leftarrow|rightarrow|Rightarrow|leftrightarrow|Leftrightarrow|mapsto|hookleftarrow|leftharpoonup|leftharpoondown|rightleftharpoons|longleftarrow|Longleftarrow|longrightarrow|Longrightarrow|longleftrightarrow|Longleftrightarrow|longmapsto|hookrightarrow|rightharpoonup|rightharpoondown|uparrow|Uparrow|downarrow|Downarrow|updownarrow|Updownarrow|nearrow|searrow|swarrow|nwarrow'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_leftRight(t):
+	r'(left)|(right)'
+	t.lexer.begin('INITIAL')
+	pass
+
+def t_KDELIMITER(t):
+	r'\(|\)|\[|\]'
+	return t
+
+def t_command_DELIMITER(t):
+	r'{|}|lfloor|rfloor|lceil|rceil|langle|rangle|backslash'
+	t.lexer.begin('INITIAL')
+	return t
+	
 def t_CHAR(t):
 	r'[A-Za-z0-9]+?'
 	return t

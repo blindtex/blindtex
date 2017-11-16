@@ -43,9 +43,13 @@ LargeOperators ={'sum': ['suma'],'prod':['producto'], 'coprod':['coproducto'],'i
 
 BinaryOperators ={'+':['m&aacute;s'], '-':['menos'], '*':['por'], '/':['dividido entre'], 'pm':['m&aacute;s menos'], 'mp':['menos m&aacute;s'],'setminus':['diferencia conjuntos'], 'cdot':['punto'],'times':['producto'], 'ast':['asterisco'], 'star':['estrella'], 'diamond':['operaci&oacute;n diamante'],'circ':['c&iacute;rculo'],'bullet':['c&iacute;rculo relleno'],'div':['dividido entre'],'cap': ['intersecci&oacute;n'],'cup':['uni&oacute;n'],'uplus':['uni&oacute;n con suma'],'sqcap':['intersecci&oacute;n rect&aacute;ngular'],'sqcup':['uni&oacute;n rect&aacute;ngular'],'triangleleft':['tri&aacute;angulo a la izquierda'],'triangleright':['tri&aacute;ngulo a la derecha'],'wr':['producto corona'],'bigcirc':['círculo grande'],'bigtriangleup':['tri&aacute;ngulo grande hacia arriba'],'bigtriangledown':['tri&aacute;ngulo grande hacia abajo'],'vee':['disyunci&oacute;n'],'wedge':['conjunci&oacute;n'],'oplus':['circunsuma'],'ominus':['circunresta'],'otimes':['circuncruz'],'oslash':['circunbarra'],'odot':['circunpunto'], 'dagger': ['daga'],'ddagger': ['doble daga'],'amalg':['amalgamaci&oacute;n']}
 
-BinaryRelations ={'=':['igual'],'<':['menor'],'>':['mayor'],'leq':['menor igual'], 'geq':['mayor igual'], 'equiv':['equivalente'], 'prec':['precede'], 'succ':['sucede'], 'sim':['similar'], 'preceq':['precede igual'], 'succeq':['sucede igual'], 'simeq':['similar igual'], 'll':['mucho menor'], 'gg':['mucho mayor'], 'asymp':['asint&oacute;tico'], 'subset':['subconjunto'], 'supset':['superconjunto'], 'approx':['aproximado'], 'subseteq':['subconjunto igual'], 'supseteq':['super conjunto igual'], 'cong':['congruente'], 'sqsubseteq':['subconjunto rect&aacute;ngular'], 'sqsupseteq':['superconjunto rect&aacute;ngular'], 'bowtie':['junta'], 'in':['est&aacute; en'], 'ni':['contiene a'], 'propto':['proporcional'], 'vdash':['deduce'], 'dashv':['deducido'], 'models':['modela'],'smile':['sonrisa'], 'mid':['medio'], 'doteq':['igual puntuado'],'frown':['fruncido'], 'parallel':['paralelo'],'perp':['perpendicular'], 'neq':['no igual'], 'notin':['no est&aacute; en']}
+BinaryRelations ={'=':['igual'],'<':['menor'],'>':['mayor'],'leq':['menor igual'], 'geq':['mayor igual'], 'equiv':['equivalente'], 'prec':['precede'], 'succ':['sucede'], 'sim':['similar'], 'preceq':['precede igual'], 'succeq':['sucede igual'], 'simeq':['similar igual'], 'll':['mucho menor'], 'gg':['mucho mayor'], 'asymp':['asint&oacute;tico'], 'subset':['subconjunto'], 'supset':['superconjunto'], 'approx':['aproximado'], 'subseteq':['subconjunto igual'], 'supseteq':['super conjunto igual'], 'cong':['congruente'], 'sqsubseteq':['subconjunto rect&aacute;ngular'], 'sqsupseteq':['superconjunto rect&aacute;ngular'], 'bowtie':['junta'], 'in':['est&aacute; en'], 'ni':['contiene a'], 'propto':['proporcional'], 'vdash':['deduce'], 'dashv':['deducido'], 'models':['modela'],'smile':['sonrisa'], 'mid':['medio'], 'doteq':['igual puntuado'],'frown':['fruncido'], 'parallel':['paralelo'],'perp':['perpendicular'], 'neq':['no igual'], 'notin':['no est&aacute; en'], 'ne':['no igual']}
 
 MathFunctions ={'arccos':['arco coseno'], 'arcsin':['arco seno'], 'arctan':['arco tangente'], 'arg':['argumento'], 'cos':['coseno'], 'cosh':['coseno hiperb&oacute;lico'], 'cot':['cotangente'], 'coth':['cotangente hiperb&oacute;lico'], 'csc':['cosecante'], 'deg':['grado'], 'det':['determinante'], 'dim':['dimenci&oacute;n'], 'exp':['exponencial'], 'gcd':['mayor com&uacute;n divisor'], 'hom':['homomorfismo'], 'inf':['infimo'], 'ker':['n&uacute;cleo'], 'lg':['logaritmo binario'], 'lim':['l&iacute;mite'], 'liminf':['lim inf'], 'limsup':['lim sup'], 'ln':['logaritmo natural'], 'log':['logaritmo'], 'max':['m&aacute;ximo'], 'min':['mi&iacute;nimo'], 'Pr':['probabilidad'], 'sec':['secante'], 'sin':['seno'], 'sinh':['seno hiperb&oacute;lico'], 'sup':['supremo'], 'tan':['tangente'], 'tanh':['tangente hiperb&oacute;lico']}
+
+Arrows ={'leftarrow':['flecha izquierda'], 'Leftarrow':['flecha izquierda doble'], 'rightarrow':['flecha derecha'], 'Rightarrow':['flecha derecha doble'], 'leftrightarrow':['flecha izquierda derecha'], 'Leftrightarrow':['flecha izquierda derecha doble'], 'mapsto':['env&iacute;a'], 'hookleftarrow':['flecha  garfio izquierda'], 'leftharpoonup':['arp&oacute;n arriba izquierdo'], 'leftharpoondown':['arp&oacute;n abajo izquierda'], 'rightleftharpoons':['arp&oacute;n izquierda derecha'], 'longleftarrow':['flecha izquierda larga'], 'Longleftarrow':['flecha izquierda doble larga'], 'longrightarrow':['flecha derecha larga'], 'Longrightarrow':['flecha derecha doble larga'], 'longleftrightarrow':['flecha izquierda derecha larga'], 'Longleftrightarrow':['flecha izquierda derecha doble larga'], 'longmapsto':['env&iacute;a largo'], 'hookrightarrow':['flecha garfio derecha'], 'rightharpoonup':['arp&oacute;n arriba derecho'], 'rightharpoondown':['arp&acute;n abajo derecho'], 'uparrow':['flecha arriba'], 'Uparrow':['flecha arriba doble'], 'downarrow':['flecha abajo'], 'Downarrow':['flecha abajo doble'], 'updownarrow':['flecha arriba abajo'], 'Updownarrow':['flecha arriba abajo doble'], 'nearrow':['flecha diagonal arriba derecha'], 'searrow':['flecha diagonal abajo derecha'], 'swarrow':['flecha diagonal abajo izquierda'], 'nwarrow':['flecha diagonal arriba izquierda']}
+
+Delimiters ={'(':['abre par&eacute;ntesis'],')':['cierra par&eacute;ntesis'],'[':['abre corchete'],']':['cierra corchete'], '{':['abre llave'],'}':['cierra llave'], 'lfloor':['abre piso'],'rfloor':['cierra piso'], 'lceil':['abre techo'], 'rceil':['cierra techo'],'langle':[' abre &aacute;ngulo'],'rangle':['cierra &aacute;ngulo'],'backslash':['barra invertida']}
 #Función para agregar al diccionario elementos
 key = ''
 value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las dejo así por el momento, para probar con la GUI
@@ -66,10 +70,6 @@ def p_start(p):
 		p[0] =  p[1] +p[2]
 	else:
 		p[0] = p[1]
-
-def p_sblock(p):
-	'''sblock : BEGINSBLOCK content ENDSBLOCK'''
-	p[0] = p[2]
 
 def p_block(p):
 	'''block : BEGINBLOCK content ENDBLOCK'''
@@ -111,7 +111,9 @@ def p_command(p):
 				| binrel
 				| not
 				| function
-				| larop'''
+				| larop
+				| arrow
+				| delimiter'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -153,7 +155,7 @@ def p_compScripted(p):
 	if(p[2] =='^'):
 		p[0] =  p[1] + formulate('s&uacute;per') + p[3] + formulate('fin s&uacute;per') + formulate('sub') + p[5] + formulate('fin sub')
 	else:
-		p[0] = p[1] + formulate('sub') + p[3] + formulate('fin sub') + ormulate('s&uacute;per') + p[5] + formulate('fin s&uacute;per')
+		p[0] = p[1] + formulate('sub') + p[3] + formulate('fin sub') + formulate('s&uacute;per') + p[5] + formulate('fin s&uacute;per')
 		
 def p_frac(p):
 	'''frac : FRAC char char
@@ -165,12 +167,12 @@ def p_frac(p):
 def p_root(p):
 	'''root : ROOT char
 			| ROOT block
-			| ROOT sblock char
-			| ROOT sblock block '''
+			| ROOT KDELIMITER content KDELIMITER char
+			| ROOT KDELIMITER content KDELIMITER block '''
 	if(len(p) == 3):
 		p[0] = formulate('ra&iacute;z cuadrada de') + p[2] + formulate('termina ra&iacute;z')
 	else:
-		p[0] = formulate('ra&iacute;z') + p[2] + formulate('de') + p[3] + formulate('termina ra&iacute;z')
+		p[0] = formulate('ra&iacute;z') + p[3] + formulate('de') + p[5] + formulate('termina ra&iacute;z')
 
 def p_binOp(p):
 	'''binop : BINOP
@@ -212,6 +214,15 @@ def p_largeOp(p):
 		p[0]= formulate(LargeOperators[p[1]][0] +' de')
 	elif(len(p)==4):
 		p[0] = formulate(LargeOperators[p[1]][0] +' sobre') + p[3] + formulate('de')
+
+def p_arrow(p):
+	'''arrow : ARROW'''
+	p[0] = formulate(Arrows[p[1]][0])
+
+def p_delimiter(p):
+	'''delimiter : DELIMITER
+					| KDELIMITER '''
+	p[0] = formulate(Delimiters[p[1]][0])
 
 def p_error(p):
 	if p:
