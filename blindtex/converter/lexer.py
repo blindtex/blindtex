@@ -29,6 +29,11 @@ def t_COMMAND(t):
 	t.lexer.begin('command')
 	pass
 
+def t_command_LARGEOP(t):
+	r'sum|prod|coprod|int|oint|bigcap|bigcup|bigsqcup|bigvee|bigwedge|bigodot|bigotimes|bigoplus|biguplus'
+	t.lexer.begin('INITIAL')
+	return t
+
 def t_command_ORD(t):
 	r'(alpha)|(beta)|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega|aleph|hbar|imath|jmath|ell|vp|Re|Im|partial|infty|prime|emptyset|nabla|surd|top|bot|\||angle|triangle|backslash|forall|exists|neg|flat|natural|sharp|clubsuit|diamondsuit|heartsuit|spadsuit|lnot'
 	t.lexer.begin('INITIAL')
@@ -70,11 +75,6 @@ def t_command_FUNC(t):
 
 def t_command_NOT(t):
 	r'not'
-	t.lexer.begin('INITIAL')
-	return t
-
-def t_command_LARGEOP(t):
-	r'sum|prod|coprod|int|oint|bigcap|bigcup|bigsqcup|bigvee|bigwedge|bigodot|bigotimes|bigoplus|biguplus'
 	t.lexer.begin('INITIAL')
 	return t
 

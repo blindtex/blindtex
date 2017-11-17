@@ -25,7 +25,7 @@ def formulate(label):
 		>>>print(formulate('integral'))
 		'<span aria-label=\"integral\">&nbsp;</span>'
 	'''
-	return '<span aria-label=\"'+ label + '\">&nbsp</span>'
+	return '<span aria-label=\"'+ label + '\">&nbsp;</span>'
 #EndOfFunction
 #--------------------------------------------------------------------------
 
