@@ -2,7 +2,7 @@ from blindtex.converter import parser
 import pytest
 
 def test_formulate():
-    assert '<span aria-label="alpha"></span>' == parser.formulate('alpha')
+    assert '<span aria-label="alpha">&nbsp;</span>' == parser.formulate('alpha')
 
 def test_convert():
 	assert 'a' + parser.formulate("s&uacute;per") + 'b' + parser.formulate('fin s&uacute;per') == parser.convert('a^b')
