@@ -1,6 +1,6 @@
 #-*-:coding:utf-8-*-
 from sys import argv
-from PyParser import *
+from parser import *
 
 result = '''<!DOCTYPE html>
 <html>

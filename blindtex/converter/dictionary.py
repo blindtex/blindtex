@@ -11,7 +11,7 @@ Ordinary = {'alpha': ['alfa'], 'beta': ['beta'], 'gamma' : ['gamma'], 'delta' : 
             'Im': ['parte imaginaria'], 'partial': ['parcial'], 'infty': ['infinito'],'prime': ['prima'],'emptyset':['conjunto vac&iacute;o'],'nabla':['nabla'],
             'surd':['ra&iacute;z'],'top': ['transpuesto'], 'bot': ['perpendicular'],'|': ['paralelo, norma'], 'angle': ['&aacute;ngulo'],
             'triangle': ['tri&aacute;ngulo'],'backslash': ['barra invertida'], 'forall':['para todo'],'exists':['existe'],'neg': ['negaci&oacute;n'],
-            'flat': ['bemol'], 'natural':['becuadro'],'sharp':['sostenido'],'clubsuit':['trebol'],'diamondsuit': ['diamante'],'heartsuit': ['corazón'],'spadsuit': ['picas']}
+            'flat': ['bemol'], 'natural':['becuadro'],'sharp':['sostenido'],'clubsuit':['trebol'],'diamondsuit': ['diamante'],'heartsuit': ['corazón'],'spadsuit': ['picas'], 'lnot':['negaci&oacute;n']}
 
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
