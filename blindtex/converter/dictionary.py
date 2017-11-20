@@ -41,11 +41,16 @@ class dictionary:
     #--------------------------------------------------------------------------
 
     def showlatex(self,value):#Devuelve el comando al que está asociado el valor
-        for key in self.dict.keys():
-            if value in self.dict.get(key):
-                return key
-            else:
-                return 'The value does not key'
+		 theValueExists = False
+		 for item in self.dict.items():
+		 	if value in item[1]:
+		 		key = item[0]
+		 		theValueExists = True
+				print 'TheValueExists'
+		 if(theValueExists):
+		 	return key
+		 else:
+		 	return 'The value does not key'
     #--------------------------------------------------------------------------
 
     def isThere(self,key):#--->revisar
