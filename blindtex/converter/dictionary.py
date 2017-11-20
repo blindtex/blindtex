@@ -54,5 +54,5 @@ class dictionary:
         else:
             return(False)
 
-    #def showCommand():#listara los comandos del diccionario
-        #alpha : 'mm a' 'aaa'
+            #def showCommand():#listara los comandos del diccionario
+            #alpha : 'mm a' 'aaa'

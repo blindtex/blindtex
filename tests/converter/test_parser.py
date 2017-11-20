@@ -1,3 +1,4 @@
+'#--:coding:utf-8--'
 from blindtex.converter import parser
 import pytest
 

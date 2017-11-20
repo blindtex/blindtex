@@ -20,6 +20,6 @@ dOrdinary = dictionary(Ordinary)
 def test_showReading():
     assert 'alfa' == dOrdinary.showReading('alpha',0)
 def test_showlatex():
-    assert 'alpha'  == dOrdinary.showlatex('alfa',0)
-def test_showlatex():
+    assert 'alpha' == dOrdinary.showlatex('alfa')
+def test_showlatexFail():
     assert 'The value does not key'  == dOrdinary.showlatex('alffa')
