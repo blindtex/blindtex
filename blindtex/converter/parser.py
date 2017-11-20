@@ -3,8 +3,9 @@
 
 import ply.yacc as yacc
 #from ply import yacc
+#from blindtex.converter.dictionary import *
 from dictionary import *
-#from dictionary import *
+#from blindtex.converter.lexer import *
 from lexer import tokens
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
@@ -74,7 +75,17 @@ Dots ={'dots':['puntos'],'ldots':['puntos bajos'],'cdots':['puntos centrados'],'
 key = ''
 value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las dejo así por el momento, para probar con la GUI
 #addWord(key,value) Descomentar la línea cuando la funci&oacute;n vaya a ser utulizada
-
+#TODO: Lista de objetos diccionario:
+dOrdinary = dictionary(Ordinary)
+dLargeOperators = dictionary(LargeOperators)
+dBinaryOperators = dictionary(BinaryOperators)
+dBinaryRelations = dictionary(BinaryRelations)
+dMathFunctions = dictionary(MathFunctions)
+dArrows = dictionary(Arrows)
+dDelimiters = dictionary(Delimiters)
+dAccents = dictionary(Accents)
+dStyles = dictionary(Styles)
+dDots = dictionary(Dots)
 #-------------------------------------------------------------------------------
 #The grammar.
 
@@ -121,7 +132,7 @@ def p_char(p):
 
 def p_ord(p):
 	'''ord : ORD '''
-	p[0] =  formulate(Ordinary[p[1]][0])#--->Cambios importantes en las referencias
+	p[0] =  formulate(dOrdinary.showReading(p[1]),0)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
 
 
 def p_command(p):
@@ -202,12 +213,12 @@ def p_root(p):
 def p_binOp(p):
 	'''binop : BINOP
 				| KBINOP '''
-	p[0] = formulate(BinaryOperators[p[1]][0])
+	p[0] = formulate(dBinaryOperators.showReading(p[1],0))
 
 def p_binRel(p):
 	'''binrel : BINREL
 				| KBINREL'''
-	p[0] = formulate(BinaryRelations[p[1]][0])
+	p[0] = formulate(dBinaryRelations.showReading(p[1],0))
 
 def p_not(p):
 	'''not : NOT '''
@@ -215,7 +226,7 @@ def p_not(p):
 
 def p_function(p):
 	'''function : FUNC '''
-	p[0] = formulate(MathFunctions[p[1]][0])
+	p[0] = formulate(dMathFunctions.showReading(p[1],0))
 
 def p_comLargeOp(p):
 	'''larop : LARGEOP SUB char SUP char
@@ -227,38 +238,38 @@ def p_comLargeOp(p):
 				| LARGEOP SUP block SUB char
 				| LARGEOP SUP block SUB block'''
 	if(p[2] =='_'):
-		p[0] = formulate(LargeOperators[p[1]][0] + ' desde') + p[3] + formulate('hasta') + p[5] + formulate('de')
+		p[0] = formulate(dLargeOperators.showlatex(p[1],0) + ' desde') + p[3] + formulate('hasta') + p[5] + formulate('de')
 	else:
-		p[0] = formulate(LargeOperators[p[1]][0] + ' desde') + p[5] + formulate('hasta') + p[3] + formulate('de')
+		p[0] = formulate(dLargeOperators.showlatex(p[1],0) + ' desde') + p[5] + formulate('hasta') + p[3] + formulate('de')
 
 def p_largeOp(p):
 	'''larop : LARGEOP
 				| LARGEOP SUB char
 				| LARGEOP SUB block'''
 	if(len(p)==2):
-		p[0]= formulate(LargeOperators[p[1]][0] +' de')
+		p[0]= formulate(dLargeOperators.showlatex(p[1],0) +' de')
 	elif(len(p)==4):
-		p[0] = formulate(LargeOperators[p[1]][0] +' sobre') + p[3] + formulate('de')
+		p[0] = formulate(dLargeOperators.showlatex(p[1],0) +' sobre') + p[3] + formulate('de')
 
 def p_arrow(p):
 	'''arrow : ARROW'''
-	p[0] = formulate(Arrows[p[1]][0])
+	p[0] = formulate(dArrows.showReading(p[1],0))
 
 def p_delimiter(p):
 	'''delimiter : DELIMITER
 					| KDELIMITER '''
-	p[0] = formulate(Delimiters[p[1]][0])
+	p[0] = formulate(dDelimiters.showReading(p[1],0))
 
 def p_simpleAccent(p):
 	'''accent : ACCENT char'''
-	p[0] = p[2] + formulate(Accents[p[1]][0])
+	p[0] = p[2] + formulate(dAccents.showReading(p[1],0))
 
 def p_complexAccent(p):
 	'''accent : ACCENT block'''
 	if(len(p[2]) > 3):
-		p[0] = formulate(Accents[p[1]][0]) + p[2] + formulate('fin ' + Accents[p[1]][0])
+		p[0] = formulate(dAccents.showReading(p[1],0)) + p[2] + formulate('fin ' + dAccents.showReading(p[1],0))
 	else:
-		p[0] = p[2] + formulate(Accents[p[1]][0])
+		p[0] = p[2] + formulate(dAccents.showReading(p[1],0))
 
 def p_style(p):
 	'''style : STYLE char
@@ -267,7 +278,7 @@ def p_style(p):
 
 def p_dots(p):
 	'''dots : DOTS '''
-	p[0] = formulate(Dots[p[1]][0])
+	p[0] = formulate(dDots.showReading(p[1],0))
 
 def p_lim(p):
 	'''lim : LIM

@@ -22,5 +22,6 @@ def test_convert():
 	assert parser.formulate('ra&iacute;z cuadrada de') + 'a' + parser.formulate('termina ra&iacute;z') == parser.convert('\\sqrt{a}')
 	assert parser.formulate('ra&iacute;z') + 'b' + parser.formulate('de') + 'a' + parser.formulate('termina ra&iacute;z') == parser.convert('\\sqrt[b]{a}')
 	assert parser.formulate('ra&iacute;z') + 'b' + parser.formulate('de') + 'a' + parser.formulate('termina ra&iacute;z') == parser.convert('\\sqrt[b]a')
+	#assert parser.formulate('alfa') == parser.convert('alpha');
 
 
