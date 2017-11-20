@@ -49,8 +49,23 @@ def t_command_ROOT(t):
 	t.lexer.begin('INITIAL')
 	return t
 
+def t_command_ARROW(t):
+	r'leftarrow|Leftarrow|rightarrow|Rightarrow|leftrightarrow|Leftrightarrow|mapsto|hookleftarrow|leftharpoonup|leftharpoondown|rightleftharpoons|longleftarrow|Longleftarrow|longrightarrow|Longrightarrow|longleftrightarrow|Longleftrightarrow|longmapsto|hookrightarrow|rightharpoonup|rightharpoondown|uparrow|Uparrow|downarrow|Downarrow|updownarrow|Updownarrow|nearrow|searrow|swarrow|nwarrow|to|gets|iff'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_leftRight(t):
+	r'(left)|(right)'
+	t.lexer.begin('INITIAL')
+	pass
+
 def t_KBINOP(t):#Binary operators that can be made from the keyboard.
 	r'\+|-|\*|/'
+	return t
+
+def t_command_DOTS(t):
+	r'dots|ldots|cdots|vdots|ddots'
+	t.lexer.begin('INITIAL')
 	return t
 	
 def t_command_BINOP(t):
@@ -64,7 +79,7 @@ def t_KBINREL(t):
 	return t
 
 def t_command_BINREL(t):
-	r'leq|geq|equiv|prec|succ|sim|preceq|succeq|simeq|ll|gg|asymp|subset|supset|approx|subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|in|ni|propto|vdash|dashv|models|smile|mid|doteq|frown|parallel|perp|neq|notin|ne|le|ge|owns'	
+	r'leq|geq|equiv|prec|succ|sim|preceq|succeq|simeq|ll|gg|asymp|subset|supset|approx|subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|in|ni|propto|vdash|dashv|models|smile|mid|doteq|frown|parallel|perp|neq|notin|ne|(le)|ge|owns'	
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -77,16 +92,6 @@ def t_command_NOT(t):
 	r'not'
 	t.lexer.begin('INITIAL')
 	return t
-
-def t_command_ARROW(t):
-	r'leftarrow|Leftarrow|rightarrow|Rightarrow|leftrightarrow|Leftrightarrow|mapsto|hookleftarrow|leftharpoonup|leftharpoondown|rightleftharpoons|longleftarrow|Longleftarrow|longrightarrow|Longrightarrow|longleftrightarrow|Longleftrightarrow|longmapsto|hookrightarrow|rightharpoonup|rightharpoondown|uparrow|Uparrow|downarrow|Downarrow|updownarrow|Updownarrow|nearrow|searrow|swarrow|nwarrow|to|gets|iff'
-	t.lexer.begin('INITIAL')
-	return t
-
-def t_command_leftRight(t):
-	r'(left)|(right)'
-	t.lexer.begin('INITIAL')
-	pass
 
 def t_KDELIMITER(t):
 	r'\(|\)|\[|\]'
@@ -107,11 +112,6 @@ def t_command_STYLE(t):
 	t.lexer.begin('INITIAL')
 	return t
 
-def t_command_DOTS(t):
-	r'dots|ldots|cdots|vdots|ddots'
-	t.lexer.begin('INITIAL')
-	return t
-
 def t_command_LIM(t):
 	r'lim'
 	t.lexer.begin('INITIAL')
@@ -126,7 +126,7 @@ def t_command_UNKNOWN(t):
 	t.lexer.begin('INITIAL')
 	return t
 
-t_ignore_SPACE=r'[ \t]+'
+t_ignore_SPACE=r'[ \t\n]+'
 
 
 def t_error(t):

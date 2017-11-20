@@ -132,7 +132,7 @@ def p_char(p):
 
 def p_ord(p):
 	'''ord : ORD '''
-	p[0] =  formulate(dOrdinary.showReading(p[1]),0)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
+	p[0] =  formulate(dOrdinary.showReading(p[1],0))#--->Los operadores son la llave y el valor por defecto que esté en la lectura
 
 
 def p_command(p):
@@ -238,18 +238,18 @@ def p_comLargeOp(p):
 				| LARGEOP SUP block SUB char
 				| LARGEOP SUP block SUB block'''
 	if(p[2] =='_'):
-		p[0] = formulate(dLargeOperators.showlatex(p[1],0) + ' desde') + p[3] + formulate('hasta') + p[5] + formulate('de')
+		p[0] = formulate(dLargeOperators.showReading(p[1],0) + ' desde') + p[3] + formulate('hasta') + p[5] + formulate('de')
 	else:
-		p[0] = formulate(dLargeOperators.showlatex(p[1],0) + ' desde') + p[5] + formulate('hasta') + p[3] + formulate('de')
+		p[0] = formulate(dLargeOperators.showReading(p[1],0) + ' desde') + p[5] + formulate('hasta') + p[3] + formulate('de')
 
 def p_largeOp(p):
 	'''larop : LARGEOP
 				| LARGEOP SUB char
 				| LARGEOP SUB block'''
 	if(len(p)==2):
-		p[0]= formulate(dLargeOperators.showlatex(p[1],0) +' de')
+		p[0]= formulate(dLargeOperators.showReading(p[1],0) +' de')
 	elif(len(p)==4):
-		p[0] = formulate(dLargeOperators.showlatex(p[1],0) +' sobre') + p[3] + formulate('de')
+		p[0] = formulate(dLargeOperators.showReading(p[1],0) +' sobre') + p[3] + formulate('de')
 
 def p_arrow(p):
 	'''arrow : ARROW'''
@@ -274,7 +274,7 @@ def p_complexAccent(p):
 def p_style(p):
 	'''style : STYLE char
 				| STYLE block '''
-	p[0] = formulate(Styles[p[1]][0]) + p[2] + formulate('fin ' + Styles[p[1]][0])
+	p[0] = formulate(dStyles.showReading(p[1],0)) + p[2] + formulate('fin ' + dStyles.showReading(p[1],0))
 
 def p_dots(p):
 	'''dots : DOTS '''
