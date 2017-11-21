@@ -1,12 +1,11 @@
 #Lexer of LaTeX math content
 
 import ply.lex as lex
+import re
 
 tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER', 'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN')
 
 states = (('command', 'exclusive'),)
-
-
 
 def t_BEGINBLOCK(t):
 	r'\{'
@@ -135,11 +134,11 @@ def t_error(t):
 
 
 lexer= lex.lex()
-#while True:
-#	s = raw_input()
-#	lexer.input(s)
-#	while True:
-#		tok = lexer.token()
-#		if not tok:
-#			break
-#		print tok
+while True:
+	s = raw_input()
+	lexer.input(s)
+	while True:
+		tok = lexer.token()
+		if not tok:
+			break
+		print tok

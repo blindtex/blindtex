@@ -98,7 +98,7 @@ def p_start(p):
 	'''start : content
 				| start content'''
 	if(len(p) == 3):
-		p[0] =  p[1] +p[2]
+		p[0] =  p[1] + p[2]
 	else:
 		p[0] = p[1]
 
@@ -107,28 +107,21 @@ def p_block(p):
 	p[0] = p[2]
 
 def p_content(p):
-	'''content : chars
+	'''content : char
 				| block
 				| scripted
 				| command
+				| ord
 				| content content'''
-	if(len(p) == 3):
-		p[0] =p[1]+p[2]
-	else:
-		p[0]=p[1]
-
-def p_chars(p):
-	'''chars : char
-				| char chars '''
 	if(len(p) == 3):
 		p[0] = p[1] + p[2]
 	else:
 		p[0] = p[1]
+	
 
 def p_char(p):
-	'''char : CHAR
-			| ord '''
-	p[0] = p[1]
+	'''char : CHAR'''
+	p[0] = p[1] + ' '
 
 def p_ord(p):
 	'''ord : ORD '''
