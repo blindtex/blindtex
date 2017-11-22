@@ -74,4 +74,4 @@ def test_convert():
 #Function to test miscellaneous formulas, some previously have presented problems.
 def test_miscConvert():
 	assert 'a b <span aria-label="s&uacute;per">&nbsp;</span>2 <span aria-label="fin s&uacute;per">&nbsp;</span>' == parser.convert('ab^2')
-	assert '<span aria-label="parcial">&nbsp;</span>t <span aria-label="s&uacute;per">&nbsp;</span>2 <span aria-label="fin s&uacute;per">&nbsp;</span>' == parser.convert('\\partial t^2')
+	assert '<span aria-label="parcial">&nbsp;</span> t <span aria-label="s&uacute;per">&nbsp;</span>2 <span aria-label="fin s&uacute;per">&nbsp;</span>' == parser.convert('\\partial t^2')

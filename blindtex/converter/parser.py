@@ -111,7 +111,6 @@ def p_content(p):
 				| block
 				| scripted
 				| command
-				| ord
 				| content content'''
 	if(len(p) == 3):
 		p[0] = p[1] + p[2]
@@ -120,7 +119,8 @@ def p_content(p):
 	
 
 def p_char(p):
-	'''char : CHAR'''
+	'''char : CHAR
+			| ord'''
 	p[0] = p[1] + ' '
 
 def p_ord(p):
