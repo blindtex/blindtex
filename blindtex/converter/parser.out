@@ -10,9 +10,9 @@ Rule 4     content -> char
 Rule 5     content -> block
 Rule 6     content -> scripted
 Rule 7     content -> command
-Rule 8     content -> ord
-Rule 9     content -> content content
-Rule 10    char -> CHAR
+Rule 8     content -> content content
+Rule 9     char -> CHAR
+Rule 10    char -> ord
 Rule 11    ord -> ORD
 Rule 12    command -> frac
 Rule 13    command -> root
@@ -97,7 +97,7 @@ ARROW                : 75
 BEGINBLOCK           : 3
 BINOP                : 58
 BINREL               : 60
-CHAR                 : 10
+CHAR                 : 9
 DELIMITER            : 76
 DOTS                 : 82
 ENDBLOCK             : 3
@@ -126,7 +126,7 @@ binrel               : 15
 block                : 5 27 28 29 29 31 32 33 33 35 36 37 37 38 39 39 40 40 41 41 41 43 44 45 45 46 47 47 48 48 49 49 49 51 52 53 53 55 57 65 66 67 67 69 70 71 71 74 79 81 85
 char                 : 4 26 26 27 28 30 30 31 32 34 34 34 35 35 36 36 37 38 38 39 40 42 42 42 43 43 44 44 45 46 46 47 48 50 50 51 52 54 56 64 64 65 66 68 68 69 70 73 78 80 84
 command              : 7
-content              : 1 2 3 9 9 56 57
+content              : 1 2 3 8 8 56 57
 delimiter            : 20
 dots                 : 23
 frac                 : 12
@@ -134,7 +134,7 @@ function             : 17
 larop                : 18
 lim                  : 24
 not                  : 16
-ord                  : 8
+ord                  : 10
 root                 : 13
 scripted             : 6
 start                : 2 0
@@ -152,9 +152,9 @@ state 0
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -308,13 +308,17 @@ state 2
 
     (78) accent -> ACCENT . char
     (79) accent -> ACCENT . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 42
+    ord                            shift and go to state 29
     block                          shift and go to state 43
 
 state 3
@@ -449,13 +453,17 @@ state 7
     (51) frac -> FRAC . char block
     (52) frac -> FRAC . block char
     (53) frac -> FRAC . block block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 46
+    ord                            shift and go to state 29
     block                          shift and go to state 47
 
 state 8
@@ -465,9 +473,9 @@ state 8
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -743,14 +751,14 @@ state 13
 state 14
 
     (1) start -> content .
-    (9) content -> content . content
+    (8) content -> content . content
     (4) content -> . char
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -921,9 +929,9 @@ state 15
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -1081,14 +1089,18 @@ state 17
     (55) root -> ROOT . block
     (56) root -> ROOT . KDELIMITER content KDELIMITER char
     (57) root -> ROOT . KDELIMITER content KDELIMITER block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     KDELIMITER      shift and go to state 54
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 55
+    ord                            shift and go to state 29
     block                          shift and go to state 56
 
 state 18
@@ -1151,13 +1163,17 @@ state 20
 
     (80) style -> STYLE . char
     (81) style -> STYLE . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 57
+    ord                            shift and go to state 29
     block                          shift and go to state 58
 
 state 21
@@ -1386,30 +1402,32 @@ state 28
 
 state 29
 
-    (8) content -> ord .
+    (10) char -> ord .
 
-    CHAR            reduce using rule 8 (content -> ord .)
-    BEGINBLOCK      reduce using rule 8 (content -> ord .)
-    ORD             reduce using rule 8 (content -> ord .)
-    FRAC            reduce using rule 8 (content -> ord .)
-    ROOT            reduce using rule 8 (content -> ord .)
-    BINOP           reduce using rule 8 (content -> ord .)
-    KBINOP          reduce using rule 8 (content -> ord .)
-    BINREL          reduce using rule 8 (content -> ord .)
-    KBINREL         reduce using rule 8 (content -> ord .)
-    NOT             reduce using rule 8 (content -> ord .)
-    FUNC            reduce using rule 8 (content -> ord .)
-    LARGEOP         reduce using rule 8 (content -> ord .)
-    ARROW           reduce using rule 8 (content -> ord .)
-    DELIMITER       reduce using rule 8 (content -> ord .)
-    KDELIMITER      reduce using rule 8 (content -> ord .)
-    ACCENT          reduce using rule 8 (content -> ord .)
-    STYLE           reduce using rule 8 (content -> ord .)
-    DOTS            reduce using rule 8 (content -> ord .)
-    LIM             reduce using rule 8 (content -> ord .)
-    UNKNOWN         reduce using rule 8 (content -> ord .)
-    $end            reduce using rule 8 (content -> ord .)
-    ENDBLOCK        reduce using rule 8 (content -> ord .)
+    SUP             reduce using rule 10 (char -> ord .)
+    SUB             reduce using rule 10 (char -> ord .)
+    CHAR            reduce using rule 10 (char -> ord .)
+    BEGINBLOCK      reduce using rule 10 (char -> ord .)
+    ORD             reduce using rule 10 (char -> ord .)
+    FRAC            reduce using rule 10 (char -> ord .)
+    ROOT            reduce using rule 10 (char -> ord .)
+    BINOP           reduce using rule 10 (char -> ord .)
+    KBINOP          reduce using rule 10 (char -> ord .)
+    BINREL          reduce using rule 10 (char -> ord .)
+    KBINREL         reduce using rule 10 (char -> ord .)
+    NOT             reduce using rule 10 (char -> ord .)
+    FUNC            reduce using rule 10 (char -> ord .)
+    LARGEOP         reduce using rule 10 (char -> ord .)
+    ARROW           reduce using rule 10 (char -> ord .)
+    DELIMITER       reduce using rule 10 (char -> ord .)
+    KDELIMITER      reduce using rule 10 (char -> ord .)
+    ACCENT          reduce using rule 10 (char -> ord .)
+    STYLE           reduce using rule 10 (char -> ord .)
+    DOTS            reduce using rule 10 (char -> ord .)
+    LIM             reduce using rule 10 (char -> ord .)
+    UNKNOWN         reduce using rule 10 (char -> ord .)
+    $end            reduce using rule 10 (char -> ord .)
+    ENDBLOCK        reduce using rule 10 (char -> ord .)
 
 
 state 30
@@ -1442,32 +1460,32 @@ state 30
 
 state 31
 
-    (10) char -> CHAR .
+    (9) char -> CHAR .
 
-    SUP             reduce using rule 10 (char -> CHAR .)
-    SUB             reduce using rule 10 (char -> CHAR .)
-    CHAR            reduce using rule 10 (char -> CHAR .)
-    BEGINBLOCK      reduce using rule 10 (char -> CHAR .)
-    ORD             reduce using rule 10 (char -> CHAR .)
-    FRAC            reduce using rule 10 (char -> CHAR .)
-    ROOT            reduce using rule 10 (char -> CHAR .)
-    BINOP           reduce using rule 10 (char -> CHAR .)
-    KBINOP          reduce using rule 10 (char -> CHAR .)
-    BINREL          reduce using rule 10 (char -> CHAR .)
-    KBINREL         reduce using rule 10 (char -> CHAR .)
-    NOT             reduce using rule 10 (char -> CHAR .)
-    FUNC            reduce using rule 10 (char -> CHAR .)
-    LARGEOP         reduce using rule 10 (char -> CHAR .)
-    ARROW           reduce using rule 10 (char -> CHAR .)
-    DELIMITER       reduce using rule 10 (char -> CHAR .)
-    KDELIMITER      reduce using rule 10 (char -> CHAR .)
-    ACCENT          reduce using rule 10 (char -> CHAR .)
-    STYLE           reduce using rule 10 (char -> CHAR .)
-    DOTS            reduce using rule 10 (char -> CHAR .)
-    LIM             reduce using rule 10 (char -> CHAR .)
-    UNKNOWN         reduce using rule 10 (char -> CHAR .)
-    $end            reduce using rule 10 (char -> CHAR .)
-    ENDBLOCK        reduce using rule 10 (char -> CHAR .)
+    SUP             reduce using rule 9 (char -> CHAR .)
+    SUB             reduce using rule 9 (char -> CHAR .)
+    CHAR            reduce using rule 9 (char -> CHAR .)
+    BEGINBLOCK      reduce using rule 9 (char -> CHAR .)
+    ORD             reduce using rule 9 (char -> CHAR .)
+    FRAC            reduce using rule 9 (char -> CHAR .)
+    ROOT            reduce using rule 9 (char -> CHAR .)
+    BINOP           reduce using rule 9 (char -> CHAR .)
+    KBINOP          reduce using rule 9 (char -> CHAR .)
+    BINREL          reduce using rule 9 (char -> CHAR .)
+    KBINREL         reduce using rule 9 (char -> CHAR .)
+    NOT             reduce using rule 9 (char -> CHAR .)
+    FUNC            reduce using rule 9 (char -> CHAR .)
+    LARGEOP         reduce using rule 9 (char -> CHAR .)
+    ARROW           reduce using rule 9 (char -> CHAR .)
+    DELIMITER       reduce using rule 9 (char -> CHAR .)
+    KDELIMITER      reduce using rule 9 (char -> CHAR .)
+    ACCENT          reduce using rule 9 (char -> CHAR .)
+    STYLE           reduce using rule 9 (char -> CHAR .)
+    DOTS            reduce using rule 9 (char -> CHAR .)
+    LIM             reduce using rule 9 (char -> CHAR .)
+    UNKNOWN         reduce using rule 9 (char -> CHAR .)
+    $end            reduce using rule 9 (char -> CHAR .)
+    ENDBLOCK        reduce using rule 9 (char -> CHAR .)
 
 
 state 32
@@ -1712,6 +1730,8 @@ state 40
 
     (11) ord -> ORD .
 
+    SUP             reduce using rule 11 (ord -> ORD .)
+    SUB             reduce using rule 11 (ord -> ORD .)
     CHAR            reduce using rule 11 (ord -> ORD .)
     BEGINBLOCK      reduce using rule 11 (ord -> ORD .)
     ORD             reduce using rule 11 (ord -> ORD .)
@@ -1828,13 +1848,17 @@ state 44
     (43) scripted -> char SUB . char SUP block
     (44) scripted -> char SUB . block SUP char
     (45) scripted -> char SUB . block SUP block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 61
+    ord                            shift and go to state 29
     block                          shift and go to state 62
 
 state 45
@@ -1845,52 +1869,64 @@ state 45
     (35) scripted -> char SUP . char SUB block
     (36) scripted -> char SUP . block SUB char
     (37) scripted -> char SUP . block SUB block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 63
+    ord                            shift and go to state 29
     block                          shift and go to state 64
 
 state 46
 
     (50) frac -> FRAC char . char
     (51) frac -> FRAC char . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 65
+    ord                            shift and go to state 29
     block                          shift and go to state 66
 
 state 47
 
     (52) frac -> FRAC block . char
     (53) frac -> FRAC block . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 67
+    ord                            shift and go to state 29
     block                          shift and go to state 68
 
 state 48
 
     (3) block -> BEGINBLOCK content . ENDBLOCK
-    (9) content -> content . content
+    (8) content -> content . content
     (4) content -> . char
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -2018,13 +2054,17 @@ state 49
     (69) larop -> LARGEOP SUP . char SUB block
     (70) larop -> LARGEOP SUP . block SUB char
     (71) larop -> LARGEOP SUP . block SUB block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 70
+    ord                            shift and go to state 29
     block                          shift and go to state 71
 
 state 50
@@ -2035,26 +2075,30 @@ state 50
     (67) larop -> LARGEOP SUB . block SUP block
     (73) larop -> LARGEOP SUB . char
     (74) larop -> LARGEOP SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 72
+    ord                            shift and go to state 29
     block                          shift and go to state 73
 
 state 51
 
-    (9) content -> content content .
-    (9) content -> content . content
+    (8) content -> content content .
+    (8) content -> content . content
     (4) content -> . char
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -2153,8 +2197,8 @@ state 51
   ! shift/reduce conflict for DOTS resolved as shift
   ! shift/reduce conflict for LIM resolved as shift
   ! shift/reduce conflict for UNKNOWN resolved as shift
-    $end            reduce using rule 9 (content -> content content .)
-    ENDBLOCK        reduce using rule 9 (content -> content content .)
+    $end            reduce using rule 8 (content -> content content .)
+    ENDBLOCK        reduce using rule 8 (content -> content content .)
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
     ORD             shift and go to state 40
@@ -2176,26 +2220,26 @@ state 51
     LIM             shift and go to state 16
     UNKNOWN         shift and go to state 24
 
-  ! CHAR            [ reduce using rule 9 (content -> content content .) ]
-  ! BEGINBLOCK      [ reduce using rule 9 (content -> content content .) ]
-  ! ORD             [ reduce using rule 9 (content -> content content .) ]
-  ! FRAC            [ reduce using rule 9 (content -> content content .) ]
-  ! ROOT            [ reduce using rule 9 (content -> content content .) ]
-  ! BINOP           [ reduce using rule 9 (content -> content content .) ]
-  ! KBINOP          [ reduce using rule 9 (content -> content content .) ]
-  ! BINREL          [ reduce using rule 9 (content -> content content .) ]
-  ! KBINREL         [ reduce using rule 9 (content -> content content .) ]
-  ! NOT             [ reduce using rule 9 (content -> content content .) ]
-  ! FUNC            [ reduce using rule 9 (content -> content content .) ]
-  ! LARGEOP         [ reduce using rule 9 (content -> content content .) ]
-  ! ARROW           [ reduce using rule 9 (content -> content content .) ]
-  ! DELIMITER       [ reduce using rule 9 (content -> content content .) ]
-  ! KDELIMITER      [ reduce using rule 9 (content -> content content .) ]
-  ! ACCENT          [ reduce using rule 9 (content -> content content .) ]
-  ! STYLE           [ reduce using rule 9 (content -> content content .) ]
-  ! DOTS            [ reduce using rule 9 (content -> content content .) ]
-  ! LIM             [ reduce using rule 9 (content -> content content .) ]
-  ! UNKNOWN         [ reduce using rule 9 (content -> content content .) ]
+  ! CHAR            [ reduce using rule 8 (content -> content content .) ]
+  ! BEGINBLOCK      [ reduce using rule 8 (content -> content content .) ]
+  ! ORD             [ reduce using rule 8 (content -> content content .) ]
+  ! FRAC            [ reduce using rule 8 (content -> content content .) ]
+  ! ROOT            [ reduce using rule 8 (content -> content content .) ]
+  ! BINOP           [ reduce using rule 8 (content -> content content .) ]
+  ! KBINOP          [ reduce using rule 8 (content -> content content .) ]
+  ! BINREL          [ reduce using rule 8 (content -> content content .) ]
+  ! KBINREL         [ reduce using rule 8 (content -> content content .) ]
+  ! NOT             [ reduce using rule 8 (content -> content content .) ]
+  ! FUNC            [ reduce using rule 8 (content -> content content .) ]
+  ! LARGEOP         [ reduce using rule 8 (content -> content content .) ]
+  ! ARROW           [ reduce using rule 8 (content -> content content .) ]
+  ! DELIMITER       [ reduce using rule 8 (content -> content content .) ]
+  ! KDELIMITER      [ reduce using rule 8 (content -> content content .) ]
+  ! ACCENT          [ reduce using rule 8 (content -> content content .) ]
+  ! STYLE           [ reduce using rule 8 (content -> content content .) ]
+  ! DOTS            [ reduce using rule 8 (content -> content content .) ]
+  ! LIM             [ reduce using rule 8 (content -> content content .) ]
+  ! UNKNOWN         [ reduce using rule 8 (content -> content content .) ]
 
     function                       shift and go to state 19
     char                           shift and go to state 4
@@ -2221,14 +2265,14 @@ state 51
 state 52
 
     (2) start -> start content .
-    (9) content -> content . content
+    (8) content -> content . content
     (4) content -> . char
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -2395,13 +2439,17 @@ state 53
 
     (84) lim -> LIM SUB . char
     (85) lim -> LIM SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 74
+    ord                            shift and go to state 29
     block                          shift and go to state 75
 
 state 54
@@ -2412,9 +2460,9 @@ state 54
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -2655,13 +2703,17 @@ state 59
     (47) scripted -> block SUB . char SUP block
     (48) scripted -> block SUB . block SUP char
     (49) scripted -> block SUB . block SUP block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 77
+    ord                            shift and go to state 29
     block                          shift and go to state 78
 
 state 60
@@ -2672,13 +2724,17 @@ state 60
     (39) scripted -> block SUP . char SUB block
     (40) scripted -> block SUP . block SUB char
     (41) scripted -> block SUP . block SUB block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 79
+    ord                            shift and go to state 29
     block                          shift and go to state 80
 
 state 61
@@ -3085,14 +3141,14 @@ state 76
 
     (56) root -> ROOT KDELIMITER content . KDELIMITER char
     (57) root -> ROOT KDELIMITER content . KDELIMITER block
-    (9) content -> content . content
+    (8) content -> content . content
     (4) content -> . char
     (5) content -> . block
     (6) content -> . scripted
     (7) content -> . command
-    (8) content -> . ord
-    (9) content -> . content content
-    (10) char -> . CHAR
+    (8) content -> . content content
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
     (26) scripted -> . char SUP char
     (27) scripted -> . char SUP block
@@ -3341,104 +3397,136 @@ state 81
 
     (42) scripted -> char SUB char SUP . char
     (43) scripted -> char SUB char SUP . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 94
+    ord                            shift and go to state 29
     block                          shift and go to state 95
 
 state 82
 
     (44) scripted -> char SUB block SUP . char
     (45) scripted -> char SUB block SUP . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 96
+    ord                            shift and go to state 29
     block                          shift and go to state 97
 
 state 83
 
     (34) scripted -> char SUP char SUB . char
     (35) scripted -> char SUP char SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 98
+    ord                            shift and go to state 29
     block                          shift and go to state 99
 
 state 84
 
     (36) scripted -> char SUP block SUB . char
     (37) scripted -> char SUP block SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 100
+    ord                            shift and go to state 29
     block                          shift and go to state 101
 
 state 85
 
     (68) larop -> LARGEOP SUP char SUB . char
     (69) larop -> LARGEOP SUP char SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 102
+    ord                            shift and go to state 29
     block                          shift and go to state 103
 
 state 86
 
     (70) larop -> LARGEOP SUP block SUB . char
     (71) larop -> LARGEOP SUP block SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 104
+    ord                            shift and go to state 29
     block                          shift and go to state 105
 
 state 87
 
     (64) larop -> LARGEOP SUB char SUP . char
     (65) larop -> LARGEOP SUB char SUP . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 106
+    ord                            shift and go to state 29
     block                          shift and go to state 107
 
 state 88
 
     (66) larop -> LARGEOP SUB block SUP . char
     (67) larop -> LARGEOP SUB block SUP . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 108
+    ord                            shift and go to state 29
     block                          shift and go to state 109
 
 state 89
@@ -3446,12 +3534,14 @@ state 89
     (56) root -> ROOT KDELIMITER content KDELIMITER . char
     (57) root -> ROOT KDELIMITER content KDELIMITER . block
     (77) delimiter -> KDELIMITER .
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
   ! shift/reduce conflict for CHAR resolved as shift
   ! shift/reduce conflict for BEGINBLOCK resolved as shift
-    ORD             reduce using rule 77 (delimiter -> KDELIMITER .)
+  ! shift/reduce conflict for ORD resolved as shift
     FRAC            reduce using rule 77 (delimiter -> KDELIMITER .)
     ROOT            reduce using rule 77 (delimiter -> KDELIMITER .)
     BINOP           reduce using rule 77 (delimiter -> KDELIMITER .)
@@ -3471,63 +3561,82 @@ state 89
     UNKNOWN         reduce using rule 77 (delimiter -> KDELIMITER .)
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
   ! CHAR            [ reduce using rule 77 (delimiter -> KDELIMITER .) ]
   ! BEGINBLOCK      [ reduce using rule 77 (delimiter -> KDELIMITER .) ]
+  ! ORD             [ reduce using rule 77 (delimiter -> KDELIMITER .) ]
 
     char                           shift and go to state 110
+    ord                            shift and go to state 29
     block                          shift and go to state 111
 
 state 90
 
     (46) scripted -> block SUB char SUP . char
     (47) scripted -> block SUB char SUP . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 112
+    ord                            shift and go to state 29
     block                          shift and go to state 113
 
 state 91
 
     (48) scripted -> block SUB block SUP . char
     (49) scripted -> block SUB block SUP . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 114
+    ord                            shift and go to state 29
     block                          shift and go to state 115
 
 state 92
 
     (38) scripted -> block SUP char SUB . char
     (39) scripted -> block SUP char SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 116
+    ord                            shift and go to state 29
     block                          shift and go to state 117
 
 state 93
 
     (40) scripted -> block SUP block SUB . char
     (41) scripted -> block SUP block SUB . block
-    (10) char -> . CHAR
+    (9) char -> . CHAR
+    (10) char -> . ord
     (3) block -> . BEGINBLOCK content ENDBLOCK
+    (11) ord -> . ORD
 
     CHAR            shift and go to state 31
     BEGINBLOCK      shift and go to state 8
+    ORD             shift and go to state 40
 
     char                           shift and go to state 118
+    ord                            shift and go to state 29
     block                          shift and go to state 119
 
 state 94
@@ -4322,3 +4431,4 @@ WARNING: shift/reduce conflict for LIM in state 52 resolved as shift
 WARNING: shift/reduce conflict for UNKNOWN in state 52 resolved as shift
 WARNING: shift/reduce conflict for CHAR in state 89 resolved as shift
 WARNING: shift/reduce conflict for BEGINBLOCK in state 89 resolved as shift
+WARNING: shift/reduce conflict for ORD in state 89 resolved as shift
