@@ -12,12 +12,12 @@ tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', '
 
 states = (('command', 'exclusive'),)
 
-try:
-	myFile = open(fileName, 'r')
-	dictOfDicts = json.load(myFile)
-	myFile.close()
-except IOError:
-	print 'File %s was not found.'%fileName
+#try:
+myFile = open(fileName, 'r')
+dictOfDicts = json.load(myFile)
+myFile.close()
+#except IOError:
+#	print 'File %s was not found.'%fileName
 
 
 def t_BEGINBLOCK(t):
