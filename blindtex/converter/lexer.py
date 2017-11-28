@@ -8,16 +8,16 @@ import re
 
 fileName = 'regexes.json'
  
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER', 'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER', 'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL')
 
 states = (('command', 'exclusive'),)
 
-#try:
-myFile = open(fileName, 'r')
-dictOfDicts = json.load(myFile)
-myFile.close()
-#except IOError:
-#	print 'File %s was not found.'%fileName
+try:
+	myFile = open(fileName, 'r')
+	dictOfDicts = json.load(myFile)
+	myFile.close()
+except IOError:
+	print 'File %s was not found.'%fileName
 
 
 def t_BEGINBLOCK(t):
@@ -40,6 +40,24 @@ def t_COMMAND(t):
 	r'\\'
 	t.lexer.begin('command')
 	return
+def t_command_BEGARRAY(t):
+	r'begin\{array\}(\{.*?\})?'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_ENDARRAY(t):
+	r'end\{array\}'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_LINEBREAK(t):
+	r'\\'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_COL(t):
+	r'[&]'
+	return t
 
 @TOKEN(dictOfDicts['largeOperator'])
 def t_command_LARGEOP(t):

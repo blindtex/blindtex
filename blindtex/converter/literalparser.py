@@ -143,7 +143,8 @@ def p_command(p):
 				| style
 				| dots
 				| lim
-				| unknown'''
+				| unknown
+				| array'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -286,6 +287,28 @@ def p_lim(p):
 def p_unknown(p):
 	'''unknown : UNKNOWN'''
 	p[0] = formulate(p[1])
+
+#
+def p_array(p):
+	'''array : BEGARRAY row ENDARRAY '''
+	p[0] = '<table>\n' + p[2] + '</table>'
+
+def p_rows(p):
+	'''row : column LINEBREAK row
+			| column'''
+	if(len(p) == 4):
+		p[0] = '<tr>' + p[1] + '</tr>\n' + p[3]
+	else:	
+		p[0] = '<tr>' + p[1] + '</tr>\n'
+
+def p_columns(p):
+	'''column : content COL column
+			| content'''
+	if(len(p) == 4):
+		p[0] = '<td>' + p[1] + '</td>' + p[3]
+	else:
+		p[0] = '<td>' + p[1] + '</td>'
+#
 def p_error(p):
 	if p:
 		print("Syntax error at token", p.type)
