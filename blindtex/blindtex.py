@@ -5,8 +5,8 @@ from sys import argv
 
 parser = argparse.ArgumentParser(description="Flip a switch by setting a flag")
 
-parser.add_argument('-e','--ecuation', dest='ecuation',
-					help = 'Latex format ecuation to convert',
+parser.add_argument('-e','--equation', dest='equation',
+					help = 'Latex format equation to convert',
 					default="")
 
 parser.add_argument('-o','--output', dest='a.out',
@@ -16,6 +16,6 @@ parser.add_argument('-o','--output', dest='a.out',
 
 args = parser.parse_args()
 
-if args.ecuation:
-	print("Ecuation: ", converter.parser.convert(args.ecuation))
-	print("Ecuation: ", args.ecuation)
+if args.equation:
+	print("Equation: ", converter.parser.convert(args.equation))
+	print("Equation: ", args.equation)

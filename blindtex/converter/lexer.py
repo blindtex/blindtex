@@ -18,7 +18,7 @@ states = (('command', 'exclusive'),)
 #	dictOfDicts = json.load(myFile)
 #	myFile.close()
 #except IOError:
-
+literals = [':', '!',]
 
 def t_BEGINBLOCK(t):
 	r'\{'
@@ -40,13 +40,14 @@ def t_COMMAND(t):
 	r'\\'
 	t.lexer.begin('command')
 	return
+
 def t_command_BEGARRAY(t):
-	r'begin\{array\}(\{.*?\})?'
+	r'(begin\{array\}|begin\{[pbBvV]?matrix(\*)?\})(\[.*?\])?(\{.*?\})?'
 	t.lexer.begin('INITIAL')
 	return t
 
 def t_command_ENDARRAY(t):
-	r'end\{array\}'
+	r'end\{array\}|end\{[pbBvV]?matrix(\*)?\}'
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -169,6 +170,9 @@ def t_command_UNKNOWN(t):
 
 t_ignore_SPACE=r'[ \t\n]+'
 
+def t_command_MATHSPACE(t):
+	r'[,!:; ]'
+	pass
 
 def t_error(t):
 	print("Illegal character '%s'" % t.value[0])

@@ -7,6 +7,7 @@ import re
 import copy
 import string
 import subprocess
+#import blindtex.converter.parser
 from sys import argv
 
 #Regular expression to match anything in math mode. Altough there are better regex to do the same, this allows add new options easily.
@@ -138,14 +139,14 @@ def insertConvertedFormulas(htmlString, inlineFileName, displayFileName):
 	newString = copy.deepcopy(htmlString)
 	inlineIndex = 0
 	for line in inlineFile:
-		output = newString.replace(inlineMathString%(inlineIndex),'<span>' + line + '</span>')
+		output = newString.replace(inlineMathString%(inlineIndex),'<span>' + converter.parser.convert(line) + '</span>')
 		newString = output
 		inlineIndex += 1
 	
 	output = ""
 	displayIndex = 0
 	for line in displayFile:
-		output = newString.replace(displayMathString%(displayIndex),'<div>' + line + '</div>')
+		output = newString.replace(displayMathString%(displayIndex),'<div>' + converter.parser.convert(line) + '</div>')
 		newString = output
 		displayIndex += 1
 	

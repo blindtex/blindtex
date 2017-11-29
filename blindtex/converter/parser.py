@@ -51,9 +51,9 @@ Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']]
             'Im': [0,['parte imaginaria']], 'partial': [0,['parcial']], 'infty': [0,['infinito']],'prime': [0,['prima']],'emptyset':[0,['conjunto vac&iacute;o']],'nabla':[0,['nabla']],
             'surd':[0,['ra&iacute;z']],'top': [0,['transpuesto']], 'bot': [0,['perpendicular']],'|': [0,['paralelo, norma']], 'angle': [0,['&aacute;ngulo']],
             'triangle': [0,['tri&aacute;ngulo']],'backslash': [0,['barra invertida']], 'forall':[0,['para todo']],'exists':[0,['existe']],'neg': [0,['negaci&oacute;n']],
-            'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['corazón']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']]}
+            'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['coraz&oacute;n']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']]}
 
-LargeOperators ={'sum': [0,['suma']],'prod':[0,['producto']], 'coprod':[0,['coproducto']],'int': [0,['integral']], 'oint': [0,['integral de contorno']], 'bigcap': [0,['intersecci&oacute;n']],'bigcup': [0,['uni&oacute;n']], 'bigsqcup':[0,['Uni&oacute;n rect&aacute;ngular']], 'bigvee' :[0,['disyunci&oacute;n']],'bigwedge' : [0,['conjunci&oacute;n']], 'bigodot': [0,['circumpunto']],'bigotimes': [0,['prducto tensorial']],'bigoplus': [0,['circumsuma']], 'biguplus': [0,['uni&oacute;n con suma']]}
+LargeOperators ={'sum': [0,['suma']],'prod':[0,['producto']], 'coprod':[0,['coproducto']],'int': [0,['integral']], 'oint': [0,['integral de contorno']], 'bigcap': [0,['intersecci&oacute;n']],'bigcup': [0,['uni&oacute;n']], 'bigsqcup':[0,['Uni&oacute;n rect&aacute;ngular']], 'bigvee' :[0,['disyunci&oacute;n']],'bigwedge' : [0,['conjunci&oacute;n']], 'bigodot': [0,['circumpunto']],'bigotimes': [0,['prducto tensorial']],'bigoplus': [0,['circumsuma']], 'biguplus': [0,['uni&oacute;n con suma']], 'iint': [0,['doble integral']], 'iiint': [0,['triple integral']], 'iiiint': [0,['cuadruple integral']], 'idotsint': [0,['multiples integrales']]}
 
 
 BinaryOperators ={'+':[0,['m&aacute;s']], '-':[0,['menos']], '*':[0,['por']], '/':[0,['dividido entre']], 'pm':[0,['m&aacute;s menos']], 'mp':[0,['menos m&aacute;s']],'setminus':[0,['diferencia conjuntos']], 'cdot':[0,['punto']],'times':[0,['producto']], 'ast':[0,['asterisco']], 'star':[0,['estrella']], 'diamond':[0,['operaci&oacute;n diamante']],'circ':[0,['c&iacute;rculo']],'bullet':[0,['c&iacute;rculo relleno']],'div':[0,['dividido entre']],'cap': [0,['intersecci&oacute;n']],'cup':[0,['uni&oacute;n']],'uplus':[0,['uni&oacute;n con suma']],'sqcap':[0,['intersecci&oacute;n rect&aacute;ngular']],'sqcup':[0,['uni&oacute;n rect&aacute;ngular']],'triangleleft':[0,['tri&aacute;angulo a la izquierda']],'triangleright':[0,['tri&aacute;ngulo a la derecha']],'wr':[0,['producto corona']],'bigcirc':[0,['círculo grande']],'bigtriangleup':[0,['tri&aacute;ngulo grande hacia arriba']],'bigtriangledown':[0,['tri&aacute;ngulo grande hacia abajo']],'vee':[0,['disyunci&oacute;n']],'wedge':[0,['conjunci&oacute;n']],'oplus':[0,['circunsuma']],'ominus':[0,['circunresta']],'otimes':[0,['circuncruz']],'oslash':[0,['circunbarra']],'odot':[0,['circunpunto']], 'dagger': [0,['daga']],'ddagger': [0,['doble daga']],'amalg':[0,['amalgamaci&oacute;n']],'lor':[0,['disyunci&oacute;n']],'land':[0,['conjunci&oacute;n']]}
@@ -143,7 +143,9 @@ def p_command(p):
 				| dots
 				| lim
 				| unknown
-				| array'''
+				| array
+				| col
+				| factorial'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -300,13 +302,21 @@ def p_rows(p):
 		p[0] = '<tr>' + p[1] + '</tr>\n'
 
 def p_columns(p):
-	'''column : content COL column
+	'''column : content col column
 			| content'''
 	if(len(p) == 4):
 		p[0] = '<td>' + p[1] + '</td>' + p[3]
 	else:
 		p[0] = '<td>' + p[1] + '</td>'
 #
+def p_col(p):
+	'''col : COL'''
+	p[0] = ''
+
+def p_factorial(p):
+	'''factorial : '!' '''
+	p[0] = formulate('factorial')
+
 def p_error(p):
 	if p:
 		print("Syntax error at token", p.type)
