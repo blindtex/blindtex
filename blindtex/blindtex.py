@@ -1,13 +1,21 @@
-
-from io import io
+import converter.parser
+import argparse
 from sys import argv
-#The execution of the program.
-if(len(argv)==2):
-	io.convertToHtml1(argv[1])
-	
-elif(len(argv)==3):
-	io.convertToHtml2(argv[1],argv[2])
-	
-else:
-	print"Wrong number of arguments, expected one or two (file name or filename + bibliography) and received %d."%(len(argv) -1)
-#End of execution.
+
+
+parser = argparse.ArgumentParser(description="Flip a switch by setting a flag")
+
+parser.add_argument('-e','--ecuation', dest='ecuation',
+					help = 'Latex format ecuation to convert',
+					default="")
+
+parser.add_argument('-o','--output', dest='a.out',
+					help = '',
+					default="")
+
+
+args = parser.parse_args()
+
+if args.ecuation:
+	print("Ecuation: ", converter.parser.convert(args.ecuation))
+	print("Ecuation: ", args.ecuation)

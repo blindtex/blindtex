@@ -1,5 +1,5 @@
 import pytest
-from blindtex.io import file
+from blindtex.iotools import file
 
 def test_extractContent():
 	contentFile = str(r'\begin{document} \title{Introduction to \LaTeX{}} \begin{abstract}\ The abstract text goes here. \end{abstract} \end{document}')
