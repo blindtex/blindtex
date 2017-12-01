@@ -1,21 +1,33 @@
 #-*-:coding:utf-8-*-
 from sys import argv
-from parser import *
+import parser as parser
+import argparse
 
-result = '''<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title> Pruebas</title>
-</head>
-<body>
-<p>Fórmula generada:</p>
-<div>''' + convert(argv[1]) + '''</div>
-</body>
-</html>'''
+myArgumentParser = argparse.ArgumentParser()
+myArgumentParser.add_argument('formula', type=str, help ='The formula to be converted')
+myArgumentParser.add_argument('-lit', '--literal', help="Display the formula in literal form.",action="store_true")
 
-page = open('Prueba.html', 'w')
-page.write(result)
-page.close()
+args = myArgumentParser.parse_args()
+
+if(args.literal):
+	parser.OPTION = 1
+	print(parser.convert(args.formula))
+else:
+	parser.OPTION = 0
+	result = '''<!DOCTYPE html>
+				<html>
+				<head>
+				<meta charset="UTF-8">
+				<title> Pruebas</title>
+				</head>
+				<body>
+				<p>Fórmula generada:</p>
+				<div>''' + parser.convert(args.formula) + '''</div>
+				</body>
+				</html>'''
+
+	page = open('Prueba.html', 'w')
+	page.write(result)
+	page.close()
 
 

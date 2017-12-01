@@ -7,38 +7,17 @@ import ply.yacc as yacc
 from dictionary import *
 #from blindtex.converter.lexer import *
 from lexer import tokens
+import formulate
 
 #Funciones: en esta sección, dejaremos todas las funciones que se requieran
 
 
-def formulate(label):
-	'''
-	Function to put in a span tag with the desired label.
 
-	Args:
-		label(str): The label that is needed in a span tag, 
-						if the label has accents it is recomended put them as html asks.
-
-	Returns:
-		str: The string with the aria-label already put.
-
-	Examples:
-		>>>print(formulate('integral'))
-		'<span aria-label=\"integral\">&nbsp;</span>'
-	'''
-	return '<span aria-label=\"'+ label + '\">&nbsp;</span>'
-#EndOfFunction
 #--------------------------------------------------------------------------
 
 
 
 
-#TODO Que esto sea una estructura de datos, con funciones para cambiar la lectura(value) con mayor facilidad.
-
-#dictionary LargeOperators(LagrgeOperator) = new...
-#LargeOperators.Fun...
-
-#TODO: Acordar los nombres de algunos operadores.
 
 Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']], 'delta' : [0,['delta']] ,'epsilon' : [0,['epsilon']], 'varepsilon':[0,['var epsilon']] , 'zeta' : [0,['zeta']],
             'eta':[0,['eta']], 'theta' : [0,['teta']],'vartheta':[0,['var teta']], 'iota' : [0,['iota']], 'kappa':[0,['kappa']], 'lambda':[0,['lambda']], 'mu':[0,['mi']], 'nu':[0,['ni']], 'xi':[0,['xi']],
@@ -53,7 +32,7 @@ Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']]
             'triangle': [0,['tri&aacute;ngulo']],'backslash': [0,['barra invertida']], 'forall':[0,['para todo']],'exists':[0,['existe']],'neg': [0,['negaci&oacute;n']],
             'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['coraz&oacute;n']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']]}
 
-LargeOperators ={'sum': [0,['suma']],'prod':[0,['producto']], 'coprod':[0,['coproducto']],'int': [0,['integral']], 'oint': [0,['integral de contorno']], 'bigcap': [0,['intersecci&oacute;n']],'bigcup': [0,['uni&oacute;n']], 'bigsqcup':[0,['Uni&oacute;n rect&aacute;ngular']], 'bigvee' :[0,['disyunci&oacute;n']],'bigwedge' : [0,['conjunci&oacute;n']], 'bigodot': [0,['circumpunto']],'bigotimes': [0,['prducto tensorial']],'bigoplus': [0,['circumsuma']], 'biguplus': [0,['uni&oacute;n con suma']], 'iint': [0,['doble integral']], 'iiint': [0,['triple integral']], 'iiiint': [0,['cuadruple integral']], 'idotsint': [0,['multiples integrales']]}
+LargeOperators ={'sum': [0,['suma']],'prod':[0,['producto']], 'coprod':[0,['coproducto']],'int': [0,['integral']], 'oint': [0,['integral de contorno']], 'bigcap': [0,['intersecci&oacute;n']],'bigcup': [0,['uni&oacute;n']], 'bigsqcup':[0,['Uni&oacute;n rect&aacute;ngular']], 'bigvee' :[0,['disyunci&oacute;n']],'bigwedge' : [0,['conjunci&oacute;n']], 'bigodot': [0,['circumpunto']],'bigotimes': [0,['prducto tensorial']],'bigoplus': [0,['circumsuma']], 'biguplus': [0,['uni&oacute;n con suma']], 'iint': [0,['doble integral']], 'iiint': [0,['triple integral']], 'iiiint': [0,['cuadruple integral']], 'idotsint': [0,['multiples integrales']], 'limits':[0,['']]}
 
 
 BinaryOperators ={'+':[0,['m&aacute;s']], '-':[0,['menos']], '*':[0,['por']], '/':[0,['dividido entre']], 'pm':[0,['m&aacute;s menos']], 'mp':[0,['menos m&aacute;s']],'setminus':[0,['diferencia conjuntos']], 'cdot':[0,['punto']],'times':[0,['producto']], 'ast':[0,['asterisco']], 'star':[0,['estrella']], 'diamond':[0,['operaci&oacute;n diamante']],'circ':[0,['c&iacute;rculo']],'bullet':[0,['c&iacute;rculo relleno']],'div':[0,['dividido entre']],'cap': [0,['intersecci&oacute;n']],'cup':[0,['uni&oacute;n']],'uplus':[0,['uni&oacute;n con suma']],'sqcap':[0,['intersecci&oacute;n rect&aacute;ngular']],'sqcup':[0,['uni&oacute;n rect&aacute;ngular']],'triangleleft':[0,['tri&aacute;angulo a la izquierda']],'triangleright':[0,['tri&aacute;ngulo a la derecha']],'wr':[0,['producto corona']],'bigcirc':[0,['círculo grande']],'bigtriangleup':[0,['tri&aacute;ngulo grande hacia arriba']],'bigtriangledown':[0,['tri&aacute;ngulo grande hacia abajo']],'vee':[0,['disyunci&oacute;n']],'wedge':[0,['conjunci&oacute;n']],'oplus':[0,['circunsuma']],'ominus':[0,['circunresta']],'otimes':[0,['circuncruz']],'oslash':[0,['circunbarra']],'odot':[0,['circunpunto']], 'dagger': [0,['daga']],'ddagger': [0,['doble daga']],'amalg':[0,['amalgamaci&oacute;n']],'lor':[0,['disyunci&oacute;n']],'land':[0,['conjunci&oacute;n']]}
@@ -71,10 +50,7 @@ Accents ={'hat':[0,['gorro']],'check':[0,['anticircunflejo']],'breve':[0,['breve
 Styles ={'mathit':[0,['it&aacute;lica']],'mathrm':[0,['roman']],'mathbf':[0,['negrilla']],'mathsf':[0,['sans serif']],'mathtt':[0,['m&aacute;quina escribir']], 'mathcal':[0,['caligr&aacute;fica']], 'boldmath':[0,['negrilla']]}
 
 Dots ={'dots':[0,['puntos']],'ldots':[0,['puntos bajos']],'cdots':[0,['puntos centrados']],'vdots':[0,['puntos verticales']],'ddots':[0,['puntos diagonales']]}
-#Función para agregar al diccionario elementos
-key = ''
-value = ''#Estas variables de entrada se reconocer&aacute;n posteriormente las dejo así por el momento, para probar con la GUI
-#addWord(key,value) Descomentar la línea cuando la funci&oacute;n vaya a ser utulizada
+
 #TODO: Lista de objetos diccionario:
 dOrdinary = dictionary(Ordinary)
 dLargeOperators = dictionary(LargeOperators)
@@ -88,23 +64,29 @@ dStyles = dictionary(Styles)
 dDots = dictionary(Dots)
 #-------------------------------------------------------------------------------
 #The grammar.
+#
+OPTION = 0
 
+#
 precedence = (
 	('left','SUP','SUB', 'FRAC','ROOT'),
 	('right', 'LARGEOP')	
 )
 
+
 def p_start(p):
 	'''start : content
 				| start content'''
 	if(len(p) == 3):
-		p[0] =  p[1] + p[2]
+		p[0] =  p[1] + p[2] + ' '
 	else:
-		p[0] = p[1]
+		p[0] = p[1] + ' '
+
 
 def p_block(p):
 	'''block : BEGINBLOCK content ENDBLOCK'''
 	p[0] = p[2]
+
 
 def p_content(p):
 	'''content : char
@@ -120,32 +102,34 @@ def p_content(p):
 
 def p_char(p):
 	'''char : CHAR
-			| ord'''
+			| ord
+			| binop
+			| binrel
+			| not
+			| function
+			| arrow
+			| delimiter
+			| accent
+			| style
+			| dots
+			| lim
+			| unknown'''
 	p[0] = p[1] + ' '
+
 
 def p_ord(p):
 	'''ord : ORD '''
-	p[0] =  formulate(dOrdinary.showReading(p[1],0))#--->Los operadores son la llave y el valor por defecto que esté en la lectura
+	p[0] =  formulate.formulate(dOrdinary.showReading(p[1],0),OPTION)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
 
 
 def p_command(p):
 	'''command : frac
 				| root
-				| binop
-				| binrel
-				| not
-				| function
-				| larop
-				| arrow
-				| delimiter
-				| accent
-				| style
-				| dots
-				| lim
-				| unknown
 				| array
 				| col
-				| factorial'''
+				| factorial
+				| larop
+				| prime'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -163,9 +147,9 @@ def p_scripted(p):
 					| block SUB char
 					| block SUB block'''
 	if(p[2] == '^'):
-		p[0] = p[1] + formulate('s&uacute;per') + p[3] + formulate('fin s&uacute;per')
+		p[0] = p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION)
 	else:
-		p[0] = p[1] + formulate('sub') + p[3] + formulate('fin sub')
+		p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION)
 			
 def p_compScripted(p):
 	'''scripted : char SUP char SUB char
@@ -185,16 +169,16 @@ def p_compScripted(p):
 					| block SUB block SUP char
 					| block SUB block SUP block'''
 	if(p[2] =='^'):
-		p[0] =  p[1] + formulate('s&uacute;per') + p[3] + formulate('fin s&uacute;per') + formulate('sub') + p[5] + formulate('fin sub')
+		p[0] =  p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION) + formulate.formulate('sub',OPTION) + p[5] + formulate.formulate('fin sub',OPTION)
 	else:
-		p[0] = p[1] + formulate('sub') + p[3] + formulate('fin sub') + formulate('s&uacute;per') + p[5] + formulate('fin s&uacute;per')
+		p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION) + formulate.formulate('s&uacute;per',OPTION) + p[5] + formulate.formulate('fin s&uacute;per',OPTION)
 		
 def p_frac(p):
 	'''frac : FRAC char char
 				| FRAC char block
 				| FRAC block char
 				| FRAC block block'''
-	p[0] = formulate('comienza fracci&oacute;n') + p[2] + formulate('sobre') + p[3] + formulate('fin fracci&oacute;n')
+	p[0] = formulate.formulate('comienza fracci&oacute;n',OPTION) + p[2] + formulate.formulate('sobre',OPTION) + p[3] + formulate.formulate('fin fracci&oacute;n',OPTION)
 
 def p_root(p):
 	'''root : ROOT char
@@ -202,27 +186,29 @@ def p_root(p):
 			| ROOT KDELIMITER content KDELIMITER char
 			| ROOT KDELIMITER content KDELIMITER block '''
 	if(len(p) == 3):
-		p[0] = formulate('ra&iacute;z cuadrada de') + p[2] + formulate('termina ra&iacute;z')
+		p[0] = formulate.formulate('ra&iacute;z cuadrada de',OPTION) + p[2] + formulate.formulate('termina ra&iacute;z',OPTION)
 	else:
-		p[0] = formulate('ra&iacute;z') + p[3] + formulate('de') + p[5] + formulate('termina ra&iacute;z')
+		p[0] = formulate.formulate('ra&iacute;z',OPTION) + p[3] + formulate.formulate('de',OPTION) + p[5] + formulate.formulate('termina ra&iacute;z',OPTION)
+
 
 def p_binOp(p):
 	'''binop : BINOP
 				| KBINOP '''
-	p[0] = formulate(dBinaryOperators.showReading(p[1],0))
+	p[0] = formulate.formulate(dBinaryOperators.showReading(p[1],0),OPTION)
+
 
 def p_binRel(p):
 	'''binrel : BINREL
 				| KBINREL'''
-	p[0] = formulate(dBinaryRelations.showReading(p[1],0))
+	p[0] = formulate.formulate(dBinaryRelations.showReading(p[1],0),OPTION)
 
 def p_not(p):
 	'''not : NOT '''
-	p[0]= formulate('no')	
+	p[0]= formulate.formulate('no',OPTION)	
 
 def p_function(p):
 	'''function : FUNC '''
-	p[0] = formulate(dMathFunctions.showReading(p[1],0))
+	p[0] = formulate.formulate(dMathFunctions.showReading(p[1],0),OPTION)
 
 def p_comLargeOp(p):
 	'''larop : LARGEOP SUB char SUP char
@@ -234,60 +220,60 @@ def p_comLargeOp(p):
 				| LARGEOP SUP block SUB char
 				| LARGEOP SUP block SUB block'''
 	if(p[2] =='_'):
-		p[0] = formulate(dLargeOperators.showReading(p[1],0) + ' desde') + p[3] + formulate('hasta') + p[5] + formulate('de')
+		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) + ' desde',OPTION) + p[3] + formulate.formulate('hasta',OPTION) + p[5] + formulate.formulate('de',OPTION)
 	else:
-		p[0] = formulate(dLargeOperators.showReading(p[1],0) + ' desde') + p[5] + formulate('hasta') + p[3] + formulate('de')
+		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) + ' desde',OPTION) + p[5] + formulate.formulate('hasta',OPTION) + p[3] + formulate.formulate('de',OPTION)
 
 def p_largeOp(p):
 	'''larop : LARGEOP
 				| LARGEOP SUB char
 				| LARGEOP SUB block'''
 	if(len(p)==2):
-		p[0]= formulate(dLargeOperators.showReading(p[1],0) +' de')
+		p[0]= formulate.formulate(dLargeOperators.showReading(p[1],0),OPTION)
 	elif(len(p)==4):
-		p[0] = formulate(dLargeOperators.showReading(p[1],0) +' sobre') + p[3] + formulate('de')
+		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) +' sobre',OPTION) + p[3] + formulate.formulate('de',OPTION)
 
 def p_arrow(p):
 	'''arrow : ARROW'''
-	p[0] = formulate(dArrows.showReading(p[1],0))
+	p[0] = formulate.formulate(dArrows.showReading(p[1],0),OPTION)
 
 def p_delimiter(p):
 	'''delimiter : DELIMITER
 					| KDELIMITER '''
-	p[0] = formulate(dDelimiters.showReading(p[1],0))
+	p[0] = formulate.formulate(dDelimiters.showReading(p[1],0),OPTION)
 
 def p_simpleAccent(p):
 	'''accent : ACCENT char'''
-	p[0] = p[2] + formulate(dAccents.showReading(p[1],0))
+	p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1],0),OPTION)
 
 def p_complexAccent(p):
 	'''accent : ACCENT block'''
 	if(len(p[2]) > 3):
-		p[0] = formulate(dAccents.showReading(p[1],0)) + p[2] + formulate('fin ' + dAccents.showReading(p[1],0))
+		p[0] = formulate.formulate(dAccents.showReading(p[1],0),OPTION) + p[2] + formulate.formulate('fin ' + dAccents.showReading(p[1],0),OPTION,)
 	else:
-		p[0] = p[2] + formulate(dAccents.showReading(p[1],0))
+		p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1],0),OPTION)
 
 def p_style(p):
 	'''style : STYLE char
 				| STYLE block '''
-	p[0] = formulate(dStyles.showReading(p[1],0)) + p[2] + formulate('fin ' + dStyles.showReading(p[1],0))
+	p[0] = formulate.formulate(dStyles.showReading(p[1],0),OPTION) + p[2] + formulate.formulate('fin ' + dStyles.showReading(p[1],0),OPTION)
 
 def p_dots(p):
 	'''dots : DOTS '''
-	p[0] = formulate(dDots.showReading(p[1],0))
+	p[0] = formulate.formulate(dDots.showReading(p[1],0),OPTION)
 
 def p_lim(p):
 	'''lim : LIM
 			| LIM SUB char
 			| LIM SUB block '''
 	if(len(p) == 4):
-		p[0] = formulate('l&iacute;mite cuando') + p[3] + formulate('de')
+		p[0] = formulate.formulate('l&iacute;mite cuando',OPTION) + p[3] + formulate.formulate('de',OPTION)
 	else:
-		p[0] = formulate('l&iacute;mite de')
+		p[0] = formulate.formulate('l&iacute;mite de',OPTION)
 
 def p_unknown(p):
 	'''unknown : UNKNOWN'''
-	p[0] = formulate(p[1])
+	p[0] = formulate.formulate(p[1],OPTION)
 #
 def p_array(p):
 	'''array : BEGARRAY row ENDARRAY '''
@@ -315,7 +301,11 @@ def p_col(p):
 
 def p_factorial(p):
 	'''factorial : '!' '''
-	p[0] = formulate('factorial')
+	p[0] = formulate.formulate('factorial',OPTION)
+
+def p_prime(p):
+	'''prime : "'" '''
+	p[0] = formulate.formulate('prima',OPTION)
 
 def p_error(p):
 	if p:

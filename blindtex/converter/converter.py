@@ -1,9 +1,22 @@
 from sys import argv
-from parser import convert
-from literalparser import convert as literalconvert
+import argparse
+import parser as parser
 
-print(literalconvert(argv[1]))
-print(convert(argv[1]))
+myArgumentParser = argparse.ArgumentParser()
+myArgumentParser.add_argument('formula', type=str, help ='The formula to be converted')
+myArgumentParser.add_argument('-lit', '--literal', help="Display the formula in literal form.",action="store_true")
+
+args = myArgumentParser.parse_args()
+
+if(args.literal):
+	parser.OPTION = 1
+	print(parser.convert(args.formula))
+else:
+	parser.OPTION = 0
+	print(parser.convert(args.formula))
+
+
+
 
 
 
