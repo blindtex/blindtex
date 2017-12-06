@@ -30,12 +30,12 @@ Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']]
             'Im': [0,['parte imaginaria']], 'partial': [0,['parcial']], 'infty': [0,['infinito']],'prime': [0,['prima']],'emptyset':[0,['conjunto vac&iacute;o']],'nabla':[0,['nabla']],
             'surd':[0,['ra&iacute;z']],'top': [0,['transpuesto']], 'bot': [0,['perpendicular']],'|': [0,['paralelo, norma']], 'angle': [0,['&aacute;ngulo']],
             'triangle': [0,['tri&aacute;ngulo']],'backslash': [0,['barra invertida']], 'forall':[0,['para todo']],'exists':[0,['existe']],'neg': [0,['negaci&oacute;n']],
-            'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['coraz&oacute;n']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']]}
+            'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['coraz&oacute;n']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']], 'prime':[0,['prima']]}
 
 LargeOperators ={'sum': [0,['suma']],'prod':[0,['producto']], 'coprod':[0,['coproducto']],'int': [0,['integral']], 'oint': [0,['integral de contorno']], 'bigcap': [0,['intersecci&oacute;n']],'bigcup': [0,['uni&oacute;n']], 'bigsqcup':[0,['Uni&oacute;n rect&aacute;ngular']], 'bigvee' :[0,['disyunci&oacute;n']],'bigwedge' : [0,['conjunci&oacute;n']], 'bigodot': [0,['circumpunto']],'bigotimes': [0,['prducto tensorial']],'bigoplus': [0,['circumsuma']], 'biguplus': [0,['uni&oacute;n con suma']], 'iint': [0,['doble integral']], 'iiint': [0,['triple integral']], 'iiiint': [0,['cuadruple integral']], 'idotsint': [0,['multiples integrales']], 'limits':[0,['']]}
 
 
-BinaryOperators ={'+':[0,['m&aacute;s']], '-':[0,['menos']], '*':[0,['por']], '/':[0,['dividido entre']], 'pm':[0,['m&aacute;s menos']], 'mp':[0,['menos m&aacute;s']],'setminus':[0,['diferencia conjuntos']], 'cdot':[0,['punto']],'times':[0,['producto']], 'ast':[0,['asterisco']], 'star':[0,['estrella']], 'diamond':[0,['operaci&oacute;n diamante']],'circ':[0,['c&iacute;rculo']],'bullet':[0,['c&iacute;rculo relleno']],'div':[0,['dividido entre']],'cap': [0,['intersecci&oacute;n']],'cup':[0,['uni&oacute;n']],'uplus':[0,['uni&oacute;n con suma']],'sqcap':[0,['intersecci&oacute;n rect&aacute;ngular']],'sqcup':[0,['uni&oacute;n rect&aacute;ngular']],'triangleleft':[0,['tri&aacute;angulo a la izquierda']],'triangleright':[0,['tri&aacute;ngulo a la derecha']],'wr':[0,['producto corona']],'bigcirc':[0,['círculo grande']],'bigtriangleup':[0,['tri&aacute;ngulo grande hacia arriba']],'bigtriangledown':[0,['tri&aacute;ngulo grande hacia abajo']],'vee':[0,['disyunci&oacute;n']],'wedge':[0,['conjunci&oacute;n']],'oplus':[0,['circunsuma']],'ominus':[0,['circunresta']],'otimes':[0,['circuncruz']],'oslash':[0,['circunbarra']],'odot':[0,['circunpunto']], 'dagger': [0,['daga']],'ddagger': [0,['doble daga']],'amalg':[0,['amalgamaci&oacute;n']],'lor':[0,['disyunci&oacute;n']],'land':[0,['conjunci&oacute;n']]}
+BinaryOperators ={'+':[0,['m&aacute;s']], '-':[0,['menos']], '*':[0,['por']], '/':[0,['dividido entre']], 'pm':[0,['m&aacute;s menos']], 'mp':[0,['menos m&aacute;s']],'setminus':[0,['diferencia conjuntos']], 'cdot':[0,['punto']],'times':[0,['producto']], 'ast':[0,['asterisco']], 'star':[0,['estrella']], 'diamond':[0,['operaci&oacute;n diamante']],'circ':[0,['c&iacute;rculo']],'bullet':[0,['c&iacute;rculo relleno']],'div':[0,['dividido entre']],'cap': [0,['intersecci&oacute;n']],'cup':[0,['uni&oacute;n']],'uplus':[0,['uni&oacute;n con suma']],'sqcap':[0,['intersecci&oacute;n rect&aacute;ngular']],'sqcup':[0,['uni&oacute;n rect&aacute;ngular']],'triangleleft':[0,['tri&aacute;angulo a la izquierda']],'triangleright':[0,['tri&aacute;ngulo a la derecha']],'wr':[0,['producto corona']],'bigcirc':[0,['círculo grande']],'bigtriangleup':[0,['tri&aacute;ngulo grande hacia arriba']],'bigtriangledown':[0,['tri&aacute;ngulo grande hacia abajo']],'vee':[0,['disyunci&oacute;n']],'wedge':[0,['conjunci&oacute;n']],'oplus':[0,['circunsuma']],'ominus':[0,['circunresta']],'otimes':[0,['circuncruz']],'oslash':[0,['circunbarra']],'odot':[0,['circunpunto']], 'dagger': [0,['daga']],'ddagger': [0,['doble daga']],'amalg':[0,['amalgamaci&oacute;n']],'lor':[0,['disyunci&oacute;n']],'land':[0,['conjunci&oacute;n']], 'bmod':[0,['m&oacute;dulo']]}
 
 BinaryRelations ={'=':[0,['igual']],'<':[0,['menor']],'>':[0,['mayor']],'leq':[0,['menor igual']], 'geq':[0,['mayor igual']], 'equiv':[0,['equivalente']], 'prec':[0,['precede']], 'succ':[0,['sucede']], 'sim':[0,['similar']], 'preceq':[0,['precede igual']], 'succeq':[0,['sucede igual']], 'simeq':[0,['similar igual']], 'll':[0,['mucho menor']], 'gg':[0,['mucho mayor']], 'asymp':[0,['asint&oacute;tico']], 'subset':[0,['subconjunto']], 'supset':[0,['superconjunto']], 'approx':[0,['aproximado']], 'subseteq':[0,['subconjunto igual']], 'supseteq':[0,['super conjunto igual']], 'cong':[0,['congruente']], 'sqsubseteq':[0,['subconjunto rect&aacute;ngular']], 'sqsupseteq':[0,['superconjunto rect&aacute;ngular']], 'bowtie':[0,['junta']], 'in':[0,['est&aacute; en']], 'ni':[0,['contiene a']], 'propto':[0,['proporcional']], 'vdash':[0,['deduce']], 'dashv':[0,['deducido']], 'models':[0,['modela']],'smile':[0,['sonrisa']], 'mid':[0,['medio']], 'doteq':[0,['igual puntuado']],'frown':[0,['fruncido']], 'parallel':[0,['paralelo']],'perp':[0,['perpendicular']], 'neq':[0,['no igual']], 'notin':[0,['no est&aacute; en']], 'ne':[0,['no igual']],'le':[0,['menor igual']],'ge':[0,['mayor igula']],'owns':[0,['contiene']]}
 
@@ -89,8 +89,7 @@ def p_block(p):
 
 
 def p_content(p):
-	'''content : char
-				| block
+	'''content : block
 				| scripted
 				| command
 				| content content'''
@@ -103,17 +102,7 @@ def p_content(p):
 def p_char(p):
 	'''char : CHAR
 			| ord
-			| binop
-			| binrel
-			| not
-			| function
-			| arrow
-			| delimiter
-			| accent
-			| style
-			| dots
-			| lim
-			| unknown'''
+'''
 	p[0] = p[1] + ' '
 
 
@@ -124,12 +113,27 @@ def p_ord(p):
 
 def p_command(p):
 	'''command : frac
+				| char
 				| root
 				| array
 				| col
 				| factorial
 				| larop
-				| prime'''
+				| prime
+				| binop
+				| binrel
+				| not
+				| function
+				| arrow
+				| delimiter
+				| accent
+				| style
+				| dots
+				| lim
+				| combi
+				| unknown
+				| pmod
+				| lnbrk'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -138,13 +142,13 @@ def p_command(p):
 #TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez que p[0] = "una función que depende de los otros p[i]".
 
 def p_scripted(p):
-	'''scripted : char SUP char
-					| char SUP block
-					| block SUP char
+	'''scripted : command SUP command
+					| command SUP block
+					| block SUP command
 					| block SUP block
-					| char SUB char
-					| char SUB block
-					| block SUB char
+					| command SUB command
+					| command SUB block
+					| block SUB command
 					| block SUB block'''
 	if(p[2] == '^'):
 		p[0] = p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION)
@@ -152,21 +156,21 @@ def p_scripted(p):
 		p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION)
 			
 def p_compScripted(p):
-	'''scripted : char SUP char SUB char
-					| char SUP char SUB block
-					| char SUP block SUB char
-					| char SUP block SUB block
-					| block SUP char SUB char
-					| block SUP char SUB block
-					| block SUP block SUB char
+	'''scripted : command SUP command SUB command
+					| command SUP command SUB block
+					| command SUP block SUB command
+					| command SUP block SUB block
+					| block SUP command SUB command
+					| block SUP command SUB block
+					| block SUP block SUB command
 					| block SUP block SUB block
-					| char SUB char SUP char
-					| char SUB char SUP block
-					| char SUB block SUP char
-					| char SUB block SUP block
-					| block SUB char SUP char
-					| block SUB char SUP block
-					| block SUB block SUP char
+					| command SUB command SUP command
+					| command SUB command SUP block
+					| command SUB block SUP command
+					| command SUB block SUP block
+					| block SUB command SUP command
+					| block SUB command SUP block
+					| block SUB block SUP command
 					| block SUB block SUP block'''
 	if(p[2] =='^'):
 		p[0] =  p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION) + formulate.formulate('sub',OPTION) + p[5] + formulate.formulate('fin sub',OPTION)
@@ -174,16 +178,16 @@ def p_compScripted(p):
 		p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION) + formulate.formulate('s&uacute;per',OPTION) + p[5] + formulate.formulate('fin s&uacute;per',OPTION)
 		
 def p_frac(p):
-	'''frac : FRAC char char
-				| FRAC char block
-				| FRAC block char
+	'''frac : FRAC command command
+				| FRAC command block
+				| FRAC block command
 				| FRAC block block'''
 	p[0] = formulate.formulate('comienza fracci&oacute;n',OPTION) + p[2] + formulate.formulate('sobre',OPTION) + p[3] + formulate.formulate('fin fracci&oacute;n',OPTION)
 
 def p_root(p):
-	'''root : ROOT char
+	'''root : ROOT command
 			| ROOT block
-			| ROOT KDELIMITER content KDELIMITER char
+			| ROOT KDELIMITER content KDELIMITER command
 			| ROOT KDELIMITER content KDELIMITER block '''
 	if(len(p) == 3):
 		p[0] = formulate.formulate('ra&iacute;z cuadrada de',OPTION) + p[2] + formulate.formulate('termina ra&iacute;z',OPTION)
@@ -211,13 +215,13 @@ def p_function(p):
 	p[0] = formulate.formulate(dMathFunctions.showReading(p[1],0),OPTION)
 
 def p_comLargeOp(p):
-	'''larop : LARGEOP SUB char SUP char
-				| LARGEOP SUB char SUP block
-				| LARGEOP SUB block SUP char
+	'''larop : LARGEOP SUB command SUP command
+				| LARGEOP SUB command SUP block
+				| LARGEOP SUB block SUP command
 				| LARGEOP SUB block SUP block
-				| LARGEOP SUP char SUB char
-				| LARGEOP SUP char SUB block
-				| LARGEOP SUP block SUB char
+				| LARGEOP SUP command SUB command
+				| LARGEOP SUP command SUB block
+				| LARGEOP SUP block SUB command
 				| LARGEOP SUP block SUB block'''
 	if(p[2] =='_'):
 		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) + ' desde',OPTION) + p[3] + formulate.formulate('hasta',OPTION) + p[5] + formulate.formulate('de',OPTION)
@@ -226,7 +230,7 @@ def p_comLargeOp(p):
 
 def p_largeOp(p):
 	'''larop : LARGEOP
-				| LARGEOP SUB char
+				| LARGEOP SUB command
 				| LARGEOP SUB block'''
 	if(len(p)==2):
 		p[0]= formulate.formulate(dLargeOperators.showReading(p[1],0),OPTION)
@@ -243,7 +247,7 @@ def p_delimiter(p):
 	p[0] = formulate.formulate(dDelimiters.showReading(p[1],0),OPTION)
 
 def p_simpleAccent(p):
-	'''accent : ACCENT char'''
+	'''accent : ACCENT command'''
 	p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1],0),OPTION)
 
 def p_complexAccent(p):
@@ -254,7 +258,7 @@ def p_complexAccent(p):
 		p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1],0),OPTION)
 
 def p_style(p):
-	'''style : STYLE char
+	'''style : STYLE command
 				| STYLE block '''
 	p[0] = formulate.formulate(dStyles.showReading(p[1],0),OPTION) + p[2] + formulate.formulate('fin ' + dStyles.showReading(p[1],0),OPTION)
 
@@ -264,7 +268,7 @@ def p_dots(p):
 
 def p_lim(p):
 	'''lim : LIM
-			| LIM SUB char
+			| LIM SUB command
 			| LIM SUB block '''
 	if(len(p) == 4):
 		p[0] = formulate.formulate('l&iacute;mite cuando',OPTION) + p[3] + formulate.formulate('de',OPTION)
@@ -306,6 +310,37 @@ def p_factorial(p):
 def p_prime(p):
 	'''prime : "'" '''
 	p[0] = formulate.formulate('prima',OPTION)
+
+def p_combi(p):
+	'''combi : choose
+			| binom '''
+	p[0] = p[1]
+
+def p_choose(p):
+	'''choose : command CHOOSE command
+				| command CHOOSE block
+				| block CHOOSE command
+				| block CHOOSE block'''
+	p[0] = formulate.formulate('combinaciones de', OPTION) + p[1] + formulate.formulate('en',OPTION) + p[3]
+
+def p_binom(p):
+	'''binom : BINOM command command
+			| BINOM command block
+			| BINOM block command
+			| BINOM block block ''' 
+	p[0] = formulate.formulate('combinaciones de', OPTION) + p[2] + formulate.formulate('en',OPTION) + p[3]
+
+def p_pmod(p):
+	'''pmod : PMOD command'''
+	p[0] = formulate.formulate('m&oacute;dulo',OPTION) + p[2]
+
+def p_blockpmod(p):
+	'''pmod : PMOD block'''
+	p[0] = formulate.formulate('m&oacute;dulo', OPTION) + p[2] + formulate.formulate('fin mod', OPTION)
+
+def p_linebreak(p):
+	'''lnbrk : LINEBREAK'''
+	p[0] = formulate.formulate('salto de l&iacute;nea',OPTION)
 
 def p_error(p):
 	if p:
