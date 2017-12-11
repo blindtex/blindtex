@@ -1,0 +1,13 @@
+Seudo código con descripción del flujo del programa, documento.tex será el nombre del documento a procesar.
+documentString = iotools.openFile('documento.tex')
+documentContent = stringtools.extractContent(documentString)
+newDocumentContent = stringtools.seekAndReplaceFormulas(documentContent[1])
+iotools.replaceAndWrite(documentContent,newDocumentContent,'noFormula_documento.tex')
+iotools.convertToHtml('noFormula_documento.tex')
+htmlString = iotools.openFile('noFormula_documento.xhtml')
+htmlString = stringtool.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayLists)
+#Escribir htmlString en un archivo xhtml llamado document.xhtml .
+#Borrar los residuos.
+
+
+

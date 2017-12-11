@@ -1,35 +1,11 @@
 #-*-:coding:utf-8-*-
 
-#TODO Document the methods.
-
 import os
-import re
 import copy
 import string
 import subprocess
-#import blindtex.converter.parser
 from sys import argv
 
-#Regular expression to match anything in math mode. Altough there are better regex to do the same, this allows add new options easily.
-#If you want to proove it before,  you can do it in https://regex101.com/r/dSxw4f/2/
-#TODO The repetition of code is a signal it can be made in a more elegant way.
-
-inlineMath = re.compile(r'''(?<!\\)( #Exclude escaped symbols
-								((\$)(.*?)(?<!\\)(\$))| #Single $ formulas
-								((\\\()(.*?)(?<!\\)(\\\))) #\(
-							)''', re.DOTALL|re.UNICODE|re.X)
-displayMath = re.compile(r'''(?<!\\)( #Exclude escaped symbols
-										((\${2})(.*?)(?<!\\)(\${2}))| #Identify double $ formulas
-										((\\\[)(.*?)(?<!\\)(\\\]))| #\[
-										((\\begin\{equation\})(.*?)(?<!\\)(\\end\{equation\}))|
-										((\\begin\{equation\*\})(.*?)(?<!\\)(\\end\{equation\*\}))| #begin equation with and without *
-										((\\begin\{align\})(.*?)(?<!\\)(\\end\{align\}))|
-										((\\begin\{align\*\})(.*?)(?<!\\)(\\end\{align\*\})) # align and align*
-									)''',re.DOTALL|re.UNICODE|re.X)
-
-
-inlineMathString = "(inlineLaTeXStringNumber%d)"
-displayMathString = "(DisplayLaTeXStringNumber%d)"
 #HU1
 #Method to open a file and return its content as a string.
 def openFile(fileName):
@@ -48,58 +24,6 @@ def openFile(fileName):
 		return ""
 #EndOfFunction
 
-#Function to separate the document from the preamble(LaTeX formating) and the information after the document.
-#It returns an array of strings with the parts.
-def extractContent(completeDocument):
-	'''The method takes a string representing a LaTeX document and separates its preamble (the portion before "\\begin{document}"), its content and its epilogue (after \\end{document}) and returns then in a list.
-		Args:
-			completeDocument(str): The LaTeX document as a string.
-		Returns:
-			list[str,str,str]: A list of three strings, the first one the portion before \\begin{document}(inclusive), the second one the document, the last one the part after \\end{document}.'''
-	try:
-		preamble = completeDocument[:completeDocument.index(r'\begin{document}')]
-		document = completeDocument[completeDocument.index(r'\begin{document}'): completeDocument.index(r'\end{document}')+ len(r'\end{document}')]
-		epilogue = completeDocument[completeDocument.index(r'\end{document}')+ len(r'\end{document}'):]
-	except ValueError:
-		print "\\begin{document} or \end{document} not found.\n"
-	return [preamble, document, epilogue]
-#EndOfFunction
-
-#HU2 HU8 HU3
-#Function to find all the math in the document, copy then in a file and replace then by  markers.
-#The input is a strign with the document content, and a string with a name of the file where all the math will be writen.
-def seekAndReplace(document, formulaFileName, regexOption, replaceString):
-	'''Search for all the math formulas in the document, when one is found first, the function copies the formula in a external file; then the function replace the formula for a marker to future uses.
-		Args:
-			document(str): the LaTeX content.
-			formulaFileName(str): the name of the document that will have all the formulas, one line for each.
-			regexOption(regex object): the regex the function will seek.
-			replaceString(str): the string that will replace the formulas.
-		Returns:
-			str: The string with all the markers instead of formulas. '''
-	otherDocument = copy.deepcopy(document)
-	myIterator = regexOption.finditer(otherDocument)
-	index = 0 #Index to keep track of which equation is being replaced.
-	
-	try:
-		myFile = open(formulaFileName, "w")#TODO Check if the file already exits, warn about that and decide if the user wants to replace it.
-		while(True):
-			try:
-				currentMatch = myIterator.next()
-				otherDocument = otherDocument.replace(currentMatch.group(0), replaceString%(index), 1)
-				currentMatch = currentMatch.group(0)
-				myFile.write(currentMatch +"\n")
-				index += 1
-			except StopIteration:
-				myFile.close()
-				break
-	except IOError:
-		print "File could not be oppened."
-	
-	print "seekAndReplace completed."
-	return otherDocument
-#EndOfFunction
-
 #Replace the document containing the LaTeX math with the output of the function seekAndReplace. Write the content in a new file.
 def replaceAndWrite(contentList, replacedDocument, fileName):
 	'''Replace the document containing the LaTeX math with the output of the function seekAndReplace. Write the content in a new file.
@@ -115,123 +39,30 @@ def replaceAndWrite(contentList, replacedDocument, fileName):
 		myFile.close()
 	except IOError:
 		print "File could not be oppened."
+		return
+
 	print "replaceAndWrite completed."
 #EndOfFunction
 
-#HU6
-#Insert all the LaTeX formulas in the file formulaFile, already converted, the replacement is done in order of appearance with the marker put before.
-def insertConvertedFormulas(htmlString, inlineFileName, displayFileName):
-	'''Insert all the LaTeX formulas in the file formulaFile, already converted, the replacement is done in order of appearance with the marker put before.
-		Args:
-			htmlString(str): the html document, product of the conversion from LaTeX to html.
-			inlineFileName(str): the name of the file with all the inline formulas written in LaTeX processed.
-			diplayFileName(str): the name of the file with all the  display formulas written in LaTeX processed.
-			
-		Returns:
-			str: the html document but with all the formulas inserted. '''
-	try:
-		inlineFile = open(inlineFileName)
-		displayFile = open(displayFileName)
-	except IOError:
-		print "Some File could not be openned."#TODO: Indentify which file.
-		return
-	output = ""	
-	newString = copy.deepcopy(htmlString)
-	inlineIndex = 0
-	for line in inlineFile:
-		output = newString.replace(inlineMathString%(inlineIndex),'<span>' + converter.parser.convert(line) + '</span>')
-		newString = output
-		inlineIndex += 1
-	
-	output = ""
-	displayIndex = 0
-	for line in displayFile:
-		output = newString.replace(displayMathString%(displayIndex),'<div>' + converter.parser.convert(line) + '</div>')
-		newString = output
-		displayIndex += 1
-	
-	inlineFile.close()
-	displayFile.close()
-	print "Succes!! %d inline math inserted and %d display math inserted.\n"%(inlineIndex, displayIndex)
-	return newString
-#EndOfFunction
-
-def GenerateNoTeX(fileName):
-	'''This method executes all the process from LaTeX document to document without formulas.
-		Args:
-			fileName(str): the name of the .tex file to be processed.'''
-	noExtensionName = fileName.replace(".tex","")
-	myContent = extractContent(openFile(fileName))
-	newDocument = seekAndReplace(myContent[1], noExtensionName + "_DisplayFormulae.txt", displayMath, displayMathString)#Generates  txt file.
-	newDocument = seekAndReplace(newDocument, noExtensionName + "_InLineFormulae.txt", inlineMath, inlineMathString)#Generates  txt file.
-
-	replaceAndWrite(myContent, newDocument, "NoTex"+fileName)#Generates  .tex file
-#EndOfFunction
-
-def convertToHtml1(fileName):
+def convertToHtml(fileName, biblioName=None):
 	'''This function uses LaTeXML to convert a .tex file in a html with accesible math formulas.
 		Args:
-			fileName(str): the name of the .tex file to be processed. '''
+			fileName(str): the name of the .tex file to be processed.
+			(opt)biblioName(str): the name o a .bib file. '''
+
 	noExtensionName = fileName.replace(".tex","")
 	
-	GenerateNoTeX(fileName)
-	#HU7
-	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName])#, shell= True)#Generates xml file.
-	subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"])#, shell= True)#Generates xhtml file.
+	if(biblioName):
+		noExtensionBiblio = biblioName.replace(".bib","")
+		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell=True)
+		subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName])#, shell= True)
+		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"], shell=True)
+	else:
+		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName])#, shell= True)#Generates xml file.
+		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"])#, shell= True)#Generates xhtml file.
 
-	htmlString = openFile(noExtensionName+".xhtml")
-	#TODO Call the method to convert the formulas and generate a file with them.
-	#HU6
-	htmlString = insertConvertedFormulas(htmlString, noExtensionName+ "_InLineFormulae.txt", noExtensionName+ "_DisplayFormulae.txt" ) #TODO By the moment it will be the same formulas, untill we can convert them.
-
-	try:
-		newFile = open(noExtensionName+".xhtml", 'w')
-		newFile.write(htmlString)
-		newFile.close()
-		os.remove(noExtensionName+"_InLineFormulae.txt")#It could not generate this file.
-		os.remove(noExtensionName+"_DisplayFormulae.txt")#It could not generate this file.
-		os.remove("NoTex"+fileName)
-		os.remove(noExtensionName+".xml")
-	except IOError:
-		print "file could not be oppened."
-		return
-	print "Process Ended."
 #EndOfFunction
 
-#The same main but considering a bibliography.
-def convertToHtml2(fileName, biblioName):
-	'''This function uses LaTeXML to convert a .tex file and a .bib in a html with accesible math formulas.
-		Args:
-			fileName(str): the name of the .tex file to be processed.
-			biblioName(str): the name o a .bib file.'''
-	noExtensionName = fileName.replace(".tex","")
-	noExtensionBiblio = biblioName.replace(".bib","")
-
-	generateNoTeX(fileName)
-
-	#HU7
-	subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet","NoTex"+fileName], shell=True)
-	subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName])#, shell= True)
-	subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"], shell=True)
-
-	htmlString = openFile(noExtensionName+".xhtml")
-	#TODO Call the method to convert the formulas and generate a file with them.
-	#HU6
-	htmlString = insertConvertedFormulas(htmlString, noExtensionName+ "_InLineFormulae.txt", noExtensionName+ "_DisplayFormulae.txt" ) #TODO By the moment it will be the same formulas, untill we can convert them.
-	try:
-		newFile = open(noExtensionName+".xhtml", 'w')
-		newFile.write(htmlString)
-		newFile.close()
-		os.remove(noExtensionName+"_InLineFormulae.txt")#It could not generate this file.
-		os.remove(noExtensionName+"_DisplayFormulae.txt")#It could not generate this file.
-		os.remove("NoTex"+fileName)
-		os.remove(noExtensionName + ".xml")
-		os.remove(noExtensionBiblio + ".xml")
-	except IOError:
-		print "file could not be oppened."
-		return
-	print "Process Ended"
-#EndOfFunction
 
 
 

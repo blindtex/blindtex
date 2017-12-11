@@ -101,8 +101,7 @@ def p_content(p):
 
 def p_char(p):
 	'''char : CHAR
-			| ord
-'''
+			| ord'''
 	p[0] = p[1] + ' '
 
 
@@ -133,7 +132,8 @@ def p_command(p):
 				| combi
 				| unknown
 				| pmod
-				| lnbrk'''
+				| lnbrk
+				| phantom'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -341,6 +341,12 @@ def p_blockpmod(p):
 def p_linebreak(p):
 	'''lnbrk : LINEBREAK'''
 	p[0] = formulate.formulate('salto de l&iacute;nea',OPTION)
+
+def p_phantom(p):
+	'''phantom : PHANTOM command
+				| PHANTOM block'''
+	p[0] = ''
+
 
 def p_error(p):
 	if p:
