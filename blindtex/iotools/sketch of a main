@@ -1,12 +1,20 @@
-Seudo código con descripción del flujo del programa, documento.tex será el nombre del documento a procesar.
+#Seudo código con descripción del flujo del programa, documento.tex será el nombre del documento a procesar.
+#Abrir el archivo y extraer su interior en un string.
 documentString = iotools.openFile('documento.tex')
+#Separar su contenido en una lista con preámbulo, contenido, epilogo.
 documentContent = stringtools.extractContent(documentString)
-newDocumentContent = stringtools.seekAndReplaceFormulas(documentContent[1])
+#Buscar las fórmulas en el contenido, reemplazarlas, guardarlas en sus respectivas listas, reemplazarlas por un marcador y obtener el mismo documento con las formulas reemplazadas
+newDocumentContent = stringtools.seekAndReplaceFormulas(documentContent[1]).otherDocument
+#Reescribir el contenido con las fórmulas reemplazadas por marcadores en un nuevo documento LaTeX.
 iotools.replaceAndWrite(documentContent,newDocumentContent,'noFormula_documento.tex')
+#Invocar LaTeXML para que convierta el documento sin fórmulas a html.
 iotools.convertToHtml('noFormula_documento.tex')
+#Extraer el contenido del html producido en un string.
 htmlString = iotools.openFile('noFormula_documento.xhtml')
-htmlString = stringtool.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayLists)
-#Escribir htmlString en un archivo xhtml llamado document.xhtml .
+#Insertar las fórmulas convertidas por el parser en el string del  documento html.
+htmlString = stringtool.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
+#Escribir el string final en un documento.
+iotools.writeHtmlFile(htmlString, 'document.xhtml')
 #Borrar los residuos.
 
 

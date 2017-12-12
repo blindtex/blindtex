@@ -63,6 +63,19 @@ def convertToHtml(fileName, biblioName=None):
 
 #EndOfFunction
 
-
+#TODO ¿con alguna extensión o la extensión se da desde afuera?
+def writeHtmlFile(htmlString, fileName):
+	'''Function to write the html result in a final file.
+		Args:
+			htmlString(str): The string with the html content of the final result.
+			fileName(str): The name of the file where the string will be written. '''
+	try:
+		htmlFile = open(fileName,'w')
+		htmlFile.write(htmlString)
+		htmlFile.close()
+	except IOError:
+		print('File could not be oppened.')
+		return	
+#EndOf Function
 
 
