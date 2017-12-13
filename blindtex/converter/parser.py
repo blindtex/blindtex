@@ -69,8 +69,9 @@ OPTION = 0
 
 #
 precedence = (
-	('left','SUP','SUB', 'FRAC','ROOT'),
-	('right', 'LARGEOP')	
+	
+	('left', 'LARGEOP'),
+	('left','SUP','SUB', 'FRAC','ROOT'),	
 )
 
 
@@ -92,7 +93,8 @@ def p_content(p):
 	'''content : block
 				| scripted
 				| command
-				| content content'''
+				| content content
+				| larop'''
 	if(len(p) == 3):
 		p[0] = p[1] + p[2]
 	else:
@@ -117,7 +119,6 @@ def p_command(p):
 				| array
 				| col
 				| factorial
-				| larop
 				| prime
 				| binop
 				| binrel
@@ -214,6 +215,7 @@ def p_function(p):
 	'''function : FUNC '''
 	p[0] = formulate.formulate(dMathFunctions.showReading(p[1],0),OPTION)
 
+#TODO: Large operator is mocking again, by the moment it can not be used as a normal symbol.
 def p_comLargeOp(p):
 	'''larop : LARGEOP SUB command SUP command
 				| LARGEOP SUB command SUP block
