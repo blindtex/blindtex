@@ -4,6 +4,7 @@ import collections
 from blindtex.iotools import stringtools
 
 def test_extractContent():
+	latex_document = "\documentclass[preview]{standalone}\\begin{document}\\begin{equation}F(V, T) = E(V) + D(T)\end{equation}\end{document}" 
 	dict_document = stringtools.extractContent(latex_document) 
 	assert ['preamble', r'\begin{document}content\end{document}','epilogue'] == stringtools.extractContent(r'preamble\begin{document}content\end{document}epilogue')
 	assert [r'preamble\n', r'\begin{document}\ncontent\n\end{document}',r'\nepilogue'] == stringtools.extractContent(r'preamble\n\begin{document}\ncontent\n\end{document}\nepilogue')
