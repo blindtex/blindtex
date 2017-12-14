@@ -4,7 +4,8 @@ documentString = iotools.openFile('documento.tex')
 #Separar su contenido en una lista con preámbulo, contenido, epilogo.
 documentContent = stringtools.extractContent(documentString)
 #Buscar las fórmulas en el contenido, reemplazarlas, guardarlas en sus respectivas listas, reemplazarlas por un marcador y obtener el mismo documento con las formulas reemplazadas
-newDocumentContent = stringtools.seekAndReplaceFormulas(documentContent[1]).otherDocument
+documentAndLists = stringtools.seekAndReplaceFormulas(documentContent[1])
+newDocumentContent = documentAndLists.replacedDocument
 #Reescribir el contenido con las fórmulas reemplazadas por marcadores en un nuevo documento LaTeX.
 iotools.replaceAndWrite(documentContent,newDocumentContent,'noFormula_documento.tex')
 #Invocar LaTeXML para que convierta el documento sin fórmulas a html.
