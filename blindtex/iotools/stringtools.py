@@ -54,18 +54,23 @@ def cleanDelimiters(equation):
 #Function to separate the document from the preamble(LaTeX formating) and the information after the document.
 #It returns an array of strings with the parts.
 def extractContent(completeDocument):
-	'''The method takes a string representing a LaTeX document and separates its preamble (the portion before "\\begin{document}"), its content and its epilogue (after \\end{document}) and returns them in a list.
-		Args:
-			completeDocument(str): The LaTeX document as a string.
-		Returns:
-			list[str,str,str]: A list of three strings, the first one the portion before \\begin{document}(inclusive), the second one the document, the last one the part after \\end{document}.'''
-	try:
-		preamble = completeDocument[:completeDocument.index(r'\begin{document}')]
-		document = completeDocument[completeDocument.index(r'\begin{document}'): completeDocument.index(r'\end{document}')+ len(r'\end{document}')]
-		epilogue = completeDocument[completeDocument.index(r'\end{document}')+ len(r'\end{document}'):]
-	except ValueError:
-		print "\\begin{document} or \end{document} not found.\n"
-	return [preamble, document, epilogue]
+    '''The method takes a string representing a LaTeX document and separates its preamble (the portion before "\\begin{document}"), its content and its epilogue (after \\end{document}) and returns them in a list.
+        Args:
+            completeDocument(str): The LaTeX document as a string.
+        Returns:
+            list[str,str,str]: A list of three strings, the first one the portion before \\begin{document}(inclusive), the second one the document, the last one the part after \\end{document}.'''
+    
+    preamble = ""
+    document = ""
+    epilogue = ""
+
+    try:
+        preamble = completeDocument[:completeDocument.index(r'\begin{document}')]
+        document = completeDocument[completeDocument.index(r'\begin{document}'): completeDocument.index(r'\end{document}')+ len(r'\end{document}')]
+        epilogue = completeDocument[completeDocument.index(r'\end{document}')+ len(r'\end{document}'):]
+    except ValueError:
+        print "\\begin{document} or \end{document} not found.\n"
+    return [preamble, document, epilogue]
 #EndOfFunction
 
 #HU2 HU8 HU3
