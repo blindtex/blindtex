@@ -20,7 +20,7 @@ states = (('command', 'exclusive'),)
 #	myFile.close()
 #except IOError:
 
-literals = [':', '!',"'"]
+literals = [ '!',"'"]
 
 def t_BEGINBLOCK(t):
 	r'\{'
@@ -187,7 +187,7 @@ def t_command_MATHSPACE(t):
 	pass
 
 def t_CHAR(t):
-	r'[A-Za-z0-9,.]+?'
+	r'[A-Za-z0-9,.:\|;%]+?'
 	return t
 
 def t_command_UNKNOWN(t):

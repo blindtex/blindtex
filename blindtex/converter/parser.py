@@ -28,7 +28,7 @@ Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']]
             'Omega': [0,['omega may&uacute;scula']],'aleph': [0,['alef']], 'hbar': [0,['hache barra']], 'imath': [0,['i caligr&aacute;fica, sin punto']],
             'jmath': [0,['j caligr&aacute;fica, sin punto']], 'ell' : [0,['ele caligr&aacute;fica']],'vp': [0,['p caligr&aacute;fica']], 'Re': [0,['parte real']],
             'Im': [0,['parte imaginaria']], 'partial': [0,['parcial']], 'infty': [0,['infinito']],'prime': [0,['prima']],'emptyset':[0,['conjunto vac&iacute;o']],'nabla':[0,['nabla']],
-            'surd':[0,['ra&iacute;z']],'top': [0,['transpuesto']], 'bot': [0,['perpendicular']],'|': [0,['paralelo, norma']], 'angle': [0,['&aacute;ngulo']],
+            'surd':[0,['ra&iacute;z']],'top': [0,['transpuesto']], 'bot': [0,['perpendicular']],'|': [0,['norma', 'paralelo']], 'angle': [0,['&aacute;ngulo']],
             'triangle': [0,['tri&aacute;ngulo']],'backslash': [0,['barra invertida']], 'forall':[0,['para todo']],'exists':[0,['existe']],'neg': [0,['negaci&oacute;n']],
             'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['coraz&oacute;n']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']], 'prime':[0,['prima']]}
 
