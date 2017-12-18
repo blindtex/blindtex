@@ -13,7 +13,7 @@ iotools.convertToHtml('noFormula_documento.tex')
 #Extraer el contenido del html producido en un string.
 htmlString = iotools.openFile('noFormula_documento.xhtml')
 #Insertar las fórmulas convertidas por el parser en el string del  documento html.
-htmlString = stringtool.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
+htmlString = stringtools.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
 #Escribir el string final en un documento.
 iotools.writeHtmlFile(htmlString, 'document.xhtml')
 #Borrar los residuos.

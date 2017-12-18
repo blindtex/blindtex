@@ -4,7 +4,7 @@ import re
 import string
 import collections
 import copy
-#import blindtex.converter.parser
+#import blindtex.converter.parser 
 
 #Regular expression to match anything in math mode. Altough there are better regex to do the same, this allows add new options easily.
 #If you want to proove it before,  you can do it in https://regex101.com/r/dSxw4f/2/
@@ -136,14 +136,14 @@ def insertConvertedFormulas(htmlString, inlineList, displayList):
 	newString = copy.deepcopy(htmlString)
 	inlineIndex = 0
 	for line in inlineList:
-		output = newString.replace(inlineMathString%(inlineIndex),'<span>' + converter.parser.convert(line) + '</span>')
+		output = newString.replace(inlineMathString%(inlineIndex),'<span>' + (line) + '</span>')
 		newString = output
 		inlineIndex += 1
 	
 	output = ""
 	displayIndex = 0
 	for line in displayList:
-		output = newString.replace(displayMathString%(displayIndex),'<div>' + converter.parser.convert(line) + '</div>')
+		output = newString.replace(displayMathString%(displayIndex),'<div>' + (line) + '</div>')
 		newString = output
 		displayIndex += 1
 	
