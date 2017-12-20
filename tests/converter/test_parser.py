@@ -29,7 +29,7 @@ def test_convert():
 	assert 'a <span aria-label="sub">&nbsp;</span>b <span aria-label="fin sub">&nbsp;</span><span aria-label="s&uacute;per">&nbsp;</span>c <span aria-label="fin s&uacute;per">&nbsp;</span> ' == parser.convert("{a}_b^c")
 	assert 'a <span aria-label="sub">&nbsp;</span>b <span aria-label="fin sub">&nbsp;</span><span aria-label="s&uacute;per">&nbsp;</span>c <span aria-label="fin s&uacute;per">&nbsp;</span> ' == parser.convert("{a}_{b}^c")
 	assert 'a <span aria-label="sub">&nbsp;</span>b <span aria-label="fin sub">&nbsp;</span><span aria-label="s&uacute;per">&nbsp;</span>c <span aria-label="fin s&uacute;per">&nbsp;</span> ' == parser.convert("{a}_{b}^{c}")
-	assert '<span aria-label="comienza fracci&oacute;n">&nbsp;</span>a <span aria-label="sobre">&nbsp;</span>b <span aria-label="fin fracci&oacute;n">&nbsp;</span> ' == parser.convert("\\frac ab")
+	assert 'a <span aria-label="sobre">&nbsp;</span>b  ' == parser.convert("\\frac ab")
 	assert '<span aria-label="comienza fracci&oacute;n">&nbsp;</span>a <span aria-label="sobre">&nbsp;</span>b <span aria-label="fin fracci&oacute;n">&nbsp;</span> ' == parser.convert("\\frac{a}{b}")
 	assert '<span aria-label="comienza fracci&oacute;n">&nbsp;</span>a <span aria-label="sobre">&nbsp;</span>b <span aria-label="fin fracci&oacute;n">&nbsp;</span> ' == parser.convert("\\frac{a}b")
 	assert '<span aria-label="comienza fracci&oacute;n">&nbsp;</span>a <span aria-label="sobre">&nbsp;</span>b <span aria-label="fin fracci&oacute;n">&nbsp;</span> ' == parser.convert("\\frac a{b}")
@@ -74,3 +74,4 @@ def test_convert():
 def test_miscConvert():
 	assert 'a b <span aria-label="s&uacute;per">&nbsp;</span>2 <span aria-label="fin s&uacute;per">&nbsp;</span> ' == parser.convert('ab^2')
 	assert '<span aria-label="parcial">&nbsp;</span> t <span aria-label="s&uacute;per">&nbsp;</span>2 <span aria-label="fin s&uacute;per">&nbsp;</span> ' == parser.convert('\\partial t^2')
+	assert '<span aria-label="alfa">&nbsp;</span> <span aria-label="sobre">&nbsp;</span><span aria-label="beta">&nbsp;</span>  ' == parser.convert('\\frac \\alpha \\beta')

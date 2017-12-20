@@ -142,6 +142,7 @@ def p_command(p):
 
 #TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez que p[0] = "una función que depende de los otros p[i]".
 
+#TODO Que se pueda poner ^2 o _b sin una base.
 def p_scripted(p):
 	'''scripted : command SUP command
 					| command SUP block
@@ -177,10 +178,14 @@ def p_compScripted(p):
 		p[0] =  p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION) + formulate.formulate('sub',OPTION) + p[5] + formulate.formulate('fin sub',OPTION)
 	else:
 		p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION) + formulate.formulate('s&uacute;per',OPTION) + p[5] + formulate.formulate('fin s&uacute;per',OPTION)
+
+#TODO Poder poner LargeOP en esta regla.
+def p_simpleFrac(p):
+	'''frac : FRAC command command '''
+	p[0] = p[2] + formulate.formulate('sobre',OPTION) + p[3]
 		
 def p_frac(p):
-	'''frac : FRAC command command
-				| FRAC command block
+	'''frac : FRAC command block
 				| FRAC block command
 				| FRAC block block'''
 	p[0] = formulate.formulate('comienza fracci&oacute;n',OPTION) + p[2] + formulate.formulate('sobre',OPTION) + p[3] + formulate.formulate('fin fracci&oacute;n',OPTION)
