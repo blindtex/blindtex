@@ -6,6 +6,19 @@ El objetivo del proyecto BlindTeX es mejorar la accesibilidad de los documentos 
 escritos en (La)TeX , para esto se intenta mejorar la capacidad del documento de transmitir 
 la información matemática plasmada hacia el usuario por medio de pistas auditivas o textuales.
 
+En construcción
+
+##Modo de uso
+```
+blindtex --help
+```
+
+##Instalación
+TODO
+
+##Documentación
+TODO
+
 ## Testing
 
 ```
@@ -13,3 +26,4 @@ la información matemática plasmada hacia el usuario por medio de pistas auditi
 
 pytest
 ```
+##Licencia
