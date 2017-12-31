@@ -8,15 +8,15 @@ la información matemática plasmada hacia el usuario por medio de pistas auditi
 
 En construcción
 
-##Modo de uso
+## Modo de uso
 ```
 blindtex --help
 ```
 
-##Instalación
+## Instalación
 TODO
 
-##Documentación
+## Documentación
 TODO
 
 ## Testing
