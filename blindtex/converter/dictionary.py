@@ -24,7 +24,7 @@ class dictionary(object):
 	#--------------------------------------------------------------------------
 
 	def open(self, jsonFileName):
-		'''Function to open charge the dictionary from a json file.
+		'''Function to open and charge the dictionary from a json file.
 			Args:
 				jsonFileName(str): Is the name of the file from where the dictionary will be charged. '''
 		self.fileName = jsonFileName				
@@ -33,7 +33,7 @@ class dictionary(object):
 			self.dict = json.load(myFile)
 			myFile.close()
 		except IOError:
-			print 'File %s could not be oppened.'%jsonFileName
+			print('File %s could not be oppened.'%jsonFileName)
 	#--------------------------------------------------------------------------
 	def save(self):
 		'''Function to save in fileName the dictionary dict.'''
@@ -42,7 +42,7 @@ class dictionary(object):
 			json.dump(self.dict, myFile)
 			myFile.close()
 		except IOError:
-			print 'File could not be oppened.'
+			print('File could not be oppened.')
 	#--------------------------------------------------------------------------
 	def saveAs(self,newJsonFileName):
 		'''Function to create a new json file to save the dictionary.
@@ -53,7 +53,7 @@ class dictionary(object):
 			json.dump(self.dict, myFile)
 			myFile.close()
 		except IOError:
-			print 'File could not be oppened.'
+			print('File could not be oppened.')
 	#--------------------------------------------------------------------------
 	def addReading(self, key, newValue):
 		'''Function to add a reading to a existing key.
@@ -64,7 +64,7 @@ class dictionary(object):
 			self.dict[key][1].append(newValue)
 			self.dict[key][0] = len(self.dict[key][1]) - 1
 		except KeyError:
-			print 'Command %s does not exist.'%key
+			print('Command %s does not exist.'%key)
 	#--------------------------------------------------------------------------
 	def changeReading(self, key, index):
 		'''Function to change the reading of a command.
@@ -75,16 +75,16 @@ class dictionary(object):
 			if(index < len(self.dict[key][1])):
 				self.dict[key][0] = index				
 			else:
-				print 'The value number %d is not in the readings list.'%index
+				print('The value number %d is not in the readings list.'%index)
 		except KeyError:
-			print 'Command %s does not exist.'%key
+			print('Command %s does not exist.'%key)
 	#--------------------------------------------------------------------------
 	#TODO Agrega un comando con su respectiva lectura
 	def addCommand(self,key,value):#Agregar el comando y la lectura Puede variar cuando las configuraciones estén listas.
 		str(value)
 		str(key)
 		if (self.dict.get(key) is not None):
-			return('Key already exists')
+			return('Key already exists.')
 		else:
 			self.dict[str(key)] = value
 	#--------------------------------------------------------------------------
@@ -97,9 +97,9 @@ class dictionary(object):
 		try:
 			self.dict[key][0] = self.dict[key][1].index(value)
 		except KeyError:
-			print 'Command %s does not exist.'%key
+			print('Command %s does not exist.'%key)
 		except IndexError:
-			print 'Reading %s does not exist.'%value			
+			print('Reading %s does not exist.'%value)
 	#--------------------------------------------------------------------------
 
 	def showReading(self,key,conf):#Retorna la lectura configurada, falta implementar para lectura de más de una configuración
@@ -112,7 +112,7 @@ class dictionary(object):
 		try:
 			return str(self.dict.get(key)[1][conf])
 		except KeyError:
-			print 'Command %s does not exist.'%key
+			print('Command %s does not exist.'%key)
 
 	#--------------------------------------------------------------------------
 	
@@ -121,9 +121,9 @@ class dictionary(object):
 			Args:
 				key(str): The command.'''
 		try:
-			print self.dict[key][1]
+			print(self.dict[key][1])
 		except KeyError:
-			print 'Command %s does not exist.'%key
+			print('Command %s does not exist.'%key)
 
 	#--------------------------------------------------------------------------			
 	def showlatex(self,value):#Devuelve el comando al que está asociado el valor

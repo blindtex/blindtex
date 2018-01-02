@@ -18,6 +18,7 @@ def formulate(label, option):
 		option(int): Gives the following options:
 					option = 0, return the label as '<span aria-label=\"label\">&nbsp;</span>'
 					option = 1, return the changes the html accents for UTF-8 accents and returns label plus a space.
+					option = 2, return the label as <math aria-label=\"label\">&nbsp;</math>
 
 	Returns:
 		str: The string according to the option
