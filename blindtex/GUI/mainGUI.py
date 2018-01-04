@@ -1,13 +1,39 @@
 #!/usr/bin/python
 #-*-:coding:utf-8-*-
 import wx
+import sys
+import webbrowser
 import os
 import blindtex.converter.parser as parser
 
+def convert(self, option, str):
+    convertedFormula = u''
+    parser.OPTION = option
+    input = str
+    inputSplit = input.split("\n")
+    if option == 0:
+        reload(sys)
+        sys.setdefaultencoding('utf8')
+        convertedFormula = '''<!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="UTF-8">
+        <title> Pruebas</title>
+        </head>
+        <body>
+        <p>Fórmula generada:</p>'''
+        for line in inputSplit:
+            convertedFormula = convertedFormula + "<div>" + parser.convert(line) + "</div>" + "\n"
+        convertedFormula = convertedFormula + '''</body>
+        </html>'''
+    if option == 1:
+        for line in inputSplit:
+            convertedFormula = convertedFormula + parser.convert(line) + "\n"
+    return convertedFormula
+
+
 
 class mainGUI(wx.Frame):
-
-
 
     def __init__(self, parent, title):
         super(mainGUI, self).__init__(parent, title=title,
@@ -44,8 +70,11 @@ class mainGUI(wx.Frame):
 
         #Botón
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
-        self.button = wx.Button(panel, label="Convertir", pos=(550,200))
-        self.Bind(wx.EVT_BUTTON, self.onClick)
+        self.button1 = wx.Button(panel, label="Conversión literal", pos=(550,200))
+        self.button1.Bind(wx.EVT_BUTTON, self.onClickConvertLiteral)
+
+        self.button2 = wx.Button(panel, label="Convertir a HTML", pos=(550,300))
+        self.Bind(wx.EVT_BUTTON, self.onClickConvertHTML)
 
         #Textbox de resultado
         hbox3 = wx.BoxSizer(wx.HORIZONTAL)
@@ -60,21 +89,38 @@ class mainGUI(wx.Frame):
         self.Show()
         self.Fit()
 
-    def onClick(self, event):
-        convertedFormula = u''
-        parser.OPTION = 1
-        input = self.t1.GetValue()
-        inputSplit = input.split("\n")
-        for line in inputSplit:
-            convertedFormula = convertedFormula + parser.convert(line) + "\n"
-        print(convertedFormula)
-        self.tf.SetValue(convertedFormula)
+
+
+    def onClickConvertLiteral(self, event):
+        if self.t1.GetValue() == "":
+            print("No hay valores que mostrar")
+        else:
+            self.tf.SetValue(convert(self, 1, self.t1.GetValue()))
+
+    def onClickConvertHTML(self, event):
+        if self.t1.GetValue() == "":
+            print("No hay valores que mostrar")
+        else:
+            with wx.FileDialog(self, "Abrir archivos txt file", wildcard="XYZ files (*.html)|*.html",
+                               style=wx.FD_SAVE) as fileDialog:
+                if fileDialog.ShowModal() == wx.ID_CANCEL:
+                    return  # the user changed their mind
+
+                # Proceed loading the file chosen by the user
+                pathname = fileDialog.GetPath()
+                try:
+                    f = open(pathname, 'w')
+                    f.write(convert(self, 0, self.t1.GetValue()))
+                    f.close()
+                    webbrowser.open(pathname)
+                except IOError:
+                    wx.LogError('Cannot open file')
 
     def OnQuit(self, event):
         self.Close()
 
     def onSave(self, event):
-        with wx.FileDialog(self, "Abrir archivos txt file", wildcard="XYZ files (*.txt)|*.txt",
+        with wx.FileDialog(self, "Guardar", wildcard="XYZ files (*.txt)|*.txt",
                            style=wx.FD_SAVE) as fileDialog:
             if fileDialog.ShowModal() == wx.ID_CANCEL:
                 return  # the user changed their mind
@@ -91,7 +137,7 @@ class mainGUI(wx.Frame):
 
     def onOpen(self, event):
         # otherwise ask the user what new file to open
-        with wx.FileDialog(self, "Abrir archivos txt file", wildcard="XYZ files (*.txt)|*.txt",
+        with wx.FileDialog(self, "Abrir", wildcard="XYZ files (*.txt)|*.txt",
                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
 
             if fileDialog.ShowModal() == wx.ID_CANCEL:
@@ -110,3 +156,4 @@ if __name__ == '__main__':
     app = wx.App()
     mainGUI(None, title='BlindText')
     app.MainLoop()
+

@@ -62,5 +62,3 @@ a\leftarrow b
 \lim_a
 \lim_{a}
 \mycommand
-
-
