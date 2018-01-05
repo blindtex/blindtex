@@ -36,8 +36,9 @@ def convert(self, option, str):
 class mainGUI(wx.Frame):
 
     def __init__(self, parent, title):
-        super(mainGUI, self).__init__(parent, title=title,
-                                      size=(1200, 600))
+        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=wx.GetDisplaySize(),
+                          style= wx.RESIZE_BORDER | wx.SYSTEM_MENU |
+                                wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
 
         # Barra de menú
         menuBar = wx.MenuBar()
@@ -60,33 +61,26 @@ class mainGUI(wx.Frame):
         #Panel principal
         panel = wx.Panel(self)
         panel.SetBackgroundColour('#4f5049')
-        vbox = wx.BoxSizer(wx.HORIZONTAL)
-        grid = wx.GridSizer(2, 3, 1, 2)
 
-        hbox1 = wx.BoxSizer(wx.HORIZONTAL)
         # Textbox
-        self.t1 = wx.TextCtrl(panel, size=(400, 500), style = wx.TE_MULTILINE)
-        hbox1.Add(self.t1, 1, wx.EXPAND | wx.ALIGN_LEFT | wx.RIGHT, border = 20)
+        self.t1 = wx.TextCtrl(panel ,pos = (20,20), size=(2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
 
         #Botón
-        hbox2 = wx.BoxSizer(wx.HORIZONTAL)
-        self.button1 = wx.Button(panel, label="Conversión literal", pos=(550,200))
+        self.button1 = wx.Button(panel, label="Conversión &literal", pos=(self.GetSize()[0]/2-57, self.GetSize()[1]/4))
         self.button1.Bind(wx.EVT_BUTTON, self.onClickConvertLiteral)
 
-        self.button2 = wx.Button(panel, label="Convertir a HTML", pos=(550,300))
-        self.Bind(wx.EVT_BUTTON, self.onClickConvertHTML)
+
 
         #Textbox de resultado
-        hbox3 = wx.BoxSizer(wx.HORIZONTAL)
-        self.tf = wx.TextCtrl(panel, size=(400, 500), style = wx.TE_MULTILINE)
-        hbox3.Add(self.tf, 1, wx.EXPAND | wx.ALIGN_CENTER | wx.LEFT, 20)
+        self.tf = wx.TextCtrl(panel ,pos = (self.GetSize()[0]-(2*self.GetSize()[0]/5+20),20), size = (2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
 
-        grid.AddMany([hbox1, (wx.StaticText(panel, size=(1,1)), wx.EXPAND) ,hbox3])
-        vbox.Add(grid,proportion=0, flag=wx.EXPAND | wx.ALL,  border=20)
-        panel.SetSizer(vbox)
+        self.button2 = wx.Button(panel, label="Convertir a &HTML", pos=(self.GetSize()[0] / 2 - 58, 3 * self.GetSize()[1] / 10))
+        self.Bind(wx.EVT_BUTTON, self.onClickConvertHTML)
+
 
         self.Centre()
         self.Show()
+        self.Maximize(True)
         self.Fit()
 
 
@@ -154,6 +148,6 @@ class mainGUI(wx.Frame):
 
 if __name__ == '__main__':
     app = wx.App()
-    mainGUI(None, title='BlindText')
+    mainGUI(None, title='BlindTex')
     app.MainLoop()
 
