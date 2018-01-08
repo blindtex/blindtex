@@ -5,7 +5,10 @@ import wx
 import sys
 import webbrowser
 import os
-import blindtex.converter.parser as parser
+if os.name == "nt":
+    import blindtex.converter.parser as parser
+elif os.name == "posix":
+    import parser as parser
 
 def convert(self, str):
     convertedFormula = u''
