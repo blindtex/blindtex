@@ -1,17 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #-*-:coding:utf-8-*-
+
 import wx
 import sys
 import webbrowser
 import os
 import blindtex.converter.parser as parser
 
-def convert(self, option, str):
+def convert(self, str):
     convertedFormula = u''
-    parser.OPTION = option
     input = str
     inputSplit = input.split("\n")
-    if option == 0:
+    if parser.OPTION != 1:
         reload(sys)
         sys.setdefaultencoding('utf8')
         convertedFormula = '''<!DOCTYPE html>
@@ -26,14 +26,15 @@ def convert(self, option, str):
             convertedFormula = convertedFormula + "<div>" + parser.convert(line) + "</div>" + "\n"
         convertedFormula = convertedFormula + '''</body>
         </html>'''
-    if option == 1:
+    if parser.OPTION == 1:
         for line in inputSplit:
             convertedFormula = convertedFormula + parser.convert(line) + "\n"
     return convertedFormula
 
 
-
 class mainGUI(wx.Frame):
+
+    sLector = 0
 
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=wx.GetDisplaySize(),
@@ -43,6 +44,7 @@ class mainGUI(wx.Frame):
         # Barra de menú
         menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
+        lectorMenu = wx.Menu()
 
         qim = wx.MenuItem(fileMenu, 1, '&Salir\tCtrl+S')
         oim = wx.MenuItem(fileMenu, 2, '&Abrir\tCtrl+A')
@@ -56,6 +58,15 @@ class mainGUI(wx.Frame):
         self.Bind(wx.EVT_MENU, self.OnQuit, id = 1)
         self.Bind(wx.EVT_MENU, self.onOpen, id = 2)
         self.Bind(wx.EVT_MENU, self.onSave, id = 3)
+
+        VoiceOverItem = lectorMenu.Append(wx.NewId(), "VoiceOver/Jaws\tALT+V","HTML para VoiceOver", wx.ITEM_RADIO)
+        nvdaItem = lectorMenu.Append(wx.NewId(),'NVDA\tALT+N', 'HTML para NVDA', wx.ITEM_RADIO)
+
+
+        self.Bind(wx.EVT_MENU, self.voiceOverChek, VoiceOverItem)
+        self.Bind(wx.EVT_MENU, self.nvdaChek, nvdaItem)
+
+        menuBar.Append(lectorMenu, '&Configuración')
 
 
         #Panel principal
@@ -83,28 +94,37 @@ class mainGUI(wx.Frame):
         self.Maximize(True)
         self.Fit()
 
+    def nvdaChek(self, event):
+        parser.OPTION = 2
+        self.sLector = 2
 
+    def voiceOverChek(self, event):
+        parser.OPTION = 0
+        self.sLector = 0
 
     def onClickConvertLiteral(self, event):
         if self.t1.GetValue() == "":
             print("No hay valores que mostrar")
         else:
-            self.tf.SetValue(convert(self, 1, self.t1.GetValue()))
+            parser.OPTION = 1
+            self.tf.SetValue(convert(self, self.t1.GetValue()))
 
     def onClickConvertHTML(self, event):
         if self.t1.GetValue() == "":
             print("No hay valores que mostrar")
         else:
-            with wx.FileDialog(self, "Abrir archivos txt file", wildcard="XYZ files (*.html)|*.html",
+            with wx.FileDialog(self, "Abrir archivos txt file", wildcard="(*.html)|*.html",
                                style=wx.FD_SAVE) as fileDialog:
                 if fileDialog.ShowModal() == wx.ID_CANCEL:
                     return  # the user changed their mind
 
+                if parser.OPTION == 1:
+                    parser.OPTION = self.sLector
                 # Proceed loading the file chosen by the user
                 pathname = fileDialog.GetPath()
                 try:
                     f = open(pathname, 'w')
-                    f.write(convert(self, 0, self.t1.GetValue()))
+                    f.write(convert(self, self.t1.GetValue()))
                     f.close()
                     webbrowser.open(pathname)
                 except IOError:
