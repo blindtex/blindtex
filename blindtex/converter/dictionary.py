@@ -1,6 +1,5 @@
 #-*-:coding:utf-8-*-
-#Diccionario que contiene todoas las palabras ordinarias que se pueden utilizar
-#Funciones: en esta sección, dejaremos todas las funciones que se requieran
+
 from pkg_resources import _sget_dict
 import json
 
@@ -15,11 +14,11 @@ class dictionary(object):
 		'''Args:
 				dict(dictionary): Is the dictionary to work'''	
 		self.dict = dict
-	#TODO: Por el momento hay un conflicto con parser. Tal vez cuando ya se tengan todos los diccionarios en sus respectivos json se pueda quitar la cuarentena.
-	#def __init__(self, jsonFileName):
-	#	'''Args:
-	#			jsonFileName(str): Is the name of the file from where the dictionary will be charged.'''
-	#	self.open(jsonFileName)
+	
+	def __init__(self, jsonFileName):
+		'''Args:
+				jsonFileName(str): Is the name of the file from where the dictionary will be charged.'''
+		self.open(jsonFileName)
 
 	#--------------------------------------------------------------------------
 
