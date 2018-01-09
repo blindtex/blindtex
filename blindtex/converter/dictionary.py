@@ -9,16 +9,15 @@ class dictionary(object):
 		dict(dictionary): Is the principal dictionary, its items are of the form "command(str) : [conf(int), readings(list of strings)]"
 						command is a LaTeX command, conf(self.dict[command][0]) is the chosen reading at the moment, acts as a index,
  						readings(self.dict[command][1]) is a list of all the possible readings of command.
-		fileName(str): Is the name of the json file where the dictionary will be saved.'''
-	def __init__(self, dict):#Se agrega el diccionario tan pronto como se crea el objeto.
+		fileName(str): Is the name of the json file where the dictionary will be saved.'''	
+	def __init__(self, *args, **kwargs):
 		'''Args:
-				dict(dictionary): Is the dictionary to work'''	
-		self.dict = dict
-	
-	def __init__(self, jsonFileName):
-		'''Args:
-				jsonFileName(str): Is the name of the file from where the dictionary will be charged.'''
-		self.open(jsonFileName)
+				*args: jsonFileName(str): Is the name of the file from where the dictionary will be charged.
+				**kwargs: dict = myDictionary(dict) : a dictionary to work, it will be not saved until saveAs command is called.'''
+		if ('dict' in kwargs):
+			self.dict = kwargs['dict']
+		else:
+			self.open(args[0])
 
 	#--------------------------------------------------------------------------
 
@@ -46,7 +45,8 @@ class dictionary(object):
 	def saveAs(self,newJsonFileName):
 		'''Function to create a new json file to save the dictionary.
 			Args:
-				newJsonFileName(str): The name of the file in  the dictionary will be saved.'''
+				newJsonFileName(str): The name of the file where the dictionary will be saved.'''
+		self.fileName = newJsonFileName + '.json'
 		try:
 			myFile = open(newJsonFileName + '.json', 'w')
 			json.dump(self.dict, myFile)
@@ -65,7 +65,7 @@ class dictionary(object):
 		except KeyError:
 			print('Command %s does not exist.'%key)
 	#--------------------------------------------------------------------------
-	def changeReading(self, key, index):
+	def changeReadingIndex(self, key, index):
 		'''Function to change the reading of a command.
 		Args:
 			key(str): The command that will change its reading.
@@ -80,12 +80,10 @@ class dictionary(object):
 	#--------------------------------------------------------------------------
 	#TODO Agrega un comando con su respectiva lectura
 	def addCommand(self,key,value):#Agregar el comando y la lectura Puede variar cuando las configuraciones estén listas.
-		str(value)
-		str(key)
-		if (self.dict.get(key) is not None):
+		if (self.dict.get(str(key)) is not None):
 			return('Key already exists.')
 		else:
-			self.dict[str(key)] = value
+			self.dict[str(key)] = [0,[str(value)]]
 	#--------------------------------------------------------------------------
 
 	def changeReading(self,key,value):#Agregar una lectura nueva
@@ -94,22 +92,23 @@ class dictionary(object):
 			key(str): The command that will change its reading.
 			value(str): The new reading, if it exists.'''
 		try:
-			self.dict[key][0] = self.dict[key][1].index(value)
+			self.dict[str(key)][0] = self.dict[str(key)][1].index(str(value))
 		except KeyError:
 			print('Command %s does not exist.'%key)
 		except IndexError:
 			print('Reading %s does not exist.'%value)
 	#--------------------------------------------------------------------------
 
-	def showReading(self,key,conf):#Retorna la lectura configurada, falta implementar para lectura de más de una configuración
+	def showReading(self,key):#Retorna la lectura configurada, falta implementar para lectura de más de una configuración
 		'''Function to show the current reading a command has.
 			Args:
 				key(str): The command to be read.
-				conf(int): The current configuration to read.
 			Returns:
 				str: The reading pointed by conf in the list.'''
 		try:
-			return str(self.dict.get(key)[1][conf])
+			#dict(key)[0] is the index of the reading (the configuration) in the list that is dict(key)[1].
+			# So, we are accessing the value in the index dict(key)[0] that is in the list dict(key)[1]. 
+			return str(self.dict.get(key)[1][self.dict.get(key)[0]])
 		except KeyError:
 			print('Command %s does not exist.'%key)
 
@@ -125,7 +124,7 @@ class dictionary(object):
 			print('Command %s does not exist.'%key)
 
 	#--------------------------------------------------------------------------			
-	def showlatex(self,value):#Devuelve el comando al que está asociado el valor
+	def showLatex(self,value):#Devuelve el comando al que está asociado el valor
 		'''Function to sohw the command of a reading, it such exists.
 			Args:
 				value(str): The reading the user wants to know tha associated command.
@@ -143,7 +142,7 @@ class dictionary(object):
 			return 'The value %s has no LaTeX command associated.'%value
 	#--------------------------------------------------------------------------
 
-	def isThere(self,key):#--->revisar
+	def isThere(self,key):
 		'''Function to know if certain command is in the dictionary.
 			Args:
 				key(str): The possible command.

@@ -68,7 +68,7 @@ def p_char(p):
 
 def p_ord(p):
 	'''ord : ORD '''
-	p[0] =  formulate.formulate(dOrdinary.showReading(p[1],0),OPTION)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
+	p[0] =  formulate.formulate(dOrdinary.showReading(p[1]),OPTION)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
 
 
 def p_command(p):
@@ -163,13 +163,13 @@ def p_root(p):
 def p_binOp(p):
 	'''binop : BINOP
 				| KBINOP '''
-	p[0] = formulate.formulate(dBinaryOperators.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dBinaryOperators.showReading(p[1]),OPTION)
 
 
 def p_binRel(p):
 	'''binrel : BINREL
 				| KBINREL'''
-	p[0] = formulate.formulate(dBinaryRelations.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dBinaryRelations.showReading(p[1]),OPTION)
 
 def p_not(p):
 	'''not : NOT '''
@@ -177,7 +177,7 @@ def p_not(p):
 
 def p_function(p):
 	'''function : FUNC '''
-	p[0] = formulate.formulate(dMathFunctions.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dMathFunctions.showReading(p[1]),OPTION)
 
 #TODO: Large operator is mocking again, by the moment it can not be used as a normal symbol.
 def p_comLargeOp(p):
@@ -190,47 +190,47 @@ def p_comLargeOp(p):
 				| LARGEOP SUP block SUB command
 				| LARGEOP SUP block SUB block'''
 	if(p[2] =='_'):
-		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) + ' desde',OPTION) + p[3] + formulate.formulate('hasta',OPTION) + p[5] + formulate.formulate('de',OPTION)
+		p[0] = formulate.formulate(dLargeOperators.showReading(p[1]) + ' desde',OPTION) + p[3] + formulate.formulate('hasta',OPTION) + p[5] + formulate.formulate('de',OPTION)
 	else:
-		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) + ' desde',OPTION) + p[5] + formulate.formulate('hasta',OPTION) + p[3] + formulate.formulate('de',OPTION)
+		p[0] = formulate.formulate(dLargeOperators.showReading(p[1]) + ' desde',OPTION) + p[5] + formulate.formulate('hasta',OPTION) + p[3] + formulate.formulate('de',OPTION)
 
 def p_largeOp(p):
 	'''larop : LARGEOP
 				| LARGEOP SUB command
 				| LARGEOP SUB block'''
 	if(len(p)==2):
-		p[0]= formulate.formulate(dLargeOperators.showReading(p[1],0),OPTION)
+		p[0]= formulate.formulate(dLargeOperators.showReading(p[1]),OPTION)
 	elif(len(p)==4):
-		p[0] = formulate.formulate(dLargeOperators.showReading(p[1],0) +' sobre',OPTION) + p[3] + formulate.formulate('de',OPTION)
+		p[0] = formulate.formulate(dLargeOperators.showReading(p[1]) +' sobre',OPTION) + p[3] + formulate.formulate('de',OPTION)
 
 def p_arrow(p):
 	'''arrow : ARROW'''
-	p[0] = formulate.formulate(dArrows.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dArrows.showReading(p[1]),OPTION)
 
 def p_delimiter(p):
 	'''delimiter : DELIMITER
 					| KDELIMITER '''
-	p[0] = formulate.formulate(dDelimiters.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dDelimiters.showReading(p[1]),OPTION)
 
 def p_simpleAccent(p):
 	'''accent : ACCENT command'''
-	p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1],0),OPTION)
+	p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1]),OPTION)
 
 def p_complexAccent(p):
 	'''accent : ACCENT block'''
 	if(len(p[2]) > 3):
-		p[0] = formulate.formulate(dAccents.showReading(p[1],0),OPTION) + p[2] + formulate.formulate('fin ' + dAccents.showReading(p[1],0),OPTION,)
+		p[0] = formulate.formulate(dAccents.showReading(p[1]),OPTION) + p[2] + formulate.formulate('fin ' + dAccents.showReading(p[1]),OPTION,)
 	else:
-		p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1],0),OPTION)
+		p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1]),OPTION)
 
 def p_style(p):
 	'''style : STYLE command
 				| STYLE block '''
-	p[0] = formulate.formulate(dStyles.showReading(p[1],0),OPTION) + p[2] + formulate.formulate('fin ' + dStyles.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dStyles.showReading(p[1]),OPTION) + p[2] + formulate.formulate('fin ' + dStyles.showReading(p[1]),OPTION)
 
 def p_dots(p):
 	'''dots : DOTS '''
-	p[0] = formulate.formulate(dDots.showReading(p[1],0),OPTION)
+	p[0] = formulate.formulate(dDots.showReading(p[1]),OPTION)
 
 def p_lim(p):
 	'''lim : LIM
