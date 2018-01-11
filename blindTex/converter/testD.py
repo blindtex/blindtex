@@ -1,5 +1,5 @@
 import pytest
-from blindtex.converter.dictionary import dictionary
+from blindTex.converter.dictionary import dictionary
 
 
 Ordinary = {'alpha': ['alfa'], 'beta': ['beta'], 'gamma' : ['gamma'], 'delta' : ['delta'] ,'epsilon' : ['epsilon'], 'varepsilon':['var epsilon'] , 'zeta' : ['zeta'],

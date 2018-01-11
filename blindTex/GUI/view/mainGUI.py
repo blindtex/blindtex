@@ -4,36 +4,12 @@
 import wx
 import sys
 import webbrowser
+from blindTex.GUI.controller import mainController
 import os
 if os.name == "nt":
-    import blindtex.converter.parser as parser
+    import converter.parser as parser
 elif os.name == "posix":
     import parser as parser
-
-def convert(self, str):
-    convertedFormula = u''
-    input = str
-    inputSplit = input.split("\n")
-    if parser.OPTION != 1:
-        reload(sys)
-        sys.setdefaultencoding('utf8')
-        convertedFormula = '''<!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset="UTF-8">
-        <title> Pruebas</title>
-        </head>
-        <body>
-        <p>Fórmula generada:</p>'''
-        for line in inputSplit:
-            convertedFormula = convertedFormula + "<div>" + parser.convert(line) + "</div>" + "\n"
-        convertedFormula = convertedFormula + '''</body>
-        </html>'''
-    if parser.OPTION == 1:
-        for line in inputSplit:
-            convertedFormula = convertedFormula + parser.convert(line) + "\n"
-    return convertedFormula
-
 
 class mainGUI(wx.Frame):
 
@@ -89,7 +65,7 @@ class mainGUI(wx.Frame):
         self.tf = wx.TextCtrl(panel ,pos = (self.GetSize()[0]-(2*self.GetSize()[0]/5+20),20), size = (2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
 
         self.button2 = wx.Button(panel, label="Convertir a &HTML", pos=(self.GetSize()[0] / 2 - 58, 3 * self.GetSize()[1] / 10))
-        self.Bind(wx.EVT_BUTTON, self.onClickConvertHTML)
+        self.button2.Bind(wx.EVT_BUTTON, self.onClickConvertHTML)
 
 
         self.Centre()
@@ -110,7 +86,7 @@ class mainGUI(wx.Frame):
             print("No hay valores que mostrar")
         else:
             parser.OPTION = 1
-            self.tf.SetValue(convert(self, self.t1.GetValue()))
+            self.tf.SetValue(mainController.convert(self.t1.GetValue()))
 
     def onClickConvertHTML(self, event):
         if self.t1.GetValue() == "":
@@ -127,7 +103,7 @@ class mainGUI(wx.Frame):
                 pathname = fileDialog.GetPath()
                 try:
                     f = open(pathname, 'w')
-                    f.write(convert(self, self.t1.GetValue()))
+                    f.write(mainController.convert(self.t1.GetValue()))
                     f.close()
                     webbrowser.open(pathname)
                 except IOError:
@@ -169,8 +145,9 @@ class mainGUI(wx.Frame):
             except IOError:
                 wx.LogError('Cannot open file')
 
-if __name__ == '__main__':
+
+
+def run():
     app = wx.App()
     mainGUI(None, title='BlindTex')
     app.MainLoop()
-
