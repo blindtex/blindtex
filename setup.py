@@ -14,5 +14,5 @@ setup(name="BlindTex",
       ],
       package_data = {
       },
-      scripts=['blindtext/blindTex'],
+      scripts=['blindtext/blindtex'],
 )

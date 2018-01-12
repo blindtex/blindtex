@@ -1,7 +1,7 @@
 '#--:coding:utf-8--'
 import pytest
 import collections
-from blindTex.iotools import stringtools
+from blindtex.iotools import stringtools
 
 def test_extractContent():
 	latex_document = "\documentclass[preview]{standalone}\\begin{document}\\begin{equation}F(V, T) = E(V) + D(T)\end{equation}\end{document}" 
