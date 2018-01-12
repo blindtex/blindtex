@@ -4,7 +4,7 @@
 import wx
 import sys
 import webbrowser
-import blindTex.converter.parser as parser
+import blindtex.converter.parser as parser
 
 def convert(str):
     convertedFormula = u''

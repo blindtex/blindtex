@@ -1,6 +1,6 @@
 #-*-:coding:utf-8-*-
 import pytest
-from blindTex.converter.dictionary import dictionary
+from blindtex.converter.dictionary import dictionary
 
 
 Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']], 'delta' : [0,['delta']] ,'epsilon' : [0,['epsilon']], 'varepsilon':[0,['var epsilon']] , 'zeta' : [0,['zeta']],
