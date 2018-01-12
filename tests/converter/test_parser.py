@@ -1,5 +1,5 @@
 '#--:coding:utf-8--'
-from blindtex.converter import parser
+from blindTex.converter import parser
 import pytest
 
 

@@ -4,13 +4,9 @@
 import wx
 import sys
 import webbrowser
-import os
-if os.name == "nt":
-    import blindtex.converter.parser as parser
-elif os.name == "posix":
-    import parser as parser
+import blindTex.converter.parser as parser
 
-def convert(self, str):
+def convert(str):
     convertedFormula = u''
     input = str
     inputSplit = input.split("\n")
@@ -34,7 +30,6 @@ def convert(self, str):
             convertedFormula = convertedFormula + parser.convert(line) + "\n"
     return convertedFormula
 
-
 class mainGUI(wx.Frame):
 
     sLector = 0
@@ -47,6 +42,7 @@ class mainGUI(wx.Frame):
         # Barra de menú
         menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
+        actionMenu = wx.Menu()
         lectorMenu = wx.Menu()
 
         qim = wx.MenuItem(fileMenu, 1, '&Salir\tCtrl+S')
@@ -56,12 +52,25 @@ class mainGUI(wx.Frame):
         fileMenu.AppendItem(sim)
         fileMenu.AppendItem(qim)
 
+        #Menú de Archvo
         menuBar.Append(fileMenu, '&Archivo')
         self.SetMenuBar(menuBar)
         self.Bind(wx.EVT_MENU, self.OnQuit, id = 1)
         self.Bind(wx.EVT_MENU, self.onOpen, id = 2)
         self.Bind(wx.EVT_MENU, self.onSave, id = 3)
 
+        #Menú de acciones
+        cLiteral = wx.MenuItem(actionMenu, 4, "Conversión literal\tALT+L")
+        cHTML = wx.MenuItem(actionMenu, 5, "Convertir a HTML\tALT+H")
+        actionMenu.Append(cLiteral)
+        actionMenu.Append(cHTML)
+
+        self.Bind(wx.EVT_MENU, self.onClickConvertLiteral, cLiteral, 4)
+        self.Bind(wx.EVT_MENU, self.nvdaChek, cHTML, 5)
+
+        menuBar.Append(actionMenu, '&Acciones')
+
+        #Menú de configuraciones
         VoiceOverItem = lectorMenu.Append(wx.NewId(), "VoiceOver/Jaws\tALT+V","HTML para VoiceOver", wx.ITEM_RADIO)
         nvdaItem = lectorMenu.Append(wx.NewId(),'NVDA\tALT+N', 'HTML para NVDA', wx.ITEM_RADIO)
 
@@ -77,19 +86,10 @@ class mainGUI(wx.Frame):
         panel.SetBackgroundColour('#4f5049')
 
         # Textbox
-        self.t1 = wx.TextCtrl(panel ,pos = (20,20), size=(2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
-
-        #Botón
-        self.button1 = wx.Button(panel, label="Conversión &literal", pos=(self.GetSize()[0]/2-57, self.GetSize()[1]/4))
-        self.button1.Bind(wx.EVT_BUTTON, self.onClickConvertLiteral)
-
-
+        self.t1 = wx.TextCtrl(panel ,pos = (20,20), size=(9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
 
         #Textbox de resultado
-        self.tf = wx.TextCtrl(panel ,pos = (self.GetSize()[0]-(2*self.GetSize()[0]/5+20),20), size = (2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
-
-        self.button2 = wx.Button(panel, label="Convertir a &HTML", pos=(self.GetSize()[0] / 2 - 58, 3 * self.GetSize()[1] / 10))
-        self.Bind(wx.EVT_BUTTON, self.onClickConvertHTML)
+        self.tf = wx.TextCtrl(panel ,pos = (self.GetSize()[0]-(9*self.GetSize()[0]/20+20),20), size = (9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE | wx.TE_READONLY)
 
 
         self.Centre()
@@ -110,7 +110,7 @@ class mainGUI(wx.Frame):
             print("No hay valores que mostrar")
         else:
             parser.OPTION = 1
-            self.tf.SetValue(convert(self, self.t1.GetValue()))
+            self.tf.SetValue(convert(self.t1.GetValue()))
 
     def onClickConvertHTML(self, event):
         if self.t1.GetValue() == "":
@@ -127,7 +127,7 @@ class mainGUI(wx.Frame):
                 pathname = fileDialog.GetPath()
                 try:
                     f = open(pathname, 'w')
-                    f.write(convert(self, self.t1.GetValue()))
+                    f.write(convert(self.t1.GetValue()))
                     f.close()
                     webbrowser.open(pathname)
                 except IOError:
@@ -169,8 +169,9 @@ class mainGUI(wx.Frame):
             except IOError:
                 wx.LogError('Cannot open file')
 
-if __name__ == '__main__':
+
+
+def run():
     app = wx.App()
     mainGUI(None, title='BlindTex')
     app.MainLoop()
-

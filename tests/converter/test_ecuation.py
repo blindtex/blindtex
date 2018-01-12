@@ -1,5 +1,5 @@
 import pytest
-from blindtex.converter import ecuation
+from blindTex.converter import ecuation
 
 def test_latexToGramatic():
 	ecuationResult = ecuation.latexToGramatic("Dummy")
