@@ -5,10 +5,11 @@ import wx
 import sys
 import webbrowser
 import os
-sys.path.insert(0, 'blindtex')
-import converter.parser as parser
-
-
+try:
+    sys.path.insert(0, 'blindtex')
+    import converter.parser as parser
+except ValueError:
+    import blindtex.converter.parser as parser
 
 def convert(str):
     convertedFormula = u''
