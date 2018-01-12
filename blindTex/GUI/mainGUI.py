@@ -4,7 +4,9 @@
 import wx
 import sys
 import webbrowser
-import blindTex.converter.parser as parser
+import os
+sys.path.insert(0, 'blindtex')
+import converter.parser as parser
 
 def convert(str):
     convertedFormula = u''
@@ -48,11 +50,11 @@ class mainGUI(wx.Frame):
         qim = wx.MenuItem(fileMenu, 1, '&Salir\tCtrl+S')
         oim = wx.MenuItem(fileMenu, 2, '&Abrir\tCtrl+A')
         sim = wx.MenuItem(fileMenu, 3, '&Guardar\tCtrl+G')
-        fileMenu.AppendItem(oim)
-        fileMenu.AppendItem(sim)
-        fileMenu.AppendItem(qim)
+        fileMenu.Append(oim)
+        fileMenu.Append(sim)
+        fileMenu.Append(qim)
 
-        #Menú de Archvo
+        #Menú de Archivo
         menuBar.Append(fileMenu, '&Archivo')
         self.SetMenuBar(menuBar)
         self.Bind(wx.EVT_MENU, self.OnQuit, id = 1)
@@ -66,7 +68,7 @@ class mainGUI(wx.Frame):
         actionMenu.Append(cHTML)
 
         self.Bind(wx.EVT_MENU, self.onClickConvertLiteral, cLiteral, 4)
-        self.Bind(wx.EVT_MENU, self.nvdaChek, cHTML, 5)
+        self.Bind(wx.EVT_MENU, self.onClickConvertHTML, cHTML, 5)
 
         menuBar.Append(actionMenu, '&Acciones')
 
@@ -86,7 +88,7 @@ class mainGUI(wx.Frame):
         panel.SetBackgroundColour('#4f5049')
 
         # Textbox
-        self.t1 = wx.TextCtrl(panel ,pos = (20,20), size=(9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
+        self.inputTextbox = wx.TextCtrl(panel ,pos = (20,20), size=(9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
 
         #Textbox de resultado
         self.tf = wx.TextCtrl(panel ,pos = (self.GetSize()[0]-(9*self.GetSize()[0]/20+20),20), size = (9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE | wx.TE_READONLY)
@@ -106,14 +108,14 @@ class mainGUI(wx.Frame):
         self.sLector = 0
 
     def onClickConvertLiteral(self, event):
-        if self.t1.GetValue() == "":
+        if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
         else:
             parser.OPTION = 1
-            self.tf.SetValue(convert(self.t1.GetValue()))
+            self.tf.SetValue(parser.convert(self.inputTextbox.GetValue()))
 
     def onClickConvertHTML(self, event):
-        if self.t1.GetValue() == "":
+        if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
         else:
             with wx.FileDialog(self, "Abrir archivos txt file", wildcard="(*.html)|*.html",
@@ -127,7 +129,7 @@ class mainGUI(wx.Frame):
                 pathname = fileDialog.GetPath()
                 try:
                     f = open(pathname, 'w')
-                    f.write(convert(self.t1.GetValue()))
+                    f.write(convert(self.inputTextbox.GetValue()))
                     f.close()
                     webbrowser.open(pathname)
                 except IOError:
@@ -146,7 +148,7 @@ class mainGUI(wx.Frame):
             pathname = fileDialog.GetPath()
             try:
                 f = open(pathname, 'w')
-                f.write(self.t1.GetValue())
+                f.write(self.inputTextbox.GetValue())
                 f.close()
             except IOError:
                 wx.LogError('Cannot open file')
@@ -164,7 +166,7 @@ class mainGUI(wx.Frame):
             pathname = fileDialog.GetPath()
             try:
                 with open(pathname, 'r') as file:
-                    self.t1.SetValue(file.read())
+                    self.inputTextbox.SetValue(file.read())
                     file.close()
             except IOError:
                 wx.LogError('Cannot open file')
