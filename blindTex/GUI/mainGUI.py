@@ -12,6 +12,7 @@ import converter.parser as parser
 import blindtex.converter.parser as parser
 >>>>>>> 3696e6c2de2c3fd9f0910231004caf6c340fe45f:blindtex/GUI/mainGUI.py
 
+
 def convert(str):
     convertedFormula = u''
     input = str
