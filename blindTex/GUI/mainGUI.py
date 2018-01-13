@@ -115,7 +115,8 @@ class mainGUI(wx.Frame):
             print("No hay valores que mostrar")
         else:
             parser.OPTION = 1
-            self.tf.SetValue(parser.convert(self.inputTextbox.GetValue()))
+            self.tf.SetValue(convert(self.inputTextbox.GetValue()))
+            #self.tf.SetValue(parser.convert(self.inputTextbox.GetValue()))
 
     def onClickConvertHTML(self, event):
         if self.inputTextbox.GetValue() == "":
