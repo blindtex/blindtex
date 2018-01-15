@@ -1,5 +1,6 @@
 #Autogenerate by project
 *.out
+.idea/
 parsetab.py
 
 # Byte-compiled / optimized / DLL files

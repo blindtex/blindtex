@@ -17,11 +17,14 @@ Ordinary = {'alpha': [0,['alfa']], 'beta': [0,['beta']], 'gamma' : [0,['gamma']]
             'triangle': [0,['tri&aacute;ngulo']],'backslash': [0,['barra invertida']], 'forall':[0,['para todo']],'exists':[0,['existe']],'neg': [0,['negaci&oacute;n']],
             'flat': [0,['bemol']], 'natural':[0,['becuadro']],'sharp':[0,['sostenido']],'clubsuit':[0,['trebol']],'diamondsuit': [0,['diamante']],'heartsuit': [0,['corazón']],'spadsuit': [0,['picas']], 'lnot':[0,['negaci&oacute;n']]}
 
-dOrdinary = dictionary(os.path.join('dicts','Ordinary.json'))
+#dOrdinary = dictionary(os.path.join('dicts','Ordinary.json'))
+dOrdinary = dictionary(dict=Ordinary)
 
 def test_showReading():
-    assert 'alfa' == dOrdinary.showReading('alpha',0)
-def test_showlatex():
-    assert 'alpha' == dOrdinary.showlatex('alfa')
-def test_showlatexFail():
-    assert 'The value %s has no LaTeX command associated.'%'alffa'  == dOrdinary.showlatex('alffa')
+    assert 'alfa' == dOrdinary.showReading('alpha')
+
+def test_showLatex():
+    assert 'alpha' == dOrdinary.showLatex('alfa')
+
+def test_showLatexFail():
+    assert 'The value %s has no LaTeX command associated.'%'alffa'  == dOrdinary.showLatex('alffa')

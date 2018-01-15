@@ -1,16 +1,18 @@
-#-*-:coding:utf-8-*-
-
+# -*-:coding:utf-8-*-
+# Diccionario que contiene todoas las palabras ordinarias que se pueden utilizar
+# Funciones: en esta sección, dejaremos todas las funciones que se requieran
 from pkg_resources import _sget_dict
 import json
 
+
 class dictionary(object):
-	'''Dictionary class containing LaTeX commands and its possible readings. 
+    '''Dictionary class containing LaTeX commands and its possible readings.
 	Attributes:
 		dict(dictionary): Is the principal dictionary, its items are of the form "command(str) : [conf(int), readings(list of strings)]"
 						command is a LaTeX command, conf(self.dict[command][0]) is the chosen reading at the moment, acts as a index,
  						readings(self.dict[command][1]) is a list of all the possible readings of command.
 		fileName(str): Is the name of the json file where the dictionary will be saved.'''	
-	def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
 		'''Args:
 				*args: jsonFileName(str): Is the name of the file from where the dictionary will be charged.
 				**kwargs: dict = myDictionary(dict) : a dictionary to work, it will be not saved until saveAs command is called.'''
@@ -21,7 +23,7 @@ class dictionary(object):
 
 	#--------------------------------------------------------------------------
 
-	def open(self, jsonFileName):
+    def open(self, jsonFileName):
 		'''Function to open and charge the dictionary from a json file.
 			Args:
 				jsonFileName(str): Is the name of the file from where the dictionary will be charged. '''
@@ -33,7 +35,7 @@ class dictionary(object):
 		except IOError:
 			print('File %s could not be oppened.'%jsonFileName)
 	#--------------------------------------------------------------------------
-	def save(self):
+    def save(self):
 		'''Function to save in fileName the dictionary dict.'''
 		try:
 			myFile = open(self.fileName, 'w')
@@ -42,7 +44,7 @@ class dictionary(object):
 		except IOError:
 			print('File could not be oppened.')
 	#--------------------------------------------------------------------------
-	def saveAs(self,newJsonFileName):
+    def saveAs(self,newJsonFileName):
 		'''Function to create a new json file to save the dictionary.
 			Args:
 				newJsonFileName(str): The name of the file where the dictionary will be saved.'''
@@ -54,7 +56,7 @@ class dictionary(object):
 		except IOError:
 			print('File could not be oppened.')
 	#--------------------------------------------------------------------------
-	def addReading(self, key, newValue):
+    def addReading(self, key, newValue):
 		'''Function to add a reading to a existing key.
 			Args:
 				key(str): The command that will have a new reading.
@@ -65,7 +67,7 @@ class dictionary(object):
 		except KeyError:
 			print('Command %s does not exist.'%key)
 	#--------------------------------------------------------------------------
-	def changeReadingIndex(self, key, index):
+    def changeReadingIndex(self, key, index):
 		'''Function to change the reading of a command.
 		Args:
 			key(str): The command that will change its reading.
@@ -79,14 +81,14 @@ class dictionary(object):
 			print('Command %s does not exist.'%key)
 	#--------------------------------------------------------------------------
 	#TODO Agrega un comando con su respectiva lectura
-	def addCommand(self,key,value):#Agregar el comando y la lectura Puede variar cuando las configuraciones estén listas.
+    def addCommand(self,key,value):#Agregar el comando y la lectura Puede variar cuando las configuraciones estén listas.
 		if (self.dict.get(str(key)) is not None):
 			return('Key already exists.')
 		else:
 			self.dict[str(key)] = [0,[str(value)]]
 	#--------------------------------------------------------------------------
 
-	def changeReading(self,key,value):#Agregar una lectura nueva
+    def changeReading(self,key,value):#Agregar una lectura nueva
 		'''Function to change the reading of a command.
 		Args:
 			key(str): The command that will change its reading.
@@ -99,7 +101,7 @@ class dictionary(object):
 			print('Reading %s does not exist.'%value)
 	#--------------------------------------------------------------------------
 
-	def showReading(self,key):#Retorna la lectura configurada, falta implementar para lectura de más de una configuración
+    def showReading(self,key):#Retorna la lectura configurada, falta implementar para lectura de más de una configuración
 		'''Function to show the current reading a command has.
 			Args:
 				key(str): The command to be read.
@@ -114,7 +116,7 @@ class dictionary(object):
 
 	#--------------------------------------------------------------------------
 	
-	def showReadings(self, key):
+    def showReadings(self, key):
 		'''Function to show all the readings that a command has.
 			Args:
 				key(str): The command.'''
@@ -124,7 +126,7 @@ class dictionary(object):
 			print('Command %s does not exist.'%key)
 
 	#--------------------------------------------------------------------------			
-	def showLatex(self,value):#Devuelve el comando al que está asociado el valor
+    def showLatex(self,value):#Devuelve el comando al que está asociado el valor
 		'''Function to sohw the command of a reading, it such exists.
 			Args:
 				value(str): The reading the user wants to know tha associated command.
@@ -142,16 +144,15 @@ class dictionary(object):
 			return 'The value %s has no LaTeX command associated.'%value
 	#--------------------------------------------------------------------------
 
-	def isThere(self,key):
-		'''Function to know if certain command is in the dictionary.
-			Args:
-				key(str): The possible command.
-			Returns:
-				bool: True if the command is in the dict, false otherwise. '''
-		if (key in self.dict):
-			return(True)
-		else:
-			return(False)
-
-	#def showCommand():#listara los comandos del diccionario
-	#alpha : 'mm a' 'aaa'
+    def isThere(self,key):
+        '''
+            Function to know if certain command is in the dictionary.
+        	Args:
+        		key(str): The possible command.
+        	Returns:
+        		bool: True if the command is in the dict, false otherwise. 
+        '''
+        if (key in self.dict):
+        	return (True)
+        else:
+        	return (False)

@@ -10,8 +10,6 @@ fileName = 'regexes.json'
  
 tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER', 'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE', 'BINOM', 'PMOD','PHANTOM',)
 
-
-
 states = (('command', 'exclusive'),)
 
 try:
@@ -206,6 +204,7 @@ def t_error(t):
 
 
 lexer= lex.lex()
+
 if __name__ =="__main__":
 	while True:
 		s = raw_input()

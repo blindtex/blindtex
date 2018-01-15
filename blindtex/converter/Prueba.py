@@ -43,7 +43,6 @@ else:
 				<div>''' + parser.convert(args.formula) + '''</div>
 				</body>
 				</html>'''
-
 	page = open('Prueba.html', 'w')
 	page.write(result)
 	page.close()

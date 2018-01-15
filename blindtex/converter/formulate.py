@@ -1,13 +1,16 @@
-#-*-:coding:utf-8-*-
+# -*-:coding:utf-8-*-
 
-accents = {'&aacute;':u'á', '&eacute;':u'é', '&iacute;':u'í', '&oacute;':u'ó', '&uacute;':u'ú'}
+accents = {'&aacute;': u'á', '&eacute;': u'é', '&iacute;': u'í', '&oacute;': u'ó', '&uacute;': u'ú'}
+
 
 def replaceHtml(label):
 	for key in accents:
 		label = label.replace(key, accents[key])
 
 	return label
-#EndOfFunction
+
+
+# EndOfFunction
 def formulate(label, option):
 	'''
 	Function to put in a span tag with the desired label.
@@ -24,12 +27,11 @@ def formulate(label, option):
 		str: The string according to the option
 
 	'''
-	if(option == 0):
-		return '<span aria-label=\"'+ label + '\">&nbsp;</span>'
-	elif(option == 1):
-		return replaceHtml(label)+ ' ' 
-	else:
-		return '<math aria-label=\"'+ label + '\">&nbsp;</math>'
-		
-#EndOfFunction
+	if (option == 0):
+		return '<span aria-label=\"' + label + '\">&nbsp;</span> '
+	elif (option == 1):
+		return replaceHtml(label) + ' '
+	elif (option == 2):
+		return '<math aria-label=\"' + label + '\">&nbsp;</math> '
 
+# EndOfFunction
