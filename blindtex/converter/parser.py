@@ -22,11 +22,23 @@ dAccents = dictionary(os.path.join('dicts','Accents.json'))
 dStyles = dictionary(os.path.join('dicts','Styles.json'))
 dDots = dictionary(os.path.join('dicts','Dots.json'))
 #-------------------------------------------------------------------------------
-#The grammar.
-#
-OPTION = 0
+#TODO Find a way to avoid global variables.
+OPTION = 0 #This option are for the formulate function. 0 is for span and &nbsp , 1 is for literal translation and 2 is for math and nbsp.
 
-#
+def getOption():
+	'''Function to get the current value of OPTION.
+		return(int): The value of OPTION'''
+	return OPTION
+	
+def setOption(intOption):
+	'''Function to change the value of OPTION.
+		Args:
+			intOption(int): The value the user wants for OPTION.'''
+	global OPTION
+	OPTION = intOption
+
+	
+#The grammar.
 precedence = (
 	
 	('left', 'LARGEOP'),
