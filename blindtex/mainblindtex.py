@@ -31,7 +31,7 @@ def convertDocument(fileName):
 	#Insert converted formulas.
 	htmlString = iotools.stringtools.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
 	iotools.iotools.writeHtmlFile(htmlString, fileName.replace('.tex','.xhtml'))
-	#Here it could be used os.tmpfile for the formulas.
+
 	#Remove Residues
 	os.remove('noFormula_'+fileName)
 	os.remove('noFormula_'+fileName.replace('.tex','.xml'))
