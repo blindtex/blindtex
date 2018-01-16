@@ -55,11 +55,11 @@ def convertToHtml(fileName, biblioName=None):
 	if(biblioName):
 		noExtensionBiblio = biblioName.replace(".bib","")
 		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell=True)
-		subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName])#, shell= True)
+		subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName], shell= True)
 		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"], shell=True)
 	else:
-		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName])#, shell= True)#Generates xml file.
-		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"])#, shell= True)#Generates xhtml file.
+		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell = True)#Generates xml file.
+		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"], shell = True)#Generates xhtml file.
 
 #EndOfFunction
 

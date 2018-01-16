@@ -11,6 +11,8 @@ try:
 except ValueError:
     import blindtex.converter.parser as parser
 
+import mainBlindtex
+
 def convert(str):
     convertedFormula = u''
     input = str
@@ -67,11 +69,14 @@ class mainGUI(wx.Frame):
         #Menú de acciones
         cLiteral = wx.MenuItem(actionMenu, 4, "Conversión literal\tALT+L")
         cHTML = wx.MenuItem(actionMenu, 5, "Convertir a HTML\tALT+H")
+        cDocument = wx.MenuItem(actionMenu, 6, "Convertir documento\tALT+D")
+        actionMenu.Append(cDocument)
         actionMenu.Append(cLiteral)
         actionMenu.Append(cHTML)
 
         self.Bind(wx.EVT_MENU, self.onClickConvertLiteral, cLiteral, 4)
         self.Bind(wx.EVT_MENU, self.onClickConvertHTML, cHTML, 5)
+        self.Bind(wx.EVT_MENU, self.onClickConvertFile, cDocument, 6)
 
         menuBar.Append(actionMenu, '&Acciones')
 
@@ -114,9 +119,9 @@ class mainGUI(wx.Frame):
         if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
         else:
+            
             parser.OPTION = 1
             self.tf.SetValue(convert(self.inputTextbox.GetValue()))
-            #self.tf.SetValue(parser.convert(self.inputTextbox.GetValue()))
 
     def onClickConvertHTML(self, event):
         if self.inputTextbox.GetValue() == "":
@@ -138,6 +143,18 @@ class mainGUI(wx.Frame):
                     webbrowser.open(pathname)
                 except IOError:
                     wx.LogError('Cannot open file')
+
+    def onClickConvertFile(self, event):
+        
+        with wx.FileDialog(self, "Convertir Documento", wildcard = "Archivo (La)TeX (.tex) |*.tex") as fileDialog:
+                if fileDialog.ShowModal()== wx.ID_CANCEL:
+                        return
+
+                pathName = fileDialog.GetPath()
+                mainBlindtex.convertDocument(pathName)
+                webbrowser.open(pathName.replace('.tex','.xhtml'))
+
+    #EndOfFunction
 
     def OnQuit(self, event):
         self.Close()

@@ -113,7 +113,7 @@ def p_command(p):
 
 #TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez que p[0] = "una función que depende de los otros p[i]".
 
-#TODO Que se pueda poner ^2 o _b sin una base.
+#TODO Que se pueda poner ^2 o _b sin una base. Quitar el command o block antes, solo dejar SUP algo.
 def p_scripted(p):
 	'''scripted : command SUP command
 					| command SUP block

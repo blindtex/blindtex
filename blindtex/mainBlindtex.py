@@ -4,6 +4,7 @@ import iotools.stringtools
 import converter.parser
 import argparse
 import os
+import os.path
 from sys import argv
 
 def convertDocument(fileName):
@@ -15,9 +16,11 @@ def convertDocument(fileName):
 	#This generates a list(a named tuple) with the document content (all formulas replaced) named replacedDocument, inline formulas named inlineList and display formulas named displayList.
 	documentAndLists = iotools.stringtools.seekAndReplaceFormulas(documentContent[1])
 	newDocumentContent = documentAndLists.replacedDocument
+	#Let's deal with path and fileNames, actually fileName is the path of the file.
+	(filePath,name) = os.path.split(fileName)
 	#Write another tex file without formulas.
-	iotools.iotools.replaceAndWrite(documentContent,newDocumentContent,'noFormula_'+fileName)
-	iotools.iotools.convertToHtml('noFormula_'+fileName)
+	iotools.iotools.replaceAndWrite(documentContent,newDocumentContent,os.path.join(filePath,'noFormula_'+name))
+	iotools.iotools.convertToHtml(os.path.join(filePath,'noFormula_'+name))
 
 	#Convert the formulas
 	for index in range(len(documentAndLists.inlineList)):
@@ -27,37 +30,44 @@ def convertDocument(fileName):
 		documentAndLists.displayList[index] = converter.parser.convert(documentAndLists.displayList[index])
 
 	#Get the html in a string
-	htmlString = iotools.iotools.openFile('noFormula_'+fileName.replace('.tex','.xhtml'))
+	htmlString = iotools.iotools.openFile(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xhtml')))
 	#Insert converted formulas.
 	htmlString = iotools.stringtools.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
-	iotools.iotools.writeHtmlFile(htmlString, fileName.replace('.tex','.xhtml'))
+	iotools.iotools.writeHtmlFile(htmlString, os.path.join(filePath,name.replace('.tex','.xhtml')))
 
 	#Remove Residues
-	os.remove('noFormula_'+fileName)
-	os.remove('noFormula_'+fileName.replace('.tex','.xml'))
-	os.remove('noFormula_'+fileName.replace('.tex','.xhtml'))
+	os.remove(os.path.join(filePath,'noFormula_'+name))
+	os.remove(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xml')))
+	os.remove(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xhtml')))
 #EndOfFunction
 
 
+def convertFormula(strFormula,intOption = 1):
 
-parser = argparse.ArgumentParser(description="Flip a switch by setting a flag")
-
-parser.add_argument('-e','--equation', dest='equation',
-					help = 'Latex format equation to convert',
-					default="")
-
-parser.add_argument('-o','--output', dest='document',
-					help = '',
-					default="")
+        converter.parser.setOption(intOption)
+        return converter.parser.convert(strFormula)
+#EndOfFunction
 
 
-args = parser.parse_args()
+if __name__=='__main__':
+        parser = argparse.ArgumentParser(description="Flip a switch by setting a flag")
 
-if args.equation:
-	print("Equation: ", converter.parser.convert(args.equation))
-	print("Equation: ", args.equation)
-else:
-	print('The name is %s'% args.document)
-	convertDocument(args.document)
+        parser.add_argument('-e','--equation', dest='equation',
+                                                help = 'Latex format equation to convert',
+                                                default="")
 
+        parser.add_argument('-o','--output', dest='document',
+                                                help = '',
+                                                default="")
+
+
+        args = parser.parse_args()
+
+        if args.equation:
+                print("Equation: ", converter.parser.convert(args.equation))
+                print("Equation: ", args.equation)
+        else:
+                print('The name is %s'% args.document)
+                convertDocument(args.document)
+#EndOfMain
 
