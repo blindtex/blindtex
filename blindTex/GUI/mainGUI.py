@@ -37,14 +37,16 @@ def convert(str):
             convertedFormula = convertedFormula + parser.convert(line) + "\n"
     return convertedFormula
 
+
+welcomeString = '''Bienvenido a BlindTeX.\nPuede convertir fórmulas con las teclas Alt+L.\nPuede convertir documentos con las teclas Alt+D.\n '''
 class mainGUI(wx.Frame):
 
     sLector = 0
 
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=wx.GetDisplaySize(),
+        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=(wx.DisplaySize()[0]/3,2*wx.DisplaySize()[1]/5),
                           style= wx.RESIZE_BORDER | wx.SYSTEM_MENU |
-                                wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
+                                wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL)
 
         # Barra de menú
         menuBar = wx.MenuBar()
@@ -95,16 +97,36 @@ class mainGUI(wx.Frame):
         panel = wx.Panel(self)
         panel.SetBackgroundColour('#4f5049')
 
-        # Textbox
-        self.inputTextbox = wx.TextCtrl(panel ,pos = (20,20), size=(9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
+	self.mainBox = wx.BoxSizer(wx.VERTICAL)
 
-        #Textbox de resultado
-        self.tf = wx.TextCtrl(panel ,pos = (self.GetSize()[0]-(9*self.GetSize()[0]/20+20),20), size = (9*self.GetSize()[0]/20, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE | wx.TE_READONLY)
+        self.summaryText  = wx.StaticText(panel, label = welcomeString)#Change label in the definition!!
+        self.summaryText.SetFocus()
+        self.textsBox = wx.StaticBoxSizer(wx.HORIZONTAL, panel, "Fórmulas")
+                                                    
+
+        self.inputBox = wx.BoxSizer(wx.VERTICAL)
+        self.inputLabel = wx.StaticText(panel, label = "Fórmulas a convertir")
+        self.inputTextbox = wx.TextCtrl(panel, style = wx.TE_MULTILINE)
+        self.inputBox.Add(self.inputLabel, flag = wx.BOTTOM, border = 2)
+        self.inputBox.Add(self.inputTextbox, flag =wx.CENTER|wx.EXPAND , proportion = 1)
+                                    
+        self.outputBox = wx.BoxSizer(wx.VERTICAL)
+        self.outputLabel = wx.StaticText(panel,label = "Fórmulas convertidas")
+        self.outputText = wx.TextCtrl(panel, style = wx.TE_MULTILINE|wx.TE_READONLY)
+        self.outputBox.Add(self.outputLabel)
+        self.outputBox.Add(self.outputText, flag = wx.CENTER|wx.EXPAND, proportion = 1)
+                                    
+        self.textsBox.Add(self.inputBox, flag = wx.ALL, border= 8, proportion = 1)
+        self.textsBox.Add(self.outputBox, flag= wx.ALL,  border = 8, proportion = 1)
+
+        self.mainBox.Add(self.summaryText, flag = wx.ALL|wx.CENTER, border = 0, proportion = 1)
+        self.mainBox.Add(self.textsBox, flag = wx.EXPAND, border = 0, proportion = 1)
+
+        panel.SetSizerAndFit(self.mainBox)
 
 
         self.Centre()
         self.Show()
-        self.Maximize(True)
         self.Fit()
 
     def nvdaChek(self, event):
@@ -121,7 +143,8 @@ class mainGUI(wx.Frame):
         else:
             
             parser.OPTION = 1
-            self.tf.SetValue(convert(self.inputTextbox.GetValue()))
+            self.outputText.SetValue(convert(self.inputTextbox.GetValue()))
+            self.outputText.SetFocus()
 
     def onClickConvertHTML(self, event):
         if self.inputTextbox.GetValue() == "":
@@ -152,6 +175,7 @@ class mainGUI(wx.Frame):
 
                 pathName = fileDialog.GetPath()
                 mainBlindtex.convertDocument(pathName)
+                wx.MessageBox('Documento convertido exitosamente.', 'Documento completado.', wx.OK)
                 webbrowser.open(pathName.replace('.tex','.xhtml'))
 
     #EndOfFunction

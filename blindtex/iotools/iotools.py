@@ -41,7 +41,7 @@ def replaceAndWrite(contentList, replacedDocument, fileName):
 		print "File could not be oppened."
 		return
 
-	print "replaceAndWrite completed."
+	
 #EndOfFunction
 
 def convertToHtml(fileName, biblioName=None):

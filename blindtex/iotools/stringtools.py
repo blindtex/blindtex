@@ -116,7 +116,7 @@ def seekAndReplaceFormulas(document):
 			break
 
 	
-	print "seekAndReplaceFormulas completed."
+
 	return collections.namedtuple('documentAndLists', 'replacedDocument, inlineList, displayList')(otherDocument, inlineList, displayList)
 #EndOfFunction
 
@@ -148,7 +148,7 @@ def insertConvertedFormulas(htmlString, inlineList, displayList):
 		displayIndex += 1
 	
 	
-	print "Succes!! %d inline math inserted and %d display math inserted.\n"%(inlineIndex, displayIndex)
+	
 	return newString
 #EndOfFunction
 

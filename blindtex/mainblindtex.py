@@ -1,4 +1,4 @@
-'#--:coding:utf-8--'
+#--:coding:utf-8--
 import iotools.iotools
 import iotools.stringtools
 import converter.parser
