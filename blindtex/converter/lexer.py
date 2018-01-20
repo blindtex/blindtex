@@ -1,3 +1,4 @@
+#-*-:coding:utf-8-*-
 #Lexer of LaTeX math content
 
 import ply.lex as lex
@@ -191,18 +192,21 @@ def t_CHAR(t):
 	return t
 
 def t_command_UNKNOWN(t):
-	r'[A-Za-z]+'
+	r'[A-Za-z ]+'
 	t.lexer.begin('INITIAL')
 	return t
 
 t_ignore_SPACE=r'[ \t\n]+'
-
-
+#---------------Error Handling-----------------
+class illegalCharacter(Exception):
+        def __init__(self):
+                return
 def t_error(t):
 	print("Illegal character '%s'" % t.value[0])
 	t.lexer.skip(1)
+	raise illegalCharacter
 
-
+#---------------------------------------------
 lexer= lex.lex()
 
 if __name__ =="__main__":

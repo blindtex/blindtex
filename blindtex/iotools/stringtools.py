@@ -152,7 +152,17 @@ def insertConvertedFormulas(htmlString, inlineList, displayList):
 	return newString
 #EndOfFunction
 
+#This list contains all the trouble formulas. ¿Is there a way to avoid the global variable?
+#TODO: Distinguish between file convertion and unique formula convertion.
+troubleFormulas =[]
+def reportProblem(strBadFormula):
+        '''This function gathers all the formulas the lexer or parser had problems with and then send it to being writed in a file.
+                Args:
+                        strBadFormula(str): The guilty string. Sended by Parser.'''
+        global troubleFormulas
+        troubleFormulas.append(strBadFormula)
 
+#EndOfFunction
 
 
 

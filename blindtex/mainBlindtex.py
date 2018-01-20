@@ -1,11 +1,13 @@
 #--:coding:utf-8--
 import iotools.iotools
 import iotools.stringtools
+from iotools.stringtools import troubleFormulas
 import converter.parser
 import argparse
 import os
 import os.path
 from sys import argv
+
 
 def convertDocument(fileName):
 
@@ -39,6 +41,10 @@ def convertDocument(fileName):
 	os.remove(os.path.join(filePath,'noFormula_'+name))
 	os.remove(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xml')))
 	os.remove(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xhtml')))
+
+        #Write the trouble formulas
+	iotools.iotools.writeTroubles(fileName, troubleFormulas)
+	
 #EndOfFunction
 
 

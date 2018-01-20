@@ -4,6 +4,8 @@ import os
 import copy
 import string
 import subprocess
+import mainBlindtex
+import os.path
 from sys import argv
 
 #HU1
@@ -79,3 +81,15 @@ def writeHtmlFile(htmlString, fileName):
 #EndOf Function
 
 
+
+#This function works just when a .tex file is being converted.
+def writeTroubles(strfileName, listtroubleFormulas):
+        (filePath, name) = os.path.split(strfileName)
+        try:
+                registerFile = open(os.path.join(filePath, 'TroubleFormulasOf'+name.replace('.tex','.txt')),'w')
+                for formula in listtroubleFormulas:
+                        registerFile.write('I had troubles with:\n'+formula+'\n')
+                registerFile.close()
+        except IOError:
+                return
+#EndOfFunction

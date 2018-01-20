@@ -4,8 +4,18 @@
 import ply.yacc as yacc
 from dictionary import *
 from lexer import tokens
+import lexer
+import ply.lex
 import formulate
 import os
+import sys
+#TODO: Avoid this.
+try:
+    sys.path.insert(0, 'blindtex')
+    from iotools.stringtools import reportProblem
+except ValueError:
+    from iotools.stringtools import reportProblem
+
 #--------------------------------------------------------------------------
 #Variables dirección del los json
 
@@ -325,19 +335,35 @@ def p_phantom(p):
 				| PHANTOM block'''
 	p[0] = ''
 
-
+#----------------------------Error Handling------------------------------------
+class syntaxError(Exception):
+        def __init__(self):
+                pass
+                
 def p_error(p):
 	if p:
 		print("Syntax error at token", p.type)
 		# Just discard the token and tell the parser it's okay.
+		raise syntaxError
 		parser.errok()
 	else:
 		print("Syntax error at EOF")
+                raise syntaxError
 
 #-------------------------------------------------------------------------------	
 
 parser = yacc.yacc()
 
 def convert(String):
-	return parser.parse(String)
-
+        try:
+                return parser.parse(String)
+        except ply.lex.LexError:
+            reportProblem('LexError in:\n'+String)
+            return('Bad Formula')
+        except syntaxError:
+            reportProblem('Syntax Error in:\n' + String)
+            return('Bad Formula')
+        except lexer.illegalCharacter:
+            reportProblem('illegal character in:\n' +String)
+            return('Bad Formula')
+#EndOfFunction
