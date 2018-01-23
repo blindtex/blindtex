@@ -5,13 +5,9 @@ import wx
 import sys
 import webbrowser
 import os
-try:
-    sys.path.insert(0, 'blindtex')
-    import converter.parser as parser
-except ValueError:
-    import blindtex.converter.parser as parser
+import blindtex.mainBlindtex
+import blindtex.converter.parser as parser
 
-import mainBlindtex
 
 def convert(str):
     convertedFormula = u''
@@ -36,6 +32,8 @@ def convert(str):
         for line in inputSplit:
             convertedFormula = convertedFormula + parser.convert(line) + "\n"
     return convertedFormula
+
+
 
 
 welcomeString = '''Bienvenido a BlindTeX.\nPuede convertir fórmulas con las teclas Alt+L.\nPuede convertir documentos con las teclas Alt+D.\n '''
@@ -97,21 +95,31 @@ class mainGUI(wx.Frame):
         panel = wx.Panel(self)
         panel.SetBackgroundColour('#4f5049')
 
-	self.mainBox = wx.BoxSizer(wx.VERTICAL)
+        self.mainBox = wx.BoxSizer(wx.VERTICAL)
 
+        font = wx.Font(10, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
         self.summaryText  = wx.StaticText(panel, label = welcomeString)#Change label in the definition!!
         self.summaryText.SetFocus()
-        self.textsBox = wx.StaticBoxSizer(wx.HORIZONTAL, panel, "Fórmulas")
-                                                    
+        self.summaryText.SetFont(font)
+        self.summaryText.SetForegroundColour('#FFFFFF')
+
+        self.box = wx.StaticBox(panel, -1, "Fórmulas")
+        self.box.SetFont(font)
+        self.box.SetForegroundColour("#FFFFFF")
+        self.textsBox = wx.StaticBoxSizer(self.box, wx.HORIZONTAL)
 
         self.inputBox = wx.BoxSizer(wx.VERTICAL)
         self.inputLabel = wx.StaticText(panel, label = "Fórmulas a convertir")
+        self.inputLabel.SetFont(font)
+        self.inputLabel.SetForegroundColour('#FFFFFF')
         self.inputTextbox = wx.TextCtrl(panel, style = wx.TE_MULTILINE)
         self.inputBox.Add(self.inputLabel, flag = wx.BOTTOM, border = 2)
         self.inputBox.Add(self.inputTextbox, flag =wx.CENTER|wx.EXPAND , proportion = 1)
                                     
         self.outputBox = wx.BoxSizer(wx.VERTICAL)
         self.outputLabel = wx.StaticText(panel,label = "Fórmulas convertidas")
+        self.outputLabel.SetFont(font)
+        self.outputLabel.SetForegroundColour('#FFFFFF')
         self.outputText = wx.TextCtrl(panel, style = wx.TE_MULTILINE|wx.TE_READONLY)
         self.outputBox.Add(self.outputLabel)
         self.outputBox.Add(self.outputText, flag = wx.CENTER|wx.EXPAND, proportion = 1)
@@ -150,22 +158,39 @@ class mainGUI(wx.Frame):
         if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
         else:
-            with wx.FileDialog(self, "Abrir archivos txt file", wildcard="(*.html)|*.html",
-                               style=wx.FD_SAVE) as fileDialog:
-                if fileDialog.ShowModal() == wx.ID_CANCEL:
-                    return  # the user changed their mind
+            temPath = os.getcwd()
+            ecuation = self.inputTextbox.GetValue()
+            try:
+                f = open(temPath + "temp.html", 'w')
+                f.write(convert(ecuation))
+                f.close()
+                webbrowser.open(temPath + "temp.html")
+                message = wx.MessageDialog(self, "Desea guardar el archivo generado?","" , wx.YES_NO | wx.ICON_QUESTION)
+                answer = message.ShowModal()
+                if answer == wx.ID_YES:
+                    os.remove(temPath + "temp.html")
+                    with wx.FileDialog(self, "Abrir archivos HTML", wildcard="(*.html)|*.html",
+                                       style=wx.FD_SAVE) as fileDialog:
+                        if fileDialog.ShowModal() == wx.ID_CANCEL:
+                            return
 
-                if parser.OPTION == 1:
-                    parser.OPTION = self.sLector
-                # Proceed loading the file chosen by the user
-                pathname = fileDialog.GetPath()
-                try:
-                    f = open(pathname, 'w')
-                    f.write(convert(self.inputTextbox.GetValue()))
-                    f.close()
-                    webbrowser.open(pathname)
-                except IOError:
-                    wx.LogError('Cannot open file')
+                        if parser.OPTION == 1:
+                            parser.OPTION = self.sLector
+                        # Proceed loading the file chosen by the user
+                        pathname = fileDialog.GetPath()
+                        try:
+                            f = open(pathname, 'w')
+                            f.write(convert(ecuation))
+                            f.close()
+                            webbrowser.open(pathname)
+                        except IOError:
+                            wx.LogError('Cannot open file')
+                else:
+                    os.remove(temPath + "temp.html")
+            except IOError:
+                wx.LogError('Cannot open file')
+
+
 
     def onClickConvertFile(self, event):
         
@@ -174,7 +199,7 @@ class mainGUI(wx.Frame):
                         return
 
                 pathName = fileDialog.GetPath()
-                mainBlindtex.convertDocument(pathName)
+                blindtex.mainBlindtex.convertDocument(pathName)
                 wx.MessageBox('Documento convertido exitosamente.', 'Documento completado.', wx.OK)
                 webbrowser.open(pathName.replace('.tex','.xhtml'))
 
