@@ -2,36 +2,12 @@
 #-*-:coding:utf-8-*-
 
 import wx
-import sys
 import webbrowser
 import os
-import blindtex.mainBlindtex
 import blindtex.converter.parser as parser
+import mainGUIController
 
 
-def convert(str):
-    convertedFormula = u''
-    input = str
-    inputSplit = input.split("\n")
-    if parser.OPTION != 1:
-        reload(sys)
-        sys.setdefaultencoding('utf8')
-        convertedFormula = '''<!DOCTYPE html>
-        <html>
-        <head>
-        <meta charset="UTF-8">
-        <title> Pruebas</title>
-        </head>
-        <body>
-        <p>Fórmula generada:</p>'''
-        for line in inputSplit:
-            convertedFormula = convertedFormula + "<div>" + parser.convert(line) + "</div>" + "\n"
-        convertedFormula = convertedFormula + '''</body>
-        </html>'''
-    if parser.OPTION == 1:
-        for line in inputSplit:
-            convertedFormula = convertedFormula + parser.convert(line) + "\n"
-    return convertedFormula
 
 
 
@@ -132,7 +108,6 @@ class mainGUI(wx.Frame):
 
         panel.SetSizerAndFit(self.mainBox)
 
-
         self.Centre()
         self.Show()
         self.Fit()
@@ -149,9 +124,8 @@ class mainGUI(wx.Frame):
         if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
         else:
-            
             parser.OPTION = 1
-            self.outputText.SetValue(convert(self.inputTextbox.GetValue()))
+            self.outputText.SetValue(mainGUIController.convert(self.inputTextbox.GetValue()))
             self.outputText.SetFocus()
 
     def onClickConvertHTML(self, event):
@@ -162,12 +136,13 @@ class mainGUI(wx.Frame):
             ecuation = self.inputTextbox.GetValue()
             try:
                 f = open(temPath + "temp.html", 'w')
-                f.write(convert(ecuation))
+                f.write(mainGUIController.convert(ecuation))
                 f.close()
                 webbrowser.open(temPath + "temp.html")
-                message = wx.MessageDialog(self, "Desea guardar el archivo generado?","" , wx.YES_NO | wx.ICON_QUESTION)
+                message = wx.MessageDialog(self, "Desea guardar el archivo generado?","Guardar HTML" , wx.YES_NO | wx.ICON_QUESTION)
                 answer = message.ShowModal()
                 if answer == wx.ID_YES:
+                    message.Destroy()
                     os.remove(temPath + "temp.html")
                     with wx.FileDialog(self, "Abrir archivos HTML", wildcard="(*.html)|*.html",
                                        style=wx.FD_SAVE) as fileDialog:
@@ -180,12 +155,13 @@ class mainGUI(wx.Frame):
                         pathname = fileDialog.GetPath()
                         try:
                             f = open(pathname, 'w')
-                            f.write(convert(ecuation))
+                            f.write(mainGUIController.convert(ecuation))
                             f.close()
                             webbrowser.open(pathname)
                         except IOError:
                             wx.LogError('Cannot open file')
                 else:
+                    message.Destroy()
                     os.remove(temPath + "temp.html")
             except IOError:
                 wx.LogError('Cannot open file')
@@ -199,9 +175,15 @@ class mainGUI(wx.Frame):
                         return
 
                 pathName = fileDialog.GetPath()
-                blindtex.mainBlindtex.convertDocument(pathName)
-                wx.MessageBox('Documento convertido exitosamente.', 'Documento completado.', wx.OK)
-                webbrowser.open(pathName.replace('.tex','.xhtml'))
+                if(mainGUIController.onClickConvertFileController(pathName)):
+                    successm = wx.MessageDialog(self,'Documento convertido exitosamente.', 'Documento completado.', wx.OK)
+                    successm.ShowModal()
+                    successm.Destroy()
+                    webbrowser.open(pathName.replace('.tex', '.xhtml'))
+                else:
+                    errorm = wx.MessageDialog(self,'A habido un error',"Error", wx.OK | wx.ICON_WARNING)
+                    errorm.ShowModal()
+                    errorm.Destroy()
 
     #EndOfFunction
 
@@ -209,37 +191,32 @@ class mainGUI(wx.Frame):
         self.Close()
 
     def onSave(self, event):
-        with wx.FileDialog(self, "Guardar", wildcard="XYZ files (*.txt)|*.txt",
+        with wx.FileDialog(self, "Guardar", wildcard="(*.txt)|*.txt",
                            style=wx.FD_SAVE) as fileDialog:
             if fileDialog.ShowModal() == wx.ID_CANCEL:
                 return  # the user changed their mind
 
             # Proceed loading the file chosen by the user
             pathname = fileDialog.GetPath()
-            try:
-                f = open(pathname, 'w')
-                f.write(self.inputTextbox.GetValue())
-                f.close()
-            except IOError:
-                wx.LogError('Cannot open file')
+            text = self.inputTextbox.GetValue()
+            if(mainGUIController.onSaveController(pathname, text)== False):
+                wx.LogError('No se pudo abrir el archivo')
 
 
     def onOpen(self, event):
         # otherwise ask the user what new file to open
-        with wx.FileDialog(self, "Abrir", wildcard="XYZ files (*.txt)|*.txt",
+        with wx.FileDialog(self, "Abrir", wildcard="(*.txt)|*.txt",
                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
 
             if fileDialog.ShowModal() == wx.ID_CANCEL:
                 return  # the user changed their mind
-
-            # Proceed loading the file chosen by the user
             pathname = fileDialog.GetPath()
             try:
                 with open(pathname, 'r') as file:
                     self.inputTextbox.SetValue(file.read())
                     file.close()
             except IOError:
-                wx.LogError('Cannot open file')
+                wx.LogError('No se pudo abrir el archivo')
 
 
 
