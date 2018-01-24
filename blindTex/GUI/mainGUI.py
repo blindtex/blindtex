@@ -18,9 +18,9 @@ class mainGUI(wx.Frame):
     sLector = 0
 
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=(wx.DisplaySize()[0]/3,2*wx.DisplaySize()[1]/5),
-                          style= wx.RESIZE_BORDER | wx.SYSTEM_MENU |
-                                wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL)
+        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=wx.GetDisplaySize(),
+                          style=wx.RESIZE_BORDER | wx.SYSTEM_MENU |
+                                wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN)
 
         # Barra de menú
         menuBar = wx.MenuBar()
@@ -74,10 +74,6 @@ class mainGUI(wx.Frame):
         self.mainBox = wx.BoxSizer(wx.VERTICAL)
 
         font = wx.Font(10, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
-        self.summaryText  = wx.StaticText(panel, label = welcomeString)#Change label in the definition!!
-        self.summaryText.SetFocus()
-        self.summaryText.SetFont(font)
-        self.summaryText.SetForegroundColour('#FFFFFF')
 
         self.box = wx.StaticBox(panel, -1, "Fórmulas")
         self.box.SetFont(font)
@@ -88,7 +84,7 @@ class mainGUI(wx.Frame):
         self.inputLabel = wx.StaticText(panel, label = "Fórmulas a convertir")
         self.inputLabel.SetFont(font)
         self.inputLabel.SetForegroundColour('#FFFFFF')
-        self.inputTextbox = wx.TextCtrl(panel, style = wx.TE_MULTILINE)
+        self.inputTextbox = wx.TextCtrl(panel, size=(2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE)
         self.inputBox.Add(self.inputLabel, flag = wx.BOTTOM, border = 2)
         self.inputBox.Add(self.inputTextbox, flag =wx.CENTER|wx.EXPAND , proportion = 1)
                                     
@@ -96,20 +92,20 @@ class mainGUI(wx.Frame):
         self.outputLabel = wx.StaticText(panel,label = "Fórmulas convertidas")
         self.outputLabel.SetFont(font)
         self.outputLabel.SetForegroundColour('#FFFFFF')
-        self.outputText = wx.TextCtrl(panel, style = wx.TE_MULTILINE|wx.TE_READONLY)
+        self.outputText = wx.TextCtrl(panel, size=(2*self.GetSize()[0]/5, 4*self.GetSize()[1]/5), style = wx.TE_MULTILINE|wx.TE_READONLY)
         self.outputBox.Add(self.outputLabel)
         self.outputBox.Add(self.outputText, flag = wx.CENTER|wx.EXPAND, proportion = 1)
                                     
         self.textsBox.Add(self.inputBox, flag = wx.ALL, border= 8, proportion = 1)
         self.textsBox.Add(self.outputBox, flag= wx.ALL,  border = 8, proportion = 1)
 
-        self.mainBox.Add(self.summaryText, flag = wx.ALL|wx.CENTER, border = 0, proportion = 1)
         self.mainBox.Add(self.textsBox, flag = wx.EXPAND, border = 0, proportion = 1)
 
         panel.SetSizerAndFit(self.mainBox)
 
         self.Centre()
         self.Show()
+        self.Maximize()
         self.Fit()
 
     def nvdaChek(self, event):

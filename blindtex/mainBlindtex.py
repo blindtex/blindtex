@@ -21,8 +21,8 @@ def convertDocument(fileName):
 	#Let's deal with path and fileNames, actually fileName is the path of the file.
 	(filePath,name) = os.path.split(fileName)
 	#Write another tex file without formulas.
-	iotools.iotools.replaceAndWrite(documentContent,newDocumentContent,os.path.join(filePath,'noFormula_'+name))
-	iotools.iotools.convertToHtml(os.path.join(filePath,'noFormula_'+name))
+	iotools.iotools.replaceAndWrite(documentContent, newDocumentContent, os.path.join(filePath, 'noFormula_' + name))
+	iotools.iotools.convertToHtml(os.path.join(filePath, 'noFormula_' + name))
 
 	#Convert the formulas
 	for index in range(len(documentAndLists.inlineList)):
@@ -32,10 +32,10 @@ def convertDocument(fileName):
 		documentAndLists.displayList[index] = converter.parser.convert(documentAndLists.displayList[index])
 
 	#Get the html in a string
-	htmlString = iotools.iotools.openFile(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xhtml')))
+	htmlString = iotools.iotools.openFile(os.path.join(filePath, 'noFormula_' + name.replace('.tex', '.xhtml')))
 	#Insert converted formulas.
 	htmlString = iotools.stringtools.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
-	iotools.iotools.writeHtmlFile(htmlString, os.path.join(filePath,name.replace('.tex','.xhtml')))
+	iotools.iotools.writeHtmlFile(htmlString, os.path.join(filePath, name.replace('.tex', '.xhtml')))
 
 	#Remove Residues
 	os.remove(os.path.join(filePath,'noFormula_'+name))

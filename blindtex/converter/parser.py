@@ -10,11 +10,12 @@ import formulate
 import os
 import sys
 #TODO: Avoid this.
+
 try:
     sys.path.insert(0, 'blindtex')
     from iotools.stringtools import reportProblem
 except ValueError:
-    from iotools.stringtools import reportProblem
+    from blindtex.iotools.stringtools import reportProblem
 
 #--------------------------------------------------------------------------
 #Variables dirección del los json
