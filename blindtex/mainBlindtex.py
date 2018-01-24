@@ -18,6 +18,10 @@ def convertDocument(fileName):
 	#This generates a list(a named tuple) with the document content (all formulas replaced) named replacedDocument, inline formulas named inlineList and display formulas named displayList.
 	documentAndLists = iotools.stringtools.seekAndReplaceFormulas(documentContent[1])
 	newDocumentContent = documentAndLists.replacedDocument
+	#Generate the labels list
+	labelsList = iotools.stringtools.generateListOfLabels(documentAndLists.displayList)
+	#Replace the references.
+	newDocumentContent = iotools.stringtools.replaceRefs(newDocumentContent, labelsList)
 	#Let's deal with path and fileNames, actually fileName is the path of the file.
 	(filePath,name) = os.path.split(fileName)
 	#Write another tex file without formulas.
@@ -35,6 +39,8 @@ def convertDocument(fileName):
 	htmlString = iotools.iotools.openFile(os.path.join(filePath,'noFormula_'+name.replace('.tex','.xhtml')))
 	#Insert converted formulas.
 	htmlString = iotools.stringtools.insertConvertedFormulas(htmlString, documentAndLists.inlineList, documentAndLists.displayList)
+	#Insert References
+	htmlString = iotools.stringtools.insertReferences(htmlString,labelsList)
 	iotools.iotools.writeHtmlFile(htmlString, os.path.join(filePath,name.replace('.tex','.xhtml')))
 
 	#Remove Residues

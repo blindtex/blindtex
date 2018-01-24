@@ -6,17 +6,19 @@ from ply.lex import TOKEN
 import json
 import re
 import os
+import sys
 
-fileName = 'regexes.json'
- 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER', 'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE', 'BINOM', 'PMOD','PHANTOM',)
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP',
+          'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER',
+          'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE', 'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING')
 
-states = (('command', 'exclusive'),)
+states = (('command', 'exclusive'),('anything','exclusive'),)
 
 try:
-	myFile = open(os.path.join('dicts','regexes.json'), 'r')
-	dictOfDicts = json.load(myFile)
-	myFile.close()
+        myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
+        #myFile = open('regexes.json')
+        dictOfDicts = json.load(myFile)
+        myFile.close()
 except IOError:
 	print('File could not be oppened.')
 
@@ -187,8 +189,27 @@ def t_command_MATHSPACE(t):
 	t.lexer.begin('INITIAL')
 	pass
 
+def t_command_TEXT(t):
+        r'text(rm)?|mbox\{'
+        t.lexer.begin('anything')
+        return t
+
+def t_command_LABEL(t):
+        r'label\{'
+        t.lexer.begin('anything')
+        return t
+
+def t_anything_ANYTHING(t):
+        r'[^}]+'
+        return t
+
+def t_anything_ENDANY(t):
+        r'(?<!\\)\}'
+        t.lexer.begin('INITIAL')
+        pass
+        
 def t_CHAR(t):
-	r'[A-Za-z0-9,.:\|;%]+?'
+	r'[A-Za-z0-9 "%\',.:;|]+?'
 	return t
 
 def t_command_UNKNOWN(t):

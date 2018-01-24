@@ -21,16 +21,16 @@ except ValueError:
 
 
 #Lista de objetos diccionario:
-dOrdinary = dictionary(os.path.join('dicts','Ordinary.json'))
-dLargeOperators = dictionary(os.path.join('dicts','LargeOperators.json'))
-dBinaryOperators = dictionary(os.path.join('dicts','BinaryOperators.json'))
-dBinaryRelations = dictionary(os.path.join('dicts','BinaryRelations.json'))
-dMathFunctions = dictionary(os.path.join('dicts','MathFunctions.json'))
-dArrows = dictionary(os.path.join('dicts','Arrows.json'))
-dDelimiters = dictionary(os.path.join('dicts','Delimiters.json'))
-dAccents = dictionary(os.path.join('dicts','Accents.json'))
-dStyles = dictionary(os.path.join('dicts','Styles.json'))
-dDots = dictionary(os.path.join('dicts','Dots.json'))
+dOrdinary = dictionary(os.path.join('converter','dicts','Ordinary.json'))
+dLargeOperators = dictionary(os.path.join('converter','dicts','LargeOperators.json'))
+dBinaryOperators = dictionary(os.path.join('converter','dicts','BinaryOperators.json'))
+dBinaryRelations = dictionary(os.path.join('converter','dicts','BinaryRelations.json'))
+dMathFunctions = dictionary(os.path.join('converter','dicts','MathFunctions.json'))
+dArrows = dictionary(os.path.join('converter','dicts','Arrows.json'))
+dDelimiters = dictionary(os.path.join('converter','dicts','Delimiters.json'))
+dAccents = dictionary(os.path.join('converter','dicts','Accents.json'))
+dStyles = dictionary(os.path.join('converter','dicts','Styles.json'))
+dDots = dictionary(os.path.join('converter','dicts','Dots.json'))
 #-------------------------------------------------------------------------------
 #TODO Find a way to avoid global variables.
 OPTION = 0 #This option are for the formulate function. 0 is for span and &nbsp , 1 is for literal translation and 2 is for math and nbsp.
@@ -70,12 +70,32 @@ def p_block(p):
 	p[0] = p[2]
 
 
+def p_textBlock(p):
+    '''textBlock : TEXT any '''
+    p[0] = formulate.formulate('comienza texto ',OPTION) + p[2] + formulate.formulate(' termina texto', OPTION)
+
+def p_label(p):
+    '''label : LABEL any '''
+    p[0] = '<span id="'+ p[2] + '"></span>'
+
+
+def p_any(p):
+    '''any : ANYTHING
+            | ANYTHING any'''
+    if(len(p) == 3):
+        p[0] = p[1] + p[2]
+    else:
+        p[0] = p[1]
+
+
+    
 def p_content(p):
 	'''content : block
 				| scripted
 				| command
 				| content content
-				| larop'''
+				| larop
+				| label'''
 	if(len(p) == 3):
 		p[0] = p[1] + p[2]
 	else:
@@ -115,7 +135,8 @@ def p_command(p):
 				| unknown
 				| pmod
 				| lnbrk
-				| phantom'''
+				| phantom
+                                | textBlock'''
 	p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -123,21 +144,21 @@ def p_command(p):
 
 #TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez que p[0] = "una función que depende de los otros p[i]".
 
-#TODO Que se pueda poner ^2 o _b sin una base. Quitar el command o block antes, solo dejar SUP algo.
+#TODO: Que se pueda poner script si algo antes.
 def p_scripted(p):
 	'''scripted : command SUP command
-					| command SUP block
-					| block SUP command
-					| block SUP block
-					| command SUB command
-					| command SUB block
-					| block SUB command
-					| block SUB block'''
+                    | command SUP block
+                    | block SUP command
+                    | block SUP block
+                    | command SUB command
+                    | command SUB block
+                    | block SUB command
+                    | block SUB block'''
 	if(p[2] == '^'):
 		p[0] = p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION)
 	else:
 		p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION)
-			
+#All this pain in the arse is for the Large operator issue. Remember, remember the largeoperator.			
 def p_compScripted(p):
 	'''scripted : command SUP command SUB command
 					| command SUP command SUB block

@@ -25,6 +25,9 @@ displayMath = re.compile(r'''(?<!\\)( #Exclude escaped symbols
 										((\\begin\{eqnarray\*\})(.*?)(?<!\\)(\\end\{eqnarray\*\})) #eqnarray and eqnarray*
 									)''',re.DOTALL|re.UNICODE|re.X)
 
+
+#Label regex
+label = re.compile(r'\\label\{(.*?)\}',re.DOTALL|re.UNICODE|re.X)
 #List of possible equation delimiters.
 delimiters = [r'\(', r'\)', r'\[', r'\]', r'\begin{equation}',r'\begin{equation*}',r'\begin{align}',r'\begin{align*}', r'\end{equation}',r'\end{equation*}',r'\end{align}',r'\end{align*}',r'\begin{eqnarray}', r'\begin{eqnarray*}', r'\end{eqnarray}', r'\end{eqnarray*}',]
 #Strings to replace the found formulas.
@@ -164,7 +167,55 @@ def reportProblem(strBadFormula):
 
 #EndOfFunction
 
+def generateListOfLabels(listDisplay):
+        '''Searchs all the labels and puts them in a list to be look for the references later.
+                Args:
+                        listDisplay(list(str)): A list with all the display formulas.
+                Returns:
+                        (list(str)): A list with all the labels found.'''
+        labelList =[]
+        for formula in listDisplay:
+                if(label.search(formula)):
+                        labelList.append(label.search(formula).group(1))
+                else:
+                        continue
+
+        return labelList
+
+#EndOfFunction
+        
+def replaceRefs(stringDocument, listLabels):
+        '''Replaces the references in the document for easy to find flags.
+                Args:
+                        stringDocument(str): The document to look for.
+                        listLabels(list(str)): The list with all the labels found.
+                Returns:
+                        (str):The document with all the references replaced.'''
+        replacedDocument = copy.deepcopy(stringDocument)
+        output =""
+        for label in listLabels:
+                output = replacedDocument.replace('\\ref{'+label+'}', '(refTo:'+label+')')
+                replacedDocument = output
 
 
+        return replacedDocument
+#EndOfFunction
 
+def insertReferences(stringDocument, listLabels):
+        '''Inserts the references changued in the  document.
+                Args:
+                        stringDocument(str):The document whre the replacement will be done.
+                        listLabels(list(str)): The labels in the formulas.
+                Returns
+                        (str): The document with all the references inserted.'''
+        replacedDocument = copy.deepcopy(stringDocument)
+        output = ""
+        for label in listLabels:
+                output = replacedDocument.replace('(refTo:'+label+')','<a tabindex="0" href="#'+label+'" aria-label="'+label+'">r</a>')
+                replacedDocument = output
+
+
+        return replacedDocument
+#EndOfFunction
+        
 
