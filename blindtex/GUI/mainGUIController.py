@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #-*-:coding:utf-8-*-
 import sys
-import blindtex.converter.parser as parser
-from blindtex.mainBlindtex import convertDocument
+import converter.parser as parser
+from mainBlindtex import convertDocument
 
 
 def convert(str):
