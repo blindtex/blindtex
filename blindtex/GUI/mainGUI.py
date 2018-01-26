@@ -139,7 +139,7 @@ class mainGUI(wx.Frame):
                 f.write(mainGUIController.convert(ecuation))
                 f.close()
                 webbrowser.open(temPath + "temp.html")
-                message = wx.MessageDialog(self, "Desea guardar el archivo generado?","Guardar HTML" , wx.YES_NO | wx.ICON_QUESTION)
+                message = wx.MessageDialog(self, "¿Desea guardar el archivo generado?","Guardar HTML" , wx.YES_NO | wx.ICON_QUESTION)
                 answer = message.ShowModal()
                 if answer == wx.ID_YES:
                     message.Destroy()
@@ -181,7 +181,7 @@ class mainGUI(wx.Frame):
                     successm.Destroy()
                     webbrowser.open(pathName.replace('.tex', '.xhtml'))
                 else:
-                    errorm = wx.MessageDialog(self,'A habido un error',"Error", wx.OK | wx.ICON_WARNING)
+                    errorm = wx.MessageDialog(self,'Ha habido un error',"Error", wx.OK | wx.ICON_WARNING)
                     errorm.ShowModal()
                     errorm.Destroy()
 
