@@ -1,4 +1,4 @@
-#--:coding:utf-8--
+#-*-:coding:utf-8-*-
 import iotools.iotools
 import iotools.stringtools
 from iotools.stringtools import troubleFormulas
@@ -7,7 +7,9 @@ import argparse
 import os
 import os.path
 from sys import argv
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def convertDocument(fileName):
 

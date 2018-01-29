@@ -150,8 +150,6 @@ def insertConvertedFormulas(htmlString, inlineList, displayList):
 		newString = output
 		displayIndex += 1
 	
-	
-	
 	return newString
 #EndOfFunction
 

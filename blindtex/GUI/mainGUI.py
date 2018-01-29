@@ -19,8 +19,7 @@ class mainGUI(wx.Frame):
 
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=(wx.DisplaySize()[0]/3,2*wx.DisplaySize()[1]/5),
-                          style= wx.RESIZE_BORDER | wx.SYSTEM_MENU |
-                                wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL)
+                          style= wx.DEFAULT_FRAME_STYLE | wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL)
 
         # Barra de menú
         menuBar = wx.MenuBar()
@@ -100,8 +99,8 @@ class mainGUI(wx.Frame):
         self.outputBox.Add(self.outputLabel)
         self.outputBox.Add(self.outputText, flag = wx.CENTER|wx.EXPAND, proportion = 1)
                                     
-        self.textsBox.Add(self.inputBox, flag = wx.ALL, border= 8, proportion = 1)
-        self.textsBox.Add(self.outputBox, flag= wx.ALL,  border = 8, proportion = 1)
+        self.textsBox.Add(self.inputBox, flag = wx.ALL|wx.EXPAND, border= 8, proportion = 1)
+        self.textsBox.Add(self.outputBox, flag= wx.ALL|wx.EXPAND,  border = 8, proportion = 1)
 
         self.mainBox.Add(self.summaryText, flag = wx.ALL|wx.CENTER, border = 0, proportion = 1)
         self.mainBox.Add(self.textsBox, flag = wx.EXPAND, border = 0, proportion = 1)

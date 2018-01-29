@@ -33,7 +33,7 @@ dStyles = dictionary(os.path.join('converter','dicts','Styles.json'))
 dDots = dictionary(os.path.join('converter','dicts','Dots.json'))
 #-------------------------------------------------------------------------------
 #TODO Find a way to avoid global variables.
-OPTION = 0 #This option are for the formulate function. 0 is for span and &nbsp , 1 is for literal translation and 2 is for math and nbsp.
+OPTION = 1 #This option are for the formulate function. 0 is for span and &nbsp , 1 is for literal translation and 2 is for math and nbsp.
 
 def getOption():
 	'''Function to get the current value of OPTION.
