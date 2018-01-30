@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*-:coding:utf-8-*-
+# -*-:coding:utf-8-*-
 
 import wx
 import webbrowser
@@ -7,23 +7,20 @@ import os
 import converter.parser as parser
 import mainGUIController
 
-
-
-
-
-
 welcomeString = '''Bienvenido a BlindTeX.\nPuede convertir fórmulas con las teclas Alt+L.\nPuede convertir documentos con las teclas Alt+D.\n '''
-class mainGUI(wx.Frame):
 
+
+class mainGUI(wx.Frame):
     sLector = 0
 
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=(wx.DisplaySize()[0]/3,2*wx.DisplaySize()[1]/5),
-                          style= wx.DEFAULT_FRAME_STYLE | wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL)
+        wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=(wx.DisplaySize()[0] / 3, 2 * wx.DisplaySize()[1] / 5),
+                          style=wx.DEFAULT_FRAME_STYLE | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL)
 
         # Barra de menú
         menuBar = wx.MenuBar()
         fileMenu = wx.Menu()
+        editionMenu = wx.Menu()
         actionMenu = wx.Menu()
         lectorMenu = wx.Menu()
 
@@ -34,14 +31,31 @@ class mainGUI(wx.Frame):
         fileMenu.Append(sim)
         fileMenu.Append(qim)
 
-        #Menú de Archivo
+        # Menú de Archivo
         menuBar.Append(fileMenu, '&Archivo')
         self.SetMenuBar(menuBar)
-        self.Bind(wx.EVT_MENU, self.OnQuit, id = 1)
-        self.Bind(wx.EVT_MENU, self.onOpen, id = 2)
-        self.Bind(wx.EVT_MENU, self.onSave, id = 3)
+        self.Bind(wx.EVT_MENU, self.OnQuit, id=1)
+        self.Bind(wx.EVT_MENU, self.onOpen, id=2)
+        self.Bind(wx.EVT_MENU, self.onSave, id=3)
 
-        #Menú de acciones
+        # Menú de Edición
+        copy = wx.MenuItem(editionMenu, -1, "&Copiar\tCtrl+C")
+        paste = wx.MenuItem(editionMenu, -1, "&Pegar\tCtrl+V")
+        cut = wx.MenuItem(editionMenu, -1, "&Cortar\tCtrl+X")
+        selectAll = wx.MenuItem(editionMenu, -1, "&Seleccionar todo\tCtrl+E")
+        editionMenu.Append(copy)
+        editionMenu.Append(paste)
+        editionMenu.Append(cut)
+        editionMenu.Append(selectAll)
+
+        self.Bind(wx.EVT_MENU, self.onCopy, copy)
+        self.Bind(wx.EVT_MENU, self.onPaste, paste)
+        self.Bind(wx.EVT_MENU, self.onCut, cut)
+        self.Bind(wx.EVT_MENU, self.onSelectAll, selectAll)
+
+        menuBar.Append(editionMenu, "&Edición")
+
+        # Menú de acciones
         cLiteral = wx.MenuItem(actionMenu, 4, "Conversión literal\tALT+L")
         cHTML = wx.MenuItem(actionMenu, 5, "Convertir a HTML\tALT+H")
         cDocument = wx.MenuItem(actionMenu, 6, "Convertir documento\tALT+D")
@@ -55,25 +69,23 @@ class mainGUI(wx.Frame):
 
         menuBar.Append(actionMenu, '&Acciones')
 
-        #Menú de configuraciones
-        VoiceOverItem = lectorMenu.Append(wx.NewId(), "VoiceOver/Jaws\tALT+V","HTML para VoiceOver", wx.ITEM_RADIO)
-        nvdaItem = lectorMenu.Append(wx.NewId(),'NVDA\tALT+N', 'HTML para NVDA', wx.ITEM_RADIO)
-
+        # Menú de configuraciones
+        VoiceOverItem = lectorMenu.Append(wx.NewId(), "VoiceOver/Jaws\tALT+V", "HTML para VoiceOver", wx.ITEM_RADIO)
+        nvdaItem = lectorMenu.Append(wx.NewId(), 'NVDA\tALT+N', 'HTML para NVDA', wx.ITEM_RADIO)
 
         self.Bind(wx.EVT_MENU, self.voiceOverChek, VoiceOverItem)
         self.Bind(wx.EVT_MENU, self.nvdaChek, nvdaItem)
 
         menuBar.Append(lectorMenu, '&Configuración')
 
-
-        #Panel principal
+        # Panel principal
         panel = wx.Panel(self)
         panel.SetBackgroundColour('#4f5049')
 
         self.mainBox = wx.BoxSizer(wx.VERTICAL)
 
         font = wx.Font(10, wx.DECORATIVE, wx.ITALIC, wx.NORMAL)
-        self.summaryText  = wx.StaticText(panel, label = welcomeString)#Change label in the definition!!
+        self.summaryText = wx.StaticText(panel, label=welcomeString)  # Change label in the definition!!
         self.summaryText.SetFocus()
         self.summaryText.SetFont(font)
         self.summaryText.SetForegroundColour('#FFFFFF')
@@ -84,32 +96,48 @@ class mainGUI(wx.Frame):
         self.textsBox = wx.StaticBoxSizer(self.box, wx.HORIZONTAL)
 
         self.inputBox = wx.BoxSizer(wx.VERTICAL)
-        self.inputLabel = wx.StaticText(panel, label = "Fórmulas a convertir")
+        self.inputLabel = wx.StaticText(panel, label="Fórmulas a convertir")
         self.inputLabel.SetFont(font)
         self.inputLabel.SetForegroundColour('#FFFFFF')
-        self.inputTextbox = wx.TextCtrl(panel, style = wx.TE_MULTILINE)
-        self.inputBox.Add(self.inputLabel, flag = wx.BOTTOM, border = 2)
-        self.inputBox.Add(self.inputTextbox, flag =wx.CENTER|wx.EXPAND , proportion = 1)
-                                    
+        self.inputTextbox = wx.TextCtrl(panel, style=wx.TE_MULTILINE)
+        self.inputBox.Add(self.inputLabel, flag=wx.BOTTOM, border=2)
+        self.inputBox.Add(self.inputTextbox, flag=wx.CENTER | wx.EXPAND, proportion=1)
+
         self.outputBox = wx.BoxSizer(wx.VERTICAL)
-        self.outputLabel = wx.StaticText(panel,label = "Fórmulas convertidas")
+        self.outputLabel = wx.StaticText(panel, label="Fórmulas convertidas")
         self.outputLabel.SetFont(font)
         self.outputLabel.SetForegroundColour('#FFFFFF')
-        self.outputText = wx.TextCtrl(panel, style = wx.TE_MULTILINE|wx.TE_READONLY)
+        self.outputText = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.outputBox.Add(self.outputLabel)
-        self.outputBox.Add(self.outputText, flag = wx.CENTER|wx.EXPAND, proportion = 1)
-                                    
-        self.textsBox.Add(self.inputBox, flag = wx.ALL|wx.EXPAND, border= 8, proportion = 1)
-        self.textsBox.Add(self.outputBox, flag= wx.ALL|wx.EXPAND,  border = 8, proportion = 1)
+        self.outputBox.Add(self.outputText, flag=wx.CENTER | wx.EXPAND, proportion=1)
 
-        self.mainBox.Add(self.summaryText, flag = wx.ALL|wx.CENTER, border = 0, proportion = 1)
-        self.mainBox.Add(self.textsBox, flag = wx.EXPAND, border = 0, proportion = 1)
+        self.textsBox.Add(self.inputBox, flag=wx.ALL | wx.EXPAND, border=8, proportion=1)
+        self.textsBox.Add(self.outputBox, flag=wx.ALL | wx.EXPAND, border=8, proportion=1)
+
+        self.mainBox.Add(self.summaryText, flag=wx.ALL | wx.CENTER, border=0, proportion=1)
+        self.mainBox.Add(self.textsBox, flag=wx.EXPAND, border=0, proportion=1)
 
         panel.SetSizerAndFit(self.mainBox)
 
         self.Centre()
         self.Show()
         self.Fit()
+
+    def onCut(self, event):
+        self.inputTextbox.Cut()
+
+    def onCopy(self, event):
+        self.inputTextbox.Copy()
+
+    def onPaste(self, event):
+        self.inputTextbox.Paste()
+
+    def onDelete(self, event):
+        frm, to = self.inputTextbox.GetSelection()
+        self.inputTextbox.Remove(frm, to)
+
+    def onSelectAll(self, event):
+        self.inputTextbox.SelectAll()
 
     def nvdaChek(self, event):
         parser.OPTION = 2
@@ -138,7 +166,8 @@ class mainGUI(wx.Frame):
                 f.write(mainGUIController.convert(ecuation))
                 f.close()
                 webbrowser.open(temPath + "temp.html")
-                message = wx.MessageDialog(self, "¿Desea guardar el archivo generado?","Guardar HTML" , wx.YES_NO | wx.ICON_QUESTION)
+                message = wx.MessageDialog(self, "¿Desea guardar el archivo generado?", "Guardar HTML",
+                                           wx.YES_NO | wx.ICON_QUESTION)
                 answer = message.ShowModal()
                 if answer == wx.ID_YES:
                     message.Destroy()
@@ -165,26 +194,24 @@ class mainGUI(wx.Frame):
             except IOError:
                 wx.LogError('Cannot open file')
 
-
-
     def onClickConvertFile(self, event):
-        
-        with wx.FileDialog(self, "Convertir Documento", wildcard = "Archivo (La)TeX (.tex) |*.tex") as fileDialog:
-                if fileDialog.ShowModal()== wx.ID_CANCEL:
-                        return
 
-                pathName = fileDialog.GetPath()
-                if(mainGUIController.onClickConvertFileController(pathName)):
-                    successm = wx.MessageDialog(self,'Documento convertido exitosamente.', 'Documento completado.', wx.OK)
-                    successm.ShowModal()
-                    successm.Destroy()
-                    webbrowser.open(pathName.replace('.tex', '.xhtml'))
-                else:
-                    errorm = wx.MessageDialog(self,'Ha habido un error',"Error", wx.OK | wx.ICON_WARNING)
-                    errorm.ShowModal()
-                    errorm.Destroy()
+        with wx.FileDialog(self, "Convertir Documento", wildcard="Archivo (La)TeX (.tex) |*.tex") as fileDialog:
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
 
-    #EndOfFunction
+            pathName = fileDialog.GetPath()
+            if (mainGUIController.onClickConvertFileController(pathName)):
+                successm = wx.MessageDialog(self, 'Documento convertido exitosamente.', 'Documento completado.', wx.OK)
+                successm.ShowModal()
+                successm.Destroy()
+                webbrowser.open(pathName.replace('.tex', '.xhtml'))
+            else:
+                errorm = wx.MessageDialog(self, 'Ha habido un error', "Error", wx.OK | wx.ICON_WARNING)
+                errorm.ShowModal()
+                errorm.Destroy()
+
+    # EndOfFunction
 
     def OnQuit(self, event):
         self.Close()
@@ -198,9 +225,8 @@ class mainGUI(wx.Frame):
             # Proceed loading the file chosen by the user
             pathname = fileDialog.GetPath()
             text = self.inputTextbox.GetValue()
-            if(mainGUIController.onSaveController(pathname, text)== False):
+            if (mainGUIController.onSaveController(pathname, text) == False):
                 wx.LogError('No se pudo abrir el archivo')
-
 
     def onOpen(self, event):
         # otherwise ask the user what new file to open
@@ -216,7 +242,6 @@ class mainGUI(wx.Frame):
                     file.close()
             except IOError:
                 wx.LogError('No se pudo abrir el archivo')
-
 
 
 def run():
