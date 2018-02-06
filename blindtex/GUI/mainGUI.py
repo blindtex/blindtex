@@ -2,6 +2,7 @@
 # -*-:coding:utf-8-*-
 
 import wx
+import threading
 import webbrowser
 import os
 import converter.parser as parser
@@ -9,10 +10,12 @@ import mainGUIController
 
 welcomeString = '''Bienvenido a BlindTeX.\nPuede convertir fórmulas con las teclas Alt+L.\nPuede convertir documentos con las teclas Alt+D.\n '''
 
+def convertProcess(path):
+    global presult
+    presult = mainGUIController.onClickConvertFileController(path)
 
 class mainGUI(wx.Frame):
     sLector = 0
-
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, wx.ID_ANY, title, size=(wx.DisplaySize()[0] / 3, 2 * wx.DisplaySize()[1] / 5),
                           style=wx.DEFAULT_FRAME_STYLE | wx.CLIP_CHILDREN | wx.TAB_TRAVERSAL)
@@ -194,6 +197,8 @@ class mainGUI(wx.Frame):
             except IOError:
                 wx.LogError('Cannot open file')
 
+
+
     def onClickConvertFile(self, event):
 
         with wx.FileDialog(self, "Convertir Documento", wildcard="Archivo (La)TeX (.tex) |*.tex") as fileDialog:
@@ -201,12 +206,21 @@ class mainGUI(wx.Frame):
                 return
 
             pathName = fileDialog.GetPath()
-            if (mainGUIController.onClickConvertFileController(pathName)):
+
+
+
+            wait = wx.BusyInfo("Convirtiendo archvo, porfavor espere...")
+            threatProcess = threading.Thread(target=convertProcess(pathName))
+            threatProcess.start()
+
+            if (presult):
+                del wait
                 successm = wx.MessageDialog(self, 'Documento convertido exitosamente.', 'Documento completado.', wx.OK)
                 successm.ShowModal()
                 successm.Destroy()
                 webbrowser.open(pathName.replace('.tex', '.xhtml'))
             else:
+                del wait
                 errorm = wx.MessageDialog(self, 'Ha habido un error', "Error", wx.OK | wx.ICON_WARNING)
                 errorm.ShowModal()
                 errorm.Destroy()
