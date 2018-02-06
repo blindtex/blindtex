@@ -209,7 +209,7 @@ class mainGUI(wx.Frame):
 
 
 
-            wait = wx.BusyInfo("Convirtiendo archvo, porfavor espere...")
+            wait = wx.BusyInfo("El archivo está siendo convertido, porfavor espere...")
             threatProcess = threading.Thread(target=convertProcess(pathName))
             threatProcess.start()
 
