@@ -9,6 +9,8 @@ import ply.lex
 import formulate
 import os
 import sys
+import re
+import copy
 #TODO: Avoid this.
 try:
     sys.path.insert(0, 'blindtex')
@@ -58,7 +60,8 @@ precedence = (
 
 def p_start(p):
 	'''start : content
-				| start content'''
+				| start content
+				| MAROW'''
 	if(len(p) == 3):
 		p[0] =  p[1] + p[2] + ' '
 	else:
@@ -289,24 +292,30 @@ def p_unknown(p):
 	p[0] = formulate.formulate(p[1],OPTION)
 #
 def p_array(p):
-	'''array : BEGARRAY row ENDARRAY '''
-	p[0] = '<table>\n' + p[2] + '</table>'
+	'''array : BEGARRAY rows ENDARRAY '''
+	p[0] = formulate.formulate('Inicio Matriz\n', OPTION) + p[2] + formulate.formulate('Fin Matriz\n', OPTION)
 
 def p_rows(p):
-	'''row : column LINEBREAK row
-			| column'''
-	if(len(p) == 4):
-		p[0] = '<tr>' + p[1] + '</tr>\n' + p[3]
-	else:	
-		p[0] = '<tr>' + p[1] + '</tr>\n'
+	'''rows : row MAROW rows
+                | row MAROW
+                | row'''
+        if(len(p)== 4):
+            p[0] =  p[1] + formulate.formulate(' Fin de línea\n', OPTION) + p[3]
+        else:
+            p[0] =  p[1] + formulate.formulate(' Fin de línea\n', OPTION)
+
+def p_row(p):
+    '''row : column MACOL row
+            | column'''
+    if(len(p)== 4):
+        p[0] = formulate.formulate('elemento ', OPTION) + p[1] + formulate.formulate(' ; ', OPTION) + p[3]
+    else:
+        p[0] = formulate.formulate('elemento ', OPTION) + p[1] + formulate.formulate(' ; ', OPTION)
 
 def p_columns(p):
-	'''column : content col column
-			| content'''
-	if(len(p) == 4):
-		p[0] = '<td>' + p[1] + '</td>' + p[3]
-	else:
-		p[0] = '<td>' + p[1] + '</td>'
+	'''column : content'''
+	p[0] = p[1]
+
 #
 def p_col(p):
 	'''col : COL'''
@@ -374,17 +383,35 @@ def p_error(p):
 #-------------------------------------------------------------------------------	
 
 parser = yacc.yacc()
-
+arrayRegex = re.compile(r'''(?<!\\)((\\begin\{array\}(\{.*?\})?(.*?)(?<!\\)(\\end\{array\}))|
+(\\begin\{[pbBvV]?matrix(\*)?\}(\[.*?\])?(\{.*?\})?)(.*?)((?<!\\)\\end\{[pbBvV]?matrix(\*)?\})
+) ''',re.DOTALL|re.UNICODE|re.X)
 def convert(String):
+        newString = seekAndReplaceMatrices(String)
         try:
-                return parser.parse(String)
+                return parser.parse(newString)
         except ply.lex.LexError:
-            reportProblem('LexError in:\n'+String)
+            reportProblem('LexError in:\n'+newString)
             return('Bad Formula')
         except syntaxError:
-            reportProblem('Syntax Error in:\n' + String)
+            reportProblem('Syntax Error in:\n' + newString)
             return('Bad Formula')
         except lexer.illegalCharacter:
-            reportProblem('illegal character in:\n' +String)
+            reportProblem('illegal character in:\n' +newString)
             return('Bad Formula')
 #EndOfFunction
+
+def seekAndReplaceMatrices(String):
+
+    otherString = copy.deepcopy(String)
+    iterator = arrayRegex.finditer(otherString)
+    while(True):
+        try:
+            currentMatch = iterator.next()
+            otherString = otherString.replace(currentMatch.group(0), currentMatch.group(0).replace(r'\\',r'~row'))
+            otherString = otherString.replace(otherString,otherString.replace(r'&',r'~col'))
+
+        except StopIteration:
+            break
+    return otherString
+#EndOFunction

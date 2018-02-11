@@ -10,7 +10,8 @@ import sys
 
 tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP',
           'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER',
-          'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE', 'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING')
+          'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE',
+          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING', 'MAROW', 'MACOL')
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
 
@@ -23,7 +24,16 @@ except IOError:
 	print('File could not be oppened.')
 
 
-literals = [ '!',"'"]
+literals = [ '!',"'",]
+
+
+def t_MAROW(t):
+        r'~row'
+        return t
+
+def t_MACOL(t):
+        r'~col'
+        return t
 
 def t_BEGINBLOCK(t):
 	r'\{'

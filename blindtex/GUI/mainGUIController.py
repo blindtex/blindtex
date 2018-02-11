@@ -5,10 +5,8 @@ import converter.parser as parser
 from mainBlindtex import convertDocument
 
 
-def convert(str):
+def convert(stringInput):
     convertedFormula = u''
-    input = str
-    inputSplit = input.split("\n")
     if parser.OPTION != 1:
         reload(sys)
         sys.setdefaultencoding('utf8')
@@ -19,14 +17,13 @@ def convert(str):
         <title> Pruebas</title>
         </head>
         <body>
-        <p>Fórmula generada:</p>'''
-        for line in inputSplit:
-            convertedFormula = convertedFormula + "<div>" + parser.convert(line) + "</div>" + "\n"
-        convertedFormula = convertedFormula + '''</body>
+        <p>Fórmula generada:</p>
+        <div>''' + parser.convert(stringInput) + '''</div>
+        </body>
         </html>'''
     if parser.OPTION == 1:
-        for line in inputSplit:
-            convertedFormula = convertedFormula + parser.convert(line) + "\n"
+            convertedFormula = parser.convert(stringInput)
+    print convertedFormula
     return convertedFormula
 
 def onSaveController(pathname, text):
