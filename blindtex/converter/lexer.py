@@ -11,7 +11,7 @@ import sys
 tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP',
           'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER',
           'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE',
-          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING', 'MAROW', 'MACOL')
+          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT')
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
 
@@ -26,14 +26,6 @@ except IOError:
 
 literals = [ '!',"'",]
 
-
-def t_MAROW(t):
-        r'~row'
-        return t
-
-def t_MACOL(t):
-        r'~col'
-        return t
 
 def t_BEGINBLOCK(t):
 	r'\{'
@@ -200,7 +192,7 @@ def t_command_MATHSPACE(t):
 	pass
 
 def t_command_TEXT(t):
-        r'text(rm)?|mbox\{'
+        r'(text(rm)?|mbox)\{'
         t.lexer.begin('anything')
         return t
 
@@ -208,9 +200,13 @@ def t_command_LABEL(t):
         r'label\{'
         t.lexer.begin('anything')
         return t
+def t_ARRAYTEXT(t):
+        r'~text\{'
+        t.lexer.begin('anything')
+        return t
 
 def t_anything_ANYTHING(t):
-        r'[^}]+'
+        r'[^}]'
         return t
 
 def t_anything_ENDANY(t):
