@@ -416,7 +416,7 @@ def seekAndReplaceMatrices(String):
             newContent = ''
             for row in myArray:
                 for col in row:
-                    newContent = newContent + r'~text{Contenido %d %d}'%(curRow, curCol) + col + ';'
+                    newContent = newContent + r'~text{Elemento %d %d;}'%(curRow, curCol) + col + ';'
                     curCol = curCol + 1
                 curCol = 1
                 curRow = curRow +1

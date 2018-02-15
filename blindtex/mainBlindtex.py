@@ -29,7 +29,8 @@ def convertDocument(fileName):
 	#Write another tex file without formulas.
 	iotools.iotools.replaceAndWrite(documentContent,newDocumentContent,os.path.join(filePath,'noFormula_'+name))
 	iotools.iotools.convertToHtml(os.path.join(filePath,'noFormula_'+name))
-
+	
+        converter.parser.setOption(0)
 	#Convert the formulas
 	for index in range(len(documentAndLists.inlineList)):
 		documentAndLists.inlineList[index] = converter.parser.convert(documentAndLists.inlineList[index])
