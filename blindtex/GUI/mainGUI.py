@@ -5,6 +5,7 @@ import wx
 import threading
 import webbrowser
 import os
+import dictionariesGUI
 import converter.parser as parser
 import mainGUIController
 
@@ -62,13 +63,16 @@ class mainGUI(wx.Frame):
         cLiteral = wx.MenuItem(actionMenu, 4, "Conversión literal\tALT+L")
         cHTML = wx.MenuItem(actionMenu, 5, "Convertir a HTML\tALT+H")
         cDocument = wx.MenuItem(actionMenu, 6, "Convertir documento\tALT+D")
+        cDict = wx.MenuItem(actionMenu,7, "Diccionarios\tALT+F")
         actionMenu.Append(cDocument)
         actionMenu.Append(cLiteral)
         actionMenu.Append(cHTML)
+        actionMenu.Append(cDict)
 
         self.Bind(wx.EVT_MENU, self.onClickConvertLiteral, cLiteral, 4)
         self.Bind(wx.EVT_MENU, self.onClickConvertHTML, cHTML, 5)
         self.Bind(wx.EVT_MENU, self.onClickConvertFile, cDocument, 6)
+        self.Bind(wx.EVT_MENU, self.onClickOpenDictionary, cDict, 7)
 
         menuBar.Append(actionMenu, '&Acciones')
 
@@ -227,6 +231,9 @@ class mainGUI(wx.Frame):
 
     # EndOfFunction
 
+    def onClickOpenDictionary(self, event):
+        dictionariesGUI.openWindow()
+        
     def OnQuit(self, event):
         self.Close()
 

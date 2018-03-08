@@ -77,13 +77,13 @@ def t_COL(t):
 	r'[&]'
 	return t
 
-@TOKEN(dictOfDicts['largeOperator'])
+@TOKEN(dictOfDicts['LargeOperators'])
 def t_command_LARGEOP(t):
 	
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['ordinary'])
+@TOKEN(dictOfDicts['Ordinary'])
 def t_command_ORD(t):
 	
 	t.lexer.begin('INITIAL')
@@ -99,7 +99,7 @@ def t_command_ROOT(t):
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['arrow'])
+@TOKEN(dictOfDicts['Arrows'])
 def t_command_ARROW(t):
 	
 	t.lexer.begin('INITIAL')
@@ -114,13 +114,13 @@ def t_KBINOP(t):#Binary operators that can be made from the keyboard.
 	r'\+|-|\*|/'
 	return t
 
-@TOKEN(dictOfDicts['dots'])
+@TOKEN(dictOfDicts['Dots'])
 def t_command_DOTS(t):
 	
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['binOp'])	
+@TOKEN(dictOfDicts['BinaryOperators'])	
 def t_command_BINOP(t):
 	
 	t.lexer.begin('INITIAL')
@@ -132,13 +132,13 @@ def t_KBINREL(t):
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['binRel'])
+@TOKEN(dictOfDicts['BinaryRelations'])
 def t_command_BINREL(t):
 		
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['func'])
+@TOKEN(dictOfDicts['MathFunctions'])
 def t_command_FUNC(t):
 	
 	t.lexer.begin('INITIAL')
@@ -153,19 +153,19 @@ def t_KDELIMITER(t):
 	r'\(|\)|\[|\]'
 	return t
 
-@TOKEN(dictOfDicts['delimiter'])
+@TOKEN(dictOfDicts['Delimiters'])
 def t_command_DELIMITER(t):
 	
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['accent'])
+@TOKEN(dictOfDicts['Accents'])
 def t_command_ACCENT(t):
 
 	t.lexer.begin('INITIAL')
 	return t
 
-@TOKEN(dictOfDicts['style'])
+@TOKEN(dictOfDicts['Styles'])
 def t_command_STYLE(t):
 	
 	t.lexer.begin('INITIAL')
