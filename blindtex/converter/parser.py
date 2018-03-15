@@ -33,6 +33,7 @@ dDelimiters = dictionary(os.path.join('converter','dicts','Delimiters.json'))
 dAccents = dictionary(os.path.join('converter','dicts','Accents.json'))
 dStyles = dictionary(os.path.join('converter','dicts','Styles.json'))
 dDots = dictionary(os.path.join('converter','dicts','Dots.json'))
+dUser = dictionary(os.path.join('converter', 'dicts', 'UserDict.json'))
 #-------------------------------------------------------------------------------
 #TODO Find a way to avoid global variables.
 OPTION = 1 #This option are for the formulate function. 0 is for span and &nbsp , 1 is for literal translation and 2 is for math and nbsp.
@@ -141,7 +142,8 @@ def p_command(p):
                 | pmod
                 | lnbrk
                 | phantom
-                                | textBlock'''
+                | textBlock
+                | user'''
     p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
@@ -292,6 +294,10 @@ def p_lim(p):
 def p_unknown(p):
     '''unknown : UNKNOWN'''
     p[0] = formulate.formulate(p[1],OPTION)
+
+def p_userCommand(p):
+    '''user : USER'''
+    p[0] = formulate.formulate(dUser.showReading(p[1]), OPTION)
 #
 def p_array(p):
     '''array : BEGARRAY arrayContent ENDARRAY '''

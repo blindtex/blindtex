@@ -2,7 +2,7 @@
 
 accents = {'&aacute;': u'á', '&eacute;': u'é', '&iacute;': u'í', '&oacute;': u'ó', '&uacute;': u'ú'}
 
-
+invertedAccents ={u'á': '&aacute;' , u'é':'&eacute;', u'í':'&iacute;', u'ó': '&oacute;', u'ú':'&uacute;'}#Sure there is a better way.
 def replaceHtml(label):
 	for key in accents:
 		label = label.replace(key, accents[key])
@@ -11,6 +11,13 @@ def replaceHtml(label):
 
 
 # EndOfFunction
+
+def backHtml(label):
+        for key in invertedAccents:
+                label = label.replace(key, invertedAccents[key])
+
+        return label
+#EndOfFunction
 def formulate(label, option):
 	'''
 	Function to put in a span tag with the desired label.

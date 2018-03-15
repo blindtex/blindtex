@@ -11,7 +11,7 @@ import sys
 tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP',
           'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER',
           'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE',
-          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT')
+          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT', 'USER')
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
 
@@ -216,6 +216,12 @@ def t_anything_ENDANY(t):
         
 def t_CHAR(t):
 	r'[A-Za-z0-9 "%\',.:;|]+?'
+	return t
+
+@TOKEN(dictOfDicts['UserDict'])
+def t_command_USER(t):
+	
+	t.lexer.begin('INITIAL')
 	return t
 
 def t_command_UNKNOWN(t):

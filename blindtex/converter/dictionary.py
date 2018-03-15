@@ -3,7 +3,7 @@
 # Funciones: en esta sección, dejaremos todas las funciones que se requieran
 from pkg_resources import _sget_dict
 import json
-
+import os
 
 class dictionary(object):
     '''Dictionary class containing LaTeX commands and its possible readings.
@@ -63,7 +63,7 @@ class dictionary(object):
 				newValue(str): The new reading to the command.'''
 		try:
 			self.dict[key][1].append(newValue)
-			self.dict[key][0] = len(self.dict[key][1]) - 1
+			#self.dict[key][0] = len(self.dict[key][1]) - 1
 		except KeyError:
 			print('Command %s does not exist.'%key)
 	#--------------------------------------------------------------------------
@@ -83,9 +83,27 @@ class dictionary(object):
 	#TODO Agrega un comando con su respectiva lectura
     def addCommand(self,key,value):#Agregar el comando y la lectura Puede variar cuando las configuraciones estén listas.
 		if (self.dict.get(str(key)) is not None):
-			return('Key already exists.')
+			return False
 		else:
-			self.dict[str(key)] = [0,[str(value)]]
+                    try:
+                        #Add the command to the dicctionary in regexes, to be recognized.
+                        #Open the regexes file.
+                        myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
+                        dictOfDicts = json.load(myFile)
+                        myFile.close()
+                        #Adds the new command in the dict of Dicts
+                        (path, dictName) = os.path.split(self.fileName)
+                        dictName  = dictName.replace('.json','')
+                        dictOfDicts[dictName] = dictOfDicts[dictName] + "|%s"%key
+                        myFile = open(os.path.join('converter','dicts','regexes.json'), 'w')
+                        json.dump(dictOfDicts, myFile)
+                        myFile.close()
+                    except IOError:
+                        print('File %s could not be oppened.'%'regexes.json')
+                        return False
+                    #Add the command with its reading to the dictionary itself.
+                    self.dict[str(key)] = [0,[str(value)]]
+		    return True
 	#--------------------------------------------------------------------------
 
     def changeReading(self,key,value):#Agregar una lectura nueva
@@ -121,7 +139,7 @@ class dictionary(object):
 			Args:
 				key(str): The command.'''
 		try:
-			print(self.dict[key][1])
+			return(self.dict[key][1])
 		except KeyError:
 			print('Command %s does not exist.'%key)
 
