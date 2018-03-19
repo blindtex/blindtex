@@ -1,20 +1,24 @@
 import os
 from sys import argv
+import argparse
+import parser as parser
 
-def run(arg):
-    try:
-        print(convert(arg))
-    except:
-        print("Error, please check the requirements and configurations")
+myArgumentParser = argparse.ArgumentParser()
+myArgumentParser.add_argument('formula', type=str, help ='The formula to be converted')
+myArgumentParser.add_argument('-lit', '--literal', help="Display the formula in literal form.",action="store_true")
+myArgumentParser.add_argument('-nvda','--nvda', help='Converts with the label math.', action = "store_true")
 
-if os.name == "nt":
-    print os.name
-    from blindtex.converter.parser import convert
-    run(argv[1])
-if os.name == "posix":
-    print os.name
-    from parser import convert
-    run(argv[1])
+args = myArgumentParser.parse_args()
+
+if(args.literal):
+	parser.OPTION = 1
+	print(parser.convert(args.formula))
+elif(args.nvda):
+	parser.OPTION = 2
+	print(parser.convert(args.formula))
+else:
+	parser.OPTION = 0
+	print(parser.convert(args.formula))
 
 
 

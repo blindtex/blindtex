@@ -1,3 +1,8 @@
+#Autogenerate by project
+*.out
+.idea/
+parsetab.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

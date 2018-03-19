@@ -1,11 +1,31 @@
+#-*-:coding:utf-8-*-
 #Lexer of LaTeX math content
 
 import ply.lex as lex
+from ply.lex import TOKEN
+import json
 import re
+import os
+import sys
 
-tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP', 'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER', 'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN')
+tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP',
+          'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER',
+          'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE',
+          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT', 'USER')
 
-states = (('command', 'exclusive'),)
+states = (('command', 'exclusive'),('anything','exclusive'),)
+
+try:
+        myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
+        #myFile = open('regexes.json')
+        dictOfDicts = json.load(myFile)
+        myFile.close()
+except IOError:
+	print('File could not be oppened.')
+
+
+literals = [ '!',"'",]
+
 
 def t_BEGINBLOCK(t):
 	r'\{'
@@ -26,20 +46,51 @@ def t_SUB(t):
 def t_COMMAND(t):
 	r'\\'
 	t.lexer.begin('command')
-	pass
+	return
 
-def t_command_LARGEOP(t):
-	r'sum|prod|coprod|int|oint|bigcap|bigcup|bigsqcup|bigvee|bigwedge|bigodot|bigotimes|bigoplus|biguplus'
+def t_command_PMOD(t):
+	r'pmod'
 	t.lexer.begin('INITIAL')
 	return t
 
+def t_command_PHANTOM(t):
+	r'[hv]?phantom'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_BEGARRAY(t):
+	r'(begin\{array\}|begin\{[pbBvV]?matrix(\*)?\})(\[.*?\])?(\{.*?\})?'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_ENDARRAY(t):
+	r'end\{array\}|end\{[pbBvV]?matrix(\*)?\}'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_LINEBREAK(t):
+	r'\\'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_COL(t):
+	r'[&]'
+	return t
+
+@TOKEN(dictOfDicts['LargeOperators'])
+def t_command_LARGEOP(t):
+	
+	t.lexer.begin('INITIAL')
+	return t
+
+@TOKEN(dictOfDicts['Ordinary'])
 def t_command_ORD(t):
-	r'(alpha)|(beta)|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega|aleph|hbar|imath|jmath|ell|vp|Re|Im|partial|infty|prime|emptyset|nabla|surd|top|bot|\||angle|triangle|backslash|forall|exists|neg|flat|natural|sharp|clubsuit|diamondsuit|heartsuit|spadsuit|lnot'
+	
 	t.lexer.begin('INITIAL')
 	return t
 
 def t_command_FRAC(t):
-	r'frac'
+	r'frac|tfrac|dfrac'
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -48,13 +99,14 @@ def t_command_ROOT(t):
 	t.lexer.begin('INITIAL')
 	return t
 
+@TOKEN(dictOfDicts['Arrows'])
 def t_command_ARROW(t):
-	r'leftarrow|Leftarrow|rightarrow|Rightarrow|leftrightarrow|Leftrightarrow|mapsto|hookleftarrow|leftharpoonup|leftharpoondown|rightleftharpoons|longleftarrow|Longleftarrow|longrightarrow|Longrightarrow|longleftrightarrow|Longleftrightarrow|longmapsto|hookrightarrow|rightharpoonup|rightharpoondown|uparrow|Uparrow|downarrow|Downarrow|updownarrow|Updownarrow|nearrow|searrow|swarrow|nwarrow|to|gets|iff'
+	
 	t.lexer.begin('INITIAL')
 	return t
 
 def t_command_leftRight(t):
-	r'(left)|(right)'
+	r'(left)|(right)|left\.|right\.'
 	t.lexer.begin('INITIAL')
 	pass
 
@@ -62,28 +114,33 @@ def t_KBINOP(t):#Binary operators that can be made from the keyboard.
 	r'\+|-|\*|/'
 	return t
 
+@TOKEN(dictOfDicts['Dots'])
 def t_command_DOTS(t):
-	r'dots|ldots|cdots|vdots|ddots'
-	t.lexer.begin('INITIAL')
-	return t
 	
-def t_command_BINOP(t):
-	r'pm|mp|setminus|cdot|times|ast|star|diamond|circ|bullet|div|cap|cup|uplus|sqcap|sqcup|triangleleft|triangleright|wr|bigcirc|bigtriangleup|bigtriangledown|vee|wedge|oplus|ominus|otimes|oslash|odot|dagger|ddagger|amalg|lor|land'
 	t.lexer.begin('INITIAL')
 	return t
+
+@TOKEN(dictOfDicts['BinaryOperators'])	
+def t_command_BINOP(t):
+	
+	t.lexer.begin('INITIAL')
+	return t
+
 
 def t_KBINREL(t):
 	r'[=<>]'	
 	t.lexer.begin('INITIAL')
 	return t
 
+@TOKEN(dictOfDicts['BinaryRelations'])
 def t_command_BINREL(t):
-	r'leq|geq|equiv|prec|succ|sim|preceq|succeq|simeq|ll|gg|asymp|subset|supset|approx|subseteq|supseteq|cong|sqsubseteq|sqsupseteq|bowtie|in|ni|propto|vdash|dashv|models|smile|mid|doteq|frown|parallel|perp|neq|notin|ne|(le)|ge|owns'	
+		
 	t.lexer.begin('INITIAL')
 	return t
 
+@TOKEN(dictOfDicts['MathFunctions'])
 def t_command_FUNC(t):
-	r'arccos|arcsin|arctan|arg|cos|cosh|cot|coth|csc|deg|det|dim|exp|gcd|hom|inf|ker|lg|liminf|limsup|ln|log|max|min|Pr|sec|sin|sinh|sup|tan|tanh'
+	
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -96,18 +153,21 @@ def t_KDELIMITER(t):
 	r'\(|\)|\[|\]'
 	return t
 
+@TOKEN(dictOfDicts['Delimiters'])
 def t_command_DELIMITER(t):
-	r'{|}|lfloor|rfloor|lceil|rceil|langle|rangle|backslash'
+	
 	t.lexer.begin('INITIAL')
 	return t
 
+@TOKEN(dictOfDicts['Accents'])
 def t_command_ACCENT(t):
-	r'hat|check|breve|acute|grave|tilde|bar|vec|dot|ddot|widehat|widetilde'
+
 	t.lexer.begin('INITIAL')
 	return t
 
+@TOKEN(dictOfDicts['Styles'])
 def t_command_STYLE(t):
-	r'mathit|mathrm|mathbf|mathsf|mathtt|mathcal|boldmath'
+	
 	t.lexer.begin('INITIAL')
 	return t
 
@@ -116,29 +176,78 @@ def t_command_LIM(t):
 	t.lexer.begin('INITIAL')
 	return t
 
+def t_command_CHOOSE(t):
+	r'choose'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_BINOM(t):
+	r'binom'
+	t.lexer.begin('INITIAL')
+	return t
+
+def t_command_MATHSPACE(t):
+	r'[,!:;]|quad|qquad'
+	t.lexer.begin('INITIAL')
+	pass
+
+def t_command_TEXT(t):
+        r'(text(rm)?|mbox)\{'
+        t.lexer.begin('anything')
+        return t
+
+def t_command_LABEL(t):
+        r'label\{'
+        t.lexer.begin('anything')
+        return t
+def t_ARRAYTEXT(t):
+        r'~text\{'
+        t.lexer.begin('anything')
+        return t
+
+def t_anything_ANYTHING(t):
+        r'[^}]'
+        return t
+
+def t_anything_ENDANY(t):
+        r'(?<!\\)\}'
+        t.lexer.begin('INITIAL')
+        pass
+        
 def t_CHAR(t):
-	r'[A-Za-z0-9]+?'
+	r'[A-Za-z0-9 "%\',.:;|]+?'
+	return t
+
+@TOKEN(dictOfDicts['UserDict'])
+def t_command_USER(t):
+	
+	t.lexer.begin('INITIAL')
 	return t
 
 def t_command_UNKNOWN(t):
-	r'[A-Za-z]+'
+	r'[A-Za-z ]+'
 	t.lexer.begin('INITIAL')
 	return t
 
 t_ignore_SPACE=r'[ \t\n]+'
-
-
+#---------------Error Handling-----------------
+class illegalCharacter(Exception):
+        def __init__(self):
+                return
 def t_error(t):
 	print("Illegal character '%s'" % t.value[0])
 	t.lexer.skip(1)
+	raise illegalCharacter
 
-
+#---------------------------------------------
 lexer= lex.lex()
-#while True:
-#	s = raw_input()
-#	lexer.input(s)
-#	while True:
-#		tok = lexer.token()
-#		if not tok:
-#			break
-#		print tok
+
+if __name__ =="__main__":
+	while True:
+		s = raw_input()
+		lexer.input(s)
+		while True:
+			tok = lexer.token()
+			if not tok:
+				break
+			print tok
