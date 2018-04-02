@@ -14,6 +14,9 @@ tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', '
           'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT', 'USER')
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
+        
+# Put dictOfDicts into global scope
+dictOfDicts = None
 
 try:
         myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
