@@ -18,11 +18,11 @@ states = (('command', 'exclusive'),('anything','exclusive'),)
 # Put global scope 
 #dictOfDicts = dict()
 
-try:
-        with open(os.path.join('converter','dicts','regexes.json'), 'r') as myFile:
-            dictOfDicts = json.load(myFile)
-except IOError:
-	print('[Error] File could not be opened.')
+# try:
+with open(os.path.join('converter','dicts','regexes.json'), 'r') as myFile:
+    dictOfDicts = json.load(myFile)
+# except IOError:
+	# print('[Error] File could not be opened.')
 
 # Put variable out of the scope
 #dictOfDicts = json.load(myFile)
