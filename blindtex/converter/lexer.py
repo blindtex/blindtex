@@ -15,15 +15,14 @@ tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', '
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
         
+# Put global scope 
+#dictOfDicts = dict()
+
 try:
-#        myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
         with open(os.path.join('converter','dicts','regexes.json'), 'r') as myFile:
             dictOfDicts = json.load(myFile)
-        #myFile = open('regexes.json')
-        #dictOfDicts = json.load(myFile)
-#        myFile.close()
 except IOError:
-	print('File could not be oppened.')
+	print('[Error] File could not be opened.')
 
 # Put variable out of the scope
 #dictOfDicts = json.load(myFile)
