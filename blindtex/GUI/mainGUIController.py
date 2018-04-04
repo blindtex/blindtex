@@ -3,7 +3,7 @@
 import sys
 import converter.parser as parser
 from mainBlindtex import convertDocument
-
+from mainBlindtex import convertToPdf
 
 def convert(stringInput):
     convertedFormula = u''
@@ -38,6 +38,13 @@ def onSaveController(pathname, text):
 def onClickConvertFileController(pathName):
     try:
         convertDocument(pathName)
+        return True
+    except:
+        return False
+
+def onClickConvertToPdfController(pathName):
+    try:
+        convertToPdf(pathName)
         return True
     except:
         return False

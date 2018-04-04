@@ -75,11 +75,11 @@ def p_block(p):
 
 def p_textBlock(p):
     '''textBlock : TEXT any '''
-    p[0] = formulate.formulate('comienza texto ',OPTION) + p[2] + formulate.formulate(' termina texto', OPTION)
+    p[0] = formulate.formulate('texto ',OPTION) + p[2] + formulate.formulate(' fin texto', OPTION)
 
 def p_label(p):
     '''label : LABEL any '''
-    p[0] = '<span id="'+ p[2] + '"></span>'
+    p[0] = formulate.formulateLabel(p[2], OPTION)
 
 def p_ARRAYTEXT(p):
     '''textBlock : ARRAYTEXT any'''

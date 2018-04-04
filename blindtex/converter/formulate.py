@@ -3,6 +3,8 @@
 accents = {'&aacute;': u'á', '&eacute;': u'é', '&iacute;': u'í', '&oacute;': u'ó', '&uacute;': u'ú'}
 
 invertedAccents ={u'á': '&aacute;' , u'é':'&eacute;', u'í':'&iacute;', u'ó': '&oacute;', u'ú':'&uacute;'}#Sure there is a better way.
+
+latexAccents = {'&aacute;': u"\\'a", '&eacute;': u"\\'e", '&iacute;': u"\\'i", '&oacute;': u"\\'o", '&uacute;': u"\\'u"}
 def replaceHtml(label):
 	for key in accents:
 		label = label.replace(key, accents[key])
@@ -18,6 +20,14 @@ def backHtml(label):
 
         return label
 #EndOfFunction
+
+def LatexAccents(label):
+        for key in latexAccents:
+                label = label.replace(key, latexAccents[key])
+
+        return label
+#EndOfFunction
+#TODO: I am repeating. Fix that.
 def formulate(label, option):
 	'''
 	Function to put in a span tag with the desired label.
@@ -40,5 +50,19 @@ def formulate(label, option):
 		return replaceHtml(label) + '\n'
 	elif (option == 2):
 		return '<math aria-label=\"' + label + '\">&nbsp;</math> '
+	elif (option == 3):
+                return LatexAccents(label) + ";"
 
 # EndOfFunction
+
+
+def formulateLabel(label, option):
+        if (option == 0):
+                return "label: %s "%label
+        if (option == 1):
+                return "label: %s\n"%label
+        if (option == 2):
+                return '<span id="%s"></span>'%label
+        if (option == 3):
+                return "$Ecuaci\\acute{o}n \\label{%s}$"%label
+#EndOf Function

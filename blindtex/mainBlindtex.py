@@ -56,7 +56,39 @@ def convertDocument(fileName):
 	
 #EndOfFunction
 
+def convertToPdf(fileName):
+        #Get the document in a string.
+	documentString = iotools.iotools.openFile(fileName)
+	#Get the content in a list with three elements.
+	documentContent = iotools.stringtools.extractContent(documentString)
+	#This generates a list(a named tuple) with the document content (all formulas replaced) named replacedDocument, inline formulas named inlineList and display formulas named displayList.
+	documentAndLists = iotools.stringtools.seekAndReplaceFormulas(documentContent[1])
+	newDocumentContent = documentAndLists.replacedDocument
+	#Generate the labels list
+	labelsList = iotools.stringtools.generateListOfLabels(documentAndLists.displayList)
+	
+	#Let's deal with path and fileNames, actually fileName is the path of the file.
+	(filePath,name) = os.path.split(fileName)
+	
+        converter.parser.setOption(3)#For the LaTeX Accents
+	#Convert the formulas
+	for index in range(len(documentAndLists.inlineList)):
+                #Here we take the risk of the sign ~ being used in the formula.
+		documentAndLists.inlineList[index] = "\# %s \#"%converter.parser.convert(documentAndLists.inlineList[index])
 
+	for index in range(len(documentAndLists.displayList)):
+		documentAndLists.displayList[index] = "Ecuaci\\'on\\\\%s\\\\ Fin Ecuaci\\'on\\\\"%converter.parser.convert(documentAndLists.displayList[index])
+        #insert converted formulas
+	newDocumentContent = iotools.stringtools.insertConvertedFormulas( newDocumentContent, documentAndLists.inlineList, documentAndLists.displayList)
+	
+	#Write the .tex file with the modified formulas
+	iotools.iotools.replaceAndWrite(documentContent,newDocumentContent,os.path.join(filePath,'Accessible_'+name))
+        
+        iotools.iotools.convertToPdf(filePath ,os.path.join(filePath,'Accessible_'+name))
+        
+	#Write the trouble formulas
+	iotools.iotools.writeTroubles(fileName, troubleFormulas)
+#EndOfFunction
 def convertFormula(strFormula,intOption = 1):
 
         converter.parser.setOption(intOption)

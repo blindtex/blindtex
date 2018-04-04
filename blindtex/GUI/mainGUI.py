@@ -14,7 +14,10 @@ welcomeString = '''Bienvenido a BlindTeX.\nPuede convertir fórmulas con las tec
 def convertProcess(path):
     global presult
     presult = mainGUIController.onClickConvertFileController(path)
-
+def convertProcessPdf(path):
+    global presult
+    presult = mainGUIController.onClickConvertToPdfController(path)
+    
 class mainGUI(wx.Frame):
     sLector = 0
     def __init__(self, parent, title):
@@ -64,16 +67,19 @@ class mainGUI(wx.Frame):
         cHTML = wx.MenuItem(actionMenu, 5, "Convertir a HTML\tALT+H")
         cDocument = wx.MenuItem(actionMenu, 6, "Convertir documento\tALT+D")
         cDict = wx.MenuItem(actionMenu,7, "Diccionarios\tALT+F")
+        cConvertToPdf = wx.MenuItem(actionMenu, 8, "Convertir a Pdf\tALT+P")#These controls will have to be modified.
         actionMenu.Append(cDocument)
         actionMenu.Append(cLiteral)
         actionMenu.Append(cHTML)
         actionMenu.Append(cDict)
+        actionMenu.Append(cConvertToPdf)
 
         self.Bind(wx.EVT_MENU, self.onClickConvertLiteral, cLiteral, 4)
         self.Bind(wx.EVT_MENU, self.onClickConvertHTML, cHTML, 5)
         self.Bind(wx.EVT_MENU, self.onClickConvertFile, cDocument, 6)
         self.Bind(wx.EVT_MENU, self.onClickOpenDictionary, cDict, 7)
-
+        self.Bind(wx.EVT_MENU, self.onClickConvertToPdf, cConvertToPdf, 8)
+        
         menuBar.Append(actionMenu, '&Acciones')
 
         # Menú de configuraciones
@@ -231,9 +237,37 @@ class mainGUI(wx.Frame):
 
     # EndOfFunction
 
+    
     def onClickOpenDictionary(self, event):
         dictionariesGUI.openWindow()
-        
+
+    def onClickConvertToPdf(self,event):
+        with wx.FileDialog(self, "Convertir Documento", wildcard="Archivo (La)TeX (.tex) |*.tex") as fileDialog:
+            if fileDialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            pathName = fileDialog.GetPath()
+
+
+
+            wait = wx.BusyInfo("El archivo está siendo convertido, porfavor espere...")
+            threatProcess = threading.Thread(target=convertProcessPdf(pathName))
+            threatProcess.start()
+
+            if (presult):
+                del wait
+                successm = wx.MessageDialog(self, 'Documento convertido exitosamente.', 'Documento completado.', wx.OK)
+                successm.ShowModal()
+                successm.Destroy()
+                #webbrowser.open(pathName.replace('.tex', '.xhtml'))
+            else:
+                del wait
+                errorm = wx.MessageDialog(self, 'Ha habido un error', "Error", wx.OK | wx.ICON_WARNING)
+                errorm.ShowModal()
+                errorm.Destroy()
+
+        #EndOfFunction
+                
     def OnQuit(self, event):
         self.Close()
 

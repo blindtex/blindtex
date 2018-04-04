@@ -139,14 +139,14 @@ def insertConvertedFormulas(htmlString, inlineList, displayList):
 	newString = copy.deepcopy(htmlString)
 	inlineIndex = 0
 	for line in inlineList:
-		output = newString.replace(inlineMathString%(inlineIndex),'<span>' + (line) + '</span>')
+		output = newString.replace(inlineMathString%(inlineIndex), (line) )
 		newString = output
 		inlineIndex += 1
 	
 	output = ""
 	displayIndex = 0
 	for line in displayList:
-		output = newString.replace(displayMathString%(displayIndex),'<div>' + (line) + '</div>')
+		output = newString.replace(displayMathString%(displayIndex),(line) )
 		newString = output
 		displayIndex += 1
 	
