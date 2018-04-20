@@ -45,7 +45,7 @@ def formulate(label, option):
 
 	'''
 	if (option == 0):
-		return replaceHtml(label) + ';'
+		return '<span aria-label=\"' +label + '">&nbsp;</span>'
 	elif (option == 1):
 		return replaceHtml(label) + '\n'
 	elif (option == 2):

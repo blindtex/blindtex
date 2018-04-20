@@ -215,7 +215,7 @@ def t_anything_ENDANY(t):
         pass
         
 def t_CHAR(t):
-	r'[A-Za-z0-9 "%\',.:;|]+?'
+	r'[A-Za-z0-9"%\',.:;|]+?'
 	return t
 
 @TOKEN(dictOfDicts['UserDict'])
@@ -225,7 +225,7 @@ def t_command_USER(t):
 	return t
 
 def t_command_UNKNOWN(t):
-	r'[A-Za-z ]+'
+	r'[A-Za-z]+'
 	t.lexer.begin('INITIAL')
 	return t
 
