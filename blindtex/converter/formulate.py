@@ -39,6 +39,7 @@ def formulate(label, option):
 					option = 0, return the label as '<span aria-label=\"label\">&nbsp;</span>'
 					option = 1, return the changes the html accents for UTF-8 accents and returns label plus a space.
 					option = 2, return the label as <math aria-label=\"label\">&nbsp;</math>
+					option = 3, return the label with math accents.
 
 	Returns:
 		str: The string according to the option
@@ -51,7 +52,7 @@ def formulate(label, option):
 	elif (option == 2):
 		return '<math aria-label=\"' + label + '\">&nbsp;</math> '
 	elif (option == 3):
-                return LatexAccents(label) + ";"
+                return LatexAccents(label)
 
 # EndOfFunction
 

@@ -85,10 +85,12 @@ class mainGUI(wx.Frame):
         # Menú de configuraciones
         VoiceOverItem = lectorMenu.Append(wx.NewId(), "VoiceOver/Jaws\tALT+V", "HTML para VoiceOver", wx.ITEM_RADIO)
         nvdaItem = lectorMenu.Append(wx.NewId(), 'NVDA\tALT+N', 'HTML para NVDA', wx.ITEM_RADIO)
+        literalItem = lectorMenu.Append(wx.NewId(), 'Literal\tALT+M', 'HTML Literal', wx.ITEM_RADIO)
 
         self.Bind(wx.EVT_MENU, self.voiceOverChek, VoiceOverItem)
         self.Bind(wx.EVT_MENU, self.nvdaChek, nvdaItem)
-
+        self.Bind(wx.EVT_MENU, self.literalCheck, literalItem)
+        
         menuBar.Append(lectorMenu, '&Configuración')
 
         # Panel principal
@@ -153,18 +155,25 @@ class mainGUI(wx.Frame):
         self.inputTextbox.SelectAll()
 
     def nvdaChek(self, event):
-        parser.OPTION = 2
+        parser.setOption(2)
         self.sLector = 2
+        
 
     def voiceOverChek(self, event):
-        parser.OPTION = 0
+        parser.setOption(0)
         self.sLector = 0
-
+        
+        
+    def literalCheck(self, event):
+        parser.setOption(1)
+        self.sLector = 1
+        
+        
     def onClickConvertLiteral(self, event):
         if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
         else:
-            parser.OPTION = 1
+            parser.setOption(1)
             self.outputText.SetValue(mainGUIController.convert(self.inputTextbox.GetValue()))
             self.outputText.SetFocus()
 
@@ -190,8 +199,8 @@ class mainGUI(wx.Frame):
                         if fileDialog.ShowModal() == wx.ID_CANCEL:
                             return
 
-                        if parser.OPTION == 1:
-                            parser.OPTION = self.sLector
+                        if parser.getOption() == 1:
+                            parser.setOption(self.sLector)
                         # Proceed loading the file chosen by the user
                         pathname = fileDialog.GetPath()
                         try:

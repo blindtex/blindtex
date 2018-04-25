@@ -5,7 +5,7 @@ import copy
 import string
 import subprocess
 import mainBlindtex
-import os.path
+import os
 from sys import argv
 
 #HU1
@@ -55,20 +55,34 @@ def convertToHtml(fileName, biblioName=None):
 	noExtensionName = fileName.replace(".tex","")
 	
 	if(biblioName):
-		noExtensionBiblio = biblioName.replace(".bib","")
-		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell=True)
-		subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName], shell= True)
-		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"], shell=True)
+                if(os.name == 'nt'): #i.e is in windows
+                        noExtensionBiblio = biblioName.replace(".bib","")
+                        subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell=True)
+                        subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName], shell= True)
+                        subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"], shell=True)
+                else: #TODO: Do not repeat
+                        noExtensionBiblio = biblioName.replace(".bib","")
+                        subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName])
+                        subprocess.call(["latexml", "--dest=%s.xml"%(noExtensionBiblio),"--bibtex", biblioName])
+                        subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),"--bibliography=%s.xml"%(noExtensionBiblio),noExtensionName+".xml"])
 	else:
-		subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell = True)#Generates xml file.
-		subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"], shell = True)#Generates xhtml file.
+                if(os.name == 'nt'):
+                        subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName], shell = True)#Generates xml file.
+                        subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"], shell = True)#Generates xhtml file.
+                else:
+                        subprocess.call(["latexml","--dest=%s.xml"%(noExtensionName),"--quiet",fileName])#Generates xml file.
+                        subprocess.call(["latexmlpost","-dest=%s.xhtml"%(noExtensionName),noExtensionName+".xml"])#Generates xhtml file.
+                        
 
 #EndOfFunction
 
 def convertToPdf(filePath,fileName):
-        
-        subprocess.call(['pdflatex','-output-directory',filePath, fileName], shell = True)
-        subprocess.call(['pdflatex','-output-directory',filePath, fileName], shell = True)
+        if(os.name == 'nt'):
+                subprocess.call(['pdflatex','-output-directory',filePath, fileName], shell = True)
+                subprocess.call(['pdflatex','-output-directory',filePath, fileName], shell = True)
+        else:
+                subprocess.call(['pdflatex','-output-directory',filePath, fileName])
+                subprocess.call(['pdflatex','-output-directory',filePath, fileName])
         
 
 #EndOfFunction
