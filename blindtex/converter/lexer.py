@@ -14,15 +14,12 @@ tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', '
           'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT', 'USER')
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
-
-try:
-        myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
-        #myFile = open('regexes.json')
-        dictOfDicts = json.load(myFile)
-        myFile.close()
-except IOError:
-	print('File could not be oppened.')
-
+      
+# try:
+with open(os.path.join('blindtex','converter','dicts','regexes.json'), 'r') as myFile:
+    dictOfDicts = json.load(myFile)
+# except:
+    # print('[Error] File could not be opened.')
 
 literals = [ '!',"'",]
 
