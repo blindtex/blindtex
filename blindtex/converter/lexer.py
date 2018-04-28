@@ -11,15 +11,16 @@ import sys
 tokens = ('CHAR', 'SUP', 'SUB','BEGINBLOCK','ENDBLOCK', 'ORD', 'FRAC', 'ROOT', 'LARGEOP',
           'BINOP','KBINOP','KBINREL', 'BINREL', 'NOT', 'FUNC', 'ARROW', 'KDELIMITER', 'DELIMITER',
           'ACCENT','STYLE','DOTS','LIM', 'UNKNOWN', 'BEGARRAY', 'ENDARRAY', 'LINEBREAK', 'COL','CHOOSE',
-          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT', 'USER')
+          'BINOM', 'PMOD','PHANTOM','TEXT','LABEL','ANYTHING','ARRAYTEXT', 'USER', 'NUM')
 
 states = (('command', 'exclusive'),('anything','exclusive'),)
       
-# try:
-with open(os.path.join('blindtex','converter','dicts','regexes.json'), 'r') as myFile:
-    dictOfDicts = json.load(myFile)
-# except:
-    # print('[Error] File could not be opened.')
+try:
+         myFile = open(os.path.join('converter','dicts','regexes.json'), 'r')
+         dictOfDicts = json.load(myFile)
+         myFile.close()
+except IOError:
+        print('File could not be oppened.')
 
 literals = [ '!',"'",]
 
@@ -212,8 +213,11 @@ def t_anything_ENDANY(t):
         pass
         
 def t_CHAR(t):
-	r'[A-Za-z0-9"%\',.:;|]+?'
+	r'[A-Za-z"%\',.:;|]+?'
 	return t
+def t_NUM(t):
+        r'[0-9]+?'
+        return t
 
 @TOKEN(dictOfDicts['UserDict'])
 def t_command_USER(t):

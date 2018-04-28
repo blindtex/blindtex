@@ -113,7 +113,10 @@ def p_char(p):
             | ord'''
     p[0] = p[1] + ' '
 
-
+def p_num(p):
+    '''num : NUM '''
+    p[0] =p[1]
+    
 def p_ord(p):
     '''ord : ORD '''
     p[0] =  formulate.formulate(dOrdinary.showReading(p[1]),OPTION)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
@@ -143,7 +146,8 @@ def p_command(p):
                 | lnbrk
                 | phantom
                 | textBlock
-                | user'''
+                | user
+                | num'''
     p[0] = p[1]
 
 #------------------------------------------------------------------------------------------------------
