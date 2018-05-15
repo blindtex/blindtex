@@ -25,21 +25,13 @@ except IOError:
 literals = [ '!',"'",]
 
 
-def t_BEGINBLOCK(t):
-	r'\{'
-	return t
+t_BEGINBLOCK = r'\{'
 
-def t_ENDBLOCK(t):
-	r'\}'
-	return t
+t_ENDBLOCK= r'\}'
 
-def t_SUP(t):
-	r'\^'
-	return t
+t_SUP = r'\^'
 
-def t_SUB(t):
-	r'_'
-	return t
+t_SUB = r'_'
 
 def t_COMMAND(t):
 	r'\\'
@@ -107,10 +99,8 @@ def t_command_leftRight(t):
 	r'(left)|(right)|left\.|right\.'
 	t.lexer.begin('INITIAL')
 	pass
-
-def t_KBINOP(t):#Binary operators that can be made from the keyboard.
-	r'\+|-|\*|/'
-	return t
+#Binary operators that can be made from the keyboard.
+t_KBINOP = r'\+|-|\*|/'
 
 @TOKEN(dictOfDicts['Dots'])
 def t_command_DOTS(t):
@@ -216,7 +206,7 @@ def t_CHAR(t):
 	r'[A-Za-z"%\',.:;|]+?'
 	return t
 def t_NUM(t):
-        r'[0-9]+?'
+        r'[0-9]+'
         return t
 
 @TOKEN(dictOfDicts['UserDict'])

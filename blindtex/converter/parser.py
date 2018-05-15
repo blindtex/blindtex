@@ -50,28 +50,290 @@ def setOption(intOption):
     global OPTION
     OPTION = intOption
 
-    
-#The grammar.
-precedence = (
-    
-    ('left', 'LARGEOP'),
-    ('left','SUP','SUB', 'FRAC','ROOT'),    
-)
-
-
+#-------------------------------------------------------------------------------
 def p_start(p):
-    '''start : content
-                | start content'''
-    if(len(p) == 3):
-        p[0] =  p[1] + p[2] + ' '
-    else:
-        p[0] = p[1] + ' '
+	'''start : formula
+			| start formula'''
+	if(len(p) == 2):
+		p[0] = p[1]
+	else:
+		p[0] = p[1] + p[2]
 
+def p_formula(p):
+	'''formula : simple
+				| block 
+				| command'''
+	p[0] = p[1]
 
 def p_block(p):
-    '''block : BEGINBLOCK content ENDBLOCK'''
-    p[0] = p[2]
+	'''block : BEGINBLOCK start ENDBLOCK'''
+	p[0] = p[2]
 
+#This generates a shift reduce conflict.
+def p_symBlock(p):
+	'''symBlock  : BEGINBLOCK symbol ENDBLOCK'''
+	p[0] = p[2]
+
+def p_symbol(p):
+	'''symbol : CHAR
+			| NUM
+			| ord
+			| symbLarOp
+			| binOp
+			| binRel
+			| arrow
+			| dots
+			| delimiter
+			| mathFunc
+			| not
+			| unknown
+			| user
+			| factorial
+			| prime
+			| lnbrk'''
+	p[0] = p[1] + ' '
+
+def p_simple(p):
+	'''simple : symbol 
+			| symBlock '''
+	p[0] = p[1]
+
+def p_commands(p):
+	''' command : accent
+				| style
+				| pmod
+				| phantom
+				| root
+				| frac
+				| combi
+				| script
+				| scrLarop 
+				| lim
+				| textBlock
+				| label
+				| array
+				| col'''
+	p[0] = p[1]
+
+#---------------rules for symbols-----------------
+def p_symbLarOp(p):
+	'''symbLarOp : LARGEOP '''
+	p[0] = formulate.formulate(dLargeOperators.showReading(p[1]), OPTION)
+
+def p_ord(p):
+	'''ord : ORD'''
+	p[0] = formulate.formulate(dOrdinary.showReading(p[1]),OPTION)
+
+def p_binOp(p):
+    '''binOp : BINOP
+                | KBINOP '''
+    p[0] = formulate.formulate(dBinaryOperators.showReading(p[1]),OPTION)
+
+def p_binRel(p):
+    '''binRel : BINREL
+                | KBINREL'''
+    p[0] = formulate.formulate(dBinaryRelations.showReading(p[1]),OPTION)
+
+def p_arrow(p):
+    '''arrow : ARROW'''
+    p[0] = formulate.formulate(dArrows.showReading(p[1]),OPTION)
+
+def p_dots(p):
+    '''dots : DOTS '''
+    p[0] = formulate.formulate(dDots.showReading(p[1]),OPTION)
+
+def p_delimiter(p):
+    '''delimiter : DELIMITER
+                    | KDELIMITER '''
+    p[0] = formulate.formulate(dDelimiters.showReading(p[1]),OPTION)
+
+def p_function(p):
+    '''mathFunc : FUNC '''
+    p[0] = formulate.formulate(dMathFunctions.showReading(p[1]),OPTION)
+
+def p_not(p):
+    '''not : NOT '''
+    p[0]= formulate.formulate('no',OPTION)  
+
+def p_unknown(p):
+    '''unknown : UNKNOWN'''
+    p[0] = formulate.formulate(p[1],OPTION)
+
+def p_userCommand(p):
+    '''user : USER'''
+    p[0] = formulate.formulate(dUser.showReading(p[1]), OPTION)
+
+def p_factorial(p):
+    '''factorial : '!' '''
+    p[0] = formulate.formulate('factorial',OPTION)
+
+def p_prime(p):
+    '''prime : "'" '''
+    p[0] = formulate.formulate('prima',OPTION)
+
+def p_linebreak(p):
+    '''lnbrk : LINEBREAK'''
+    p[0] = formulate.formulate('salto de l&iacute;nea',OPTION)
+
+#-------------------------------Argument commands-------------------------------
+def p_simpleAccent(p):
+    '''accent : ACCENT simple'''
+    p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1]),OPTION)
+
+def p_complexAccent(p):
+    '''accent : ACCENT block'''
+    p[0] = formulate.formulate(dAccents.showReading(p[1]),OPTION) + p[2] + formulate.formulate('fin' + dAccents.showReading(p[1]),OPTION,)
+
+def p_style(p):
+    '''style : STYLE simple'''
+    p[0] =  p[2] + formulate.formulate(dStyles.showReading(p[1]),OPTION)
+
+def p_complexStyle(p):
+    '''style : STYLE block '''
+    p[0] = formulate.formulate(dStyles.showReading(p[1]),OPTION) + p[2] + formulate.formulate('fin' + dStyles.showReading(p[1]),OPTION)
+
+def p_pmod(p):
+    '''pmod : PMOD simple'''
+    p[0] = formulate.formulate('m&oacute;dulo',OPTION) + p[2]
+
+def p_complexPmod(p):
+    '''pmod : PMOD block'''
+    p[0] = formulate.formulate('m&oacute;dulo', OPTION) + p[2] + formulate.formulate('finmod', OPTION)
+
+def p_phantom(p):
+    '''phantom : PHANTOM simple
+                | PHANTOM block'''
+    p[0] = ''
+
+def p_root(p):
+    '''root : ROOT simple
+            | ROOT KDELIMITER start KDELIMITER simple '''#Conflicts here
+    if(len(p) == 3):
+        p[0] = formulate.formulate('ra&iacute;zcuadradade',OPTION) + p[2]
+    else:
+        p[0] = formulate.formulate('ra&iacute;z',OPTION) + p[3] + formulate.formulate('de',OPTION) + p[5]
+
+def p_complexRoot(p):
+    '''root :  ROOT block
+            | ROOT KDELIMITER start KDELIMITER block '''#Conflicts here
+    if(len(p) == 3):
+        p[0] = formulate.formulate('ra&iacute;zcuadradade',OPTION) + p[2] + formulate.formulate('terminara&iacute;z',OPTION)
+    else:
+        p[0] = formulate.formulate('ra&iacute;z',OPTION) + p[3] + formulate.formulate('de',OPTION) + p[5] + formulate.formulate('terminara&iacute;z',OPTION)
+
+def p_frac(p):
+    '''frac : FRAC simple  simple'''
+    p[0] = p[2] + formulate.formulate('sobre',OPTION) + p[3]
+
+def p_cFrac(p):
+	'''frac : FRAC block block
+			| FRAC simple block
+			| FRAC block simple '''
+	p[0] = formulate.formulate('comienzafracci&oacute;n',OPTION) + p[2] + formulate.formulate('sobre',OPTION) + p[3] + formulate.formulate('finfracci&oacute;n',OPTION)
+
+def p_combi(p):
+    '''combi : choose
+            | binom '''
+    p[0] = p[1]
+
+def p_choose(p):
+    '''choose : simple CHOOSE simple'''
+    p[0] = formulate.formulate('combinacionesde', OPTION) + p[1] + formulate.formulate('en',OPTION) + p[3]
+
+def p_cChoose(p):
+	'''choose : simple CHOOSE block
+			| block CHOOSE block
+			| block CHOOSE simple '''
+	p[0] = formulate.formulate('combinacionesde', OPTION) + p[1] + formulate.formulate('en',OPTION) + p[3] + formulate.formulate('fincombinacion',OPTION)
+def p_binom(p):
+    '''binom : BINOM simple simple''' 
+    p[0] = formulate.formulate('combinacionesde', OPTION) + p[2] + formulate.formulate('en',OPTION) + p[3]
+
+def p_cBinom(p):
+	'''binom : BINOM simple block
+			| BINOM block block 
+            | BINOM block simple '''
+	p[0] = formulate.formulate('combinacionesde', OPTION) + p[2] + formulate.formulate('en',OPTION) + p[3] + formulate.formulate('fincombinacion',OPTION)
+
+
+def p_script(p):
+	'''script : sScript
+			| cScript
+			| sbScript '''
+	p[0] = p[1]
+
+def p_sScript(p):
+	'''sScript : SUP simple
+				| SUB simple '''
+	if(p[1] == '^'):
+		p[0] = formulate.formulate('sup', OPTION) + p[2]
+	else:
+		p[0] = formulate.formulate('sub', OPTION) + p[2]
+
+def p_sbScript(p):
+	'''sbScript : SUP block
+				| SUB block '''
+	if(p[1] == '^'):
+		p[0] = formulate.formulate('sup', OPTION) + p[2] + formulate.formulate('fins&uacute;per',OPTION)
+	else:
+		p[0] = formulate.formulate('sub', OPTION) + p[2] + formulate.formulate('finsub',OPTION)
+
+
+def p_cScript(p):
+	'''cScript : SUP simple SUB simple
+				| SUP simple SUB block
+				| SUP block SUB simple
+				| SUP block SUB block
+				| SUB simple SUP simple
+				| SUB simple SUP block
+				| SUB block SUP simple
+				| SUB block SUP block '''
+	if(p[1] =='^'):
+		p[0] = formulate.formulate('s&uacute;per',OPTION) + p[2] + formulate.formulate('fins&uacute;per',OPTION) + formulate.formulate('sub',OPTION) + p[4] + formulate.formulate('finsub',OPTION)
+	else:
+		p[0] = formulate.formulate('sub',OPTION) + p[2] + formulate.formulate('finsub',OPTION) + formulate.formulate('s&uacute;per',OPTION) + p[4] + formulate.formulate('fins&uacute;per',OPTION)
+	
+def p_scrLarop(p):
+	'''scrLarop : LARGEOP sLaropScript
+				| LARGEOP cLaropScript '''
+	p[0] = formulate.formulate(dLargeOperators.showReading(p[1]),OPTION) + p[2] + formulate.formulate('de',OPTION)
+
+
+def p_cLaripScript(p):
+	'''cLaropScript : SUP simple SUB simple
+				| SUP simple SUB block
+				| SUP block SUB simple
+				| SUP block SUB block
+				| SUB simple SUP simple
+				| SUB simple SUP block
+				| SUB block SUP simple
+				| SUB block SUP block '''
+	if(p[1] =='^'):
+		p[0] = formulate.formulate('desde',OPTION) + p[4] + formulate.formulate('hasta',OPTION) + p[2] 
+	else:
+		p[0] = formulate.formulate('desde',OPTION) + p[2] + formulate.formulate('hasta',OPTION) + p[4]
+
+def p_sLaropScript(p):
+	''' sLaropScript : SUP simple
+					| SUB simple '''
+	if(p[1] =='^'):
+		p[0] = formulate.formulate('hasta',OPTION) + p[2]
+	else:
+		p[0] = formulate.formulate('sobre',OPTION) + p[2]
+	
+
+def p_lim(p):
+    '''lim : LIM
+            | LIM limScript'''
+    if(len(p) == 3):
+        p[0] = formulate.formulate('l&iacute;mite cuando',OPTION) + p[2] + formulate.formulate('de',OPTION)
+    else:
+        p[0] = formulate.formulate('l&iacute;mite de',OPTION)
+
+def p_limScript(p):
+	'''limScript : SUB simple
+				| SUB block '''
+	p[0] = p[2]
 
 def p_textBlock(p):
     '''textBlock : TEXT any '''
@@ -93,216 +355,6 @@ def p_any(p):
     else:
         p[0] = p[1]
 
-
-    
-def p_content(p):
-    '''content : block
-                | scripted
-                | command
-                | content content
-                | larop
-                | label'''
-    if(len(p) == 3):
-        p[0] = p[1] + p[2]
-    else:
-        p[0] = p[1]
-    
-
-def p_char(p):
-    '''char : CHAR
-            | ord'''
-    p[0] = p[1] + ' '
-
-def p_num(p):
-    '''num : NUM '''
-    p[0] =p[1]
-    
-def p_ord(p):
-    '''ord : ORD '''
-    p[0] =  formulate.formulate(dOrdinary.showReading(p[1]),OPTION)#--->Los operadores son la llave y el valor por defecto que esté en la lectura
-
-
-def p_command(p):
-    '''command : frac
-                | char
-                | root
-                | array
-                | col
-                | factorial
-                | prime
-                | binop
-                | binrel
-                | not
-                | function
-                | arrow
-                | delimiter
-                | accent
-                | style
-                | dots
-                | lim
-                | combi
-                | unknown
-                | pmod
-                | lnbrk
-                | phantom
-                | textBlock
-                | user
-                | num'''
-    p[0] = p[1]
-
-#------------------------------------------------------------------------------------------------------
-
-
-#TODO Que se pueda cambiar de lenguaje o lecturar en los aria-labels; tal vez que p[0] = "una función que depende de los otros p[i]".
-
-#TODO: Que se pueda poner script si algo antes.
-def p_scripted(p):
-    '''scripted : command SUP command
-                    | command SUP block
-                    | block SUP command
-                    | block SUP block
-                    | command SUB command
-                    | command SUB block
-                    | block SUB command
-                    | block SUB block'''
-    if(p[2] == '^'):
-        p[0] = p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION)
-    else:
-        p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION)
-#All this pain in the arse is for the Large operator issue. Remember, remember the largeoperator.           
-def p_compScripted(p):
-    '''scripted : command SUP command SUB command
-                    | command SUP command SUB block
-                    | command SUP block SUB command
-                    | command SUP block SUB block
-                    | block SUP command SUB command
-                    | block SUP command SUB block
-                    | block SUP block SUB command
-                    | block SUP block SUB block
-                    | command SUB command SUP command
-                    | command SUB command SUP block
-                    | command SUB block SUP command
-                    | command SUB block SUP block
-                    | block SUB command SUP command
-                    | block SUB command SUP block
-                    | block SUB block SUP command
-                    | block SUB block SUP block'''
-    if(p[2] =='^'):
-        p[0] =  p[1] + formulate.formulate('s&uacute;per',OPTION) + p[3] + formulate.formulate('fin s&uacute;per',OPTION) + formulate.formulate('sub',OPTION) + p[5] + formulate.formulate('fin sub',OPTION)
-    else:
-        p[0] = p[1] + formulate.formulate('sub',OPTION) + p[3] + formulate.formulate('fin sub',OPTION) + formulate.formulate('s&uacute;per',OPTION) + p[5] + formulate.formulate('fin s&uacute;per',OPTION)
-
-#TODO Poder poner LargeOP en esta regla.
-def p_simpleFrac(p):
-    '''frac : FRAC command command '''
-    p[0] = p[2] + formulate.formulate('sobre',OPTION) + p[3]
-        
-def p_frac(p):
-    '''frac : FRAC command block
-                | FRAC block command
-                | FRAC block block'''
-    p[0] = formulate.formulate('comienza fracci&oacute;n',OPTION) + p[2] + formulate.formulate('sobre',OPTION) + p[3] + formulate.formulate('fin fracci&oacute;n',OPTION)
-
-def p_root(p):
-    '''root : ROOT command
-            | ROOT block
-            | ROOT KDELIMITER content KDELIMITER command
-            | ROOT KDELIMITER content KDELIMITER block '''
-    if(len(p) == 3):
-        p[0] = formulate.formulate('ra&iacute;z cuadrada de',OPTION) + p[2] + formulate.formulate('termina ra&iacute;z',OPTION)
-    else:
-        p[0] = formulate.formulate('ra&iacute;z',OPTION) + p[3] + formulate.formulate('de',OPTION) + p[5] + formulate.formulate('termina ra&iacute;z',OPTION)
-
-
-def p_binOp(p):
-    '''binop : BINOP
-                | KBINOP '''
-    p[0] = formulate.formulate(dBinaryOperators.showReading(p[1]),OPTION)
-
-
-def p_binRel(p):
-    '''binrel : BINREL
-                | KBINREL'''
-    p[0] = formulate.formulate(dBinaryRelations.showReading(p[1]),OPTION)
-
-def p_not(p):
-    '''not : NOT '''
-    p[0]= formulate.formulate('no',OPTION)  
-
-def p_function(p):
-    '''function : FUNC '''
-    p[0] = formulate.formulate(dMathFunctions.showReading(p[1]),OPTION)
-
-#TODO: Large operator is mocking again, by the moment it can not be used as a normal symbol.
-def p_comLargeOp(p):
-    '''larop : LARGEOP SUB command SUP command
-                | LARGEOP SUB command SUP block
-                | LARGEOP SUB block SUP command
-                | LARGEOP SUB block SUP block
-                | LARGEOP SUP command SUB command
-                | LARGEOP SUP command SUB block
-                | LARGEOP SUP block SUB command
-                | LARGEOP SUP block SUB block'''
-    if(p[2] =='_'):
-        p[0] = formulate.formulate(dLargeOperators.showReading(p[1]) + ' desde',OPTION) + p[3] + formulate.formulate('hasta',OPTION) + p[5] + formulate.formulate('de',OPTION)
-    else:
-        p[0] = formulate.formulate(dLargeOperators.showReading(p[1]) + ' desde',OPTION) + p[5] + formulate.formulate('hasta',OPTION) + p[3] + formulate.formulate('de',OPTION)
-
-def p_largeOp(p):
-    '''larop : LARGEOP
-                | LARGEOP SUB command
-                | LARGEOP SUB block'''
-    if(len(p)==2):
-        p[0]= formulate.formulate(dLargeOperators.showReading(p[1]),OPTION)
-    elif(len(p)==4):
-        p[0] = formulate.formulate(dLargeOperators.showReading(p[1]) +' sobre',OPTION) + p[3] + formulate.formulate('de',OPTION)
-
-def p_arrow(p):
-    '''arrow : ARROW'''
-    p[0] = formulate.formulate(dArrows.showReading(p[1]),OPTION)
-
-def p_delimiter(p):
-    '''delimiter : DELIMITER
-                    | KDELIMITER '''
-    p[0] = formulate.formulate(dDelimiters.showReading(p[1]),OPTION)
-
-def p_simpleAccent(p):
-    '''accent : ACCENT command'''
-    p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1]),OPTION)
-
-def p_complexAccent(p):
-    '''accent : ACCENT block'''
-    if(len(p[2]) > 3):
-        p[0] = formulate.formulate(dAccents.showReading(p[1]),OPTION) + p[2] + formulate.formulate('fin ' + dAccents.showReading(p[1]),OPTION,)
-    else:
-        p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1]),OPTION)
-
-def p_style(p):
-    '''style : STYLE command
-                | STYLE block '''
-    p[0] = formulate.formulate(dStyles.showReading(p[1]),OPTION) + p[2] + formulate.formulate('fin ' + dStyles.showReading(p[1]),OPTION)
-
-def p_dots(p):
-    '''dots : DOTS '''
-    p[0] = formulate.formulate(dDots.showReading(p[1]),OPTION)
-
-def p_lim(p):
-    '''lim : LIM
-            | LIM SUB command
-            | LIM SUB block '''
-    if(len(p) == 4):
-        p[0] = formulate.formulate('l&iacute;mite cuando',OPTION) + p[3] + formulate.formulate('de',OPTION)
-    else:
-        p[0] = formulate.formulate('l&iacute;mite de',OPTION)
-
-def p_unknown(p):
-    '''unknown : UNKNOWN'''
-    p[0] = formulate.formulate(p[1],OPTION)
-
-def p_userCommand(p):
-    '''user : USER'''
-    p[0] = formulate.formulate(dUser.showReading(p[1]), OPTION)
-#
 def p_array(p):
     '''array : BEGARRAY arrayContent ENDARRAY '''
     p[0] = formulate.formulate('Arreglo\n', OPTION) + p[2] + formulate.formulate('Fin Arreglo\n', OPTION)
@@ -310,7 +362,7 @@ def p_array(p):
 
 
 def p_arrayContent(p):
-    '''arrayContent : content'''
+    '''arrayContent : start'''
     p[0] = p[1]
 
 #
@@ -318,50 +370,7 @@ def p_col(p):
     '''col : COL'''
     p[0] = ''
 
-def p_factorial(p):
-    '''factorial : '!' '''
-    p[0] = formulate.formulate('factorial',OPTION)
-
-def p_prime(p):
-    '''prime : "'" '''
-    p[0] = formulate.formulate('prima',OPTION)
-
-def p_combi(p):
-    '''combi : choose
-            | binom '''
-    p[0] = p[1]
-
-def p_choose(p):
-    '''choose : command CHOOSE command
-                | command CHOOSE block
-                | block CHOOSE command
-                | block CHOOSE block'''
-    p[0] = formulate.formulate('combinaciones de', OPTION) + p[1] + formulate.formulate('en',OPTION) + p[3]
-
-def p_binom(p):
-    '''binom : BINOM command command
-            | BINOM command block
-            | BINOM block command
-            | BINOM block block ''' 
-    p[0] = formulate.formulate('combinaciones de', OPTION) + p[2] + formulate.formulate('en',OPTION) + p[3]
-
-def p_pmod(p):
-    '''pmod : PMOD command'''
-    p[0] = formulate.formulate('m&oacute;dulo',OPTION) + p[2]
-
-def p_blockpmod(p):
-    '''pmod : PMOD block'''
-    p[0] = formulate.formulate('m&oacute;dulo', OPTION) + p[2] + formulate.formulate('fin mod', OPTION)
-
-def p_linebreak(p):
-    '''lnbrk : LINEBREAK'''
-    p[0] = formulate.formulate('salto de l&iacute;nea',OPTION)
-
-def p_phantom(p):
-    '''phantom : PHANTOM command
-                | PHANTOM block'''
-    p[0] = ''
-
+	 
 #----------------------------Error Handling------------------------------------
 class syntaxError(Exception):
         def __init__(self):
