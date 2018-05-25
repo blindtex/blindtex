@@ -4,25 +4,27 @@ import json
 import ply.lex as lex
 from ply.lex import TOKEN
 
-tokens = ('BEGINBLOCK', 'ENDBLOCK', 'KDELIMITER',
-          'KBINOP', 'NUM', 'CHAR')
+tokens = ('KDELIMITER',
+          'KBINOP', 'NUM', 'CHAR'
+          #'BEGINBLOCK', 'ENDBLOCK',
+          )
 
 def get_lexer():
 
-    BEGINBLOCK = r'\{'
-    ENDBLOCK = r'\}'
+    #BEGINBLOCK = r'\{'
+    #ENDBLOCK = r'\}'
     KDELIMITER = r'\(|\)|\[|\]'
     KBINOP = r'\+|-|\*|/' #Binary operators that can be made from the keyboard.
     CHAR = r'[A-Za-z"%\',.:;|]+?'
     NUM = r'[0-9]{1,}' # TAG numbers with at least one digit
 
-    @TOKEN(BEGINBLOCK)
-    def t_BEGINBLOCK(t):
-    	return t
+    #@TOKEN(BEGINBLOCK)
+    #def t_BEGINBLOCK(t):
+    #	return t
 
-    @TOKEN(ENDBLOCK)
-    def t_ENDBLOCK(t):
-    	return t
+    #@TOKEN(ENDBLOCK)
+    #def t_ENDBLOCK(t):
+    #	return t
 
     @TOKEN(KDELIMITER)
     def t_KDELIMITER(t):
