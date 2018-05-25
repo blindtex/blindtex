@@ -4,8 +4,7 @@ import json
 import ply.lex as lex
 from ply.lex import TOKEN
 
-tokens = ('CHAR',
-          'BEGINBLOCK', 'ENDBLOCK', 'KDELIMITER',
+tokens = ('BEGINBLOCK', 'ENDBLOCK', 'KDELIMITER',
           'KBINOP', 'NUM', 'CHAR')
 
 def get_lexer():
@@ -49,7 +48,7 @@ def get_lexer():
     return lex.lex()
 
 if __name__ =="__main__":
-    lexer = get_latex_equation_lexer()
+    lexer = get_lexer()
     while True:
         try:
             try:
