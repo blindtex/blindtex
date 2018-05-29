@@ -6,6 +6,7 @@ import lexer
 
 from ast import Node
 from ast import Child
+from ast import interpreter
 
 tokens = lexer.tokens
 
@@ -16,8 +17,7 @@ def p_expression(p):
                | ordinary KBINOP expression
                | ordinary KBINOP ordinary
     """
-    p[0] = p[1] +'-'+ p[2] +'-'+ p[3]
-    #p[0] = Node(p[1],p[2],p[3], ¿ TOKEN ?) How I get the actual token... KBINOP
+    p[0] = Node(p[1],p[2],p[3],'BINARY')
 
 
 def p_expression_group(p):
@@ -31,9 +31,7 @@ def p_ordinary(p):
     ordinary : NUM
              | CHAR
     """
-
-    p[0] = p[1]
-    #p[0] = Child(p[1],¿ TOKEN ?) How I get the actual token... NUM... CHAR and so on
+    p[0] = Child(p[1],'ORDINARY')
 
 parser = ply.yacc.yacc()
 
@@ -41,15 +39,15 @@ if __name__ == "__main__":
     latex_string = "a+6"
     custom_lexer = lexer.get_lexer()
     cv = parser.parse(latex_string,custom_lexer)
-    print(cv)
+    print(interpreter(cv))
     while True:
         try:
             try:
                 s = raw_input()
             except NameError: # Python3
                 s = input('spi> ')
+                
+            cv_s = parser.parse(s,custom_lexer)
+            print(interpreter(cv_s))
         except EOFError:
             break
-
-        cv_s = parser.parse(s,custom_lexer)
-        print(cv_s)

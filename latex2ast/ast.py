@@ -1,14 +1,34 @@
 #-*-:coding:utf-8-*-
-class Expr: pass
+class AST():
+    left_superscript = None
+    accent = None
+    superscript = None
+    left_subscript = None
+    underbar = None
+    subscript = None
 
-class Node(Expr):
-    def __init__(self,left,op,right,token):
-        self.type = token
+class Node(AST):
+    def __init__(self,left,op,right,type_node):
         self.left = left
         self.right = right
         self.op = op
+        self.type = type_node
 
-class Child(Expr):
-    def __init__(self,value,token):
-        self.type = token
+class Child(AST):
+    def __init__(self,value,type_node):
         self.value = value
+        self.type = type_node
+
+def lineal_read(child):
+    temp_string = ""
+    if(child.type!='ORDINARY'):
+        temp_string = temp_string + str(lineal_read(child.left))
+        temp_string = temp_string + str(child.op)
+        temp_string = temp_string + str(lineal_read(child.right))
+    else:
+        temp_string = temp_string + str(child.value)
+
+    return temp_string
+
+def interpreter(tree):
+    return(lineal_read(tree))
