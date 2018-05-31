@@ -8,10 +8,10 @@ class AST():
     subscript = None
 
 class Node(AST):
-    def __init__(self,left,op,right,type_node):
+    def __init__(self,left,operator,right,type_node):
         self.left = left
         self.right = right
-        self.op = op
+        self.operator = operator
         self.type = type_node
 
 class Child(AST):
@@ -23,12 +23,13 @@ def lineal_read(child):
     temp_string = ""
     if(child.type!='ORDINARY'):
         temp_string = temp_string + str(lineal_read(child.left))
-        temp_string = temp_string + str(child.op)
+        temp_string = temp_string + str(child.operator)
         temp_string = temp_string + str(lineal_read(child.right))
     else:
-        temp_string = temp_string + str(child.value)
+        temp_string = str(child.value)
 
     return temp_string
 
 def interpreter(tree):
+    print(dir(tree))
     return(lineal_read(tree))
