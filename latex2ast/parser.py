@@ -28,15 +28,15 @@ def p_block(p):
     """
     block : BEGINBLOCK start ENDBLOCK
     """
-    p[0] = p[1]
+    p[0] = p[2]
 
 def p_simple(p):
-	"""
+    """
     simple : symbol_operation
            | symbol_ordinary
-	       | symBlock
+           | symBlock
     """
-	p[0] = p[1]
+    p[0] = p[1]
 
 def p_symbol_ordinary(p):
 	"""
@@ -46,14 +46,15 @@ def p_symbol_ordinary(p):
 
 
 def p_symbol_operation(p):
-	"""
-    symbol_operation | binOp
     """
-	p[0] = p[1]
+    symbol_operation : binOp
+    """
+    p[0] = p[1]
 
 def p_symBlock(p):
 	"""
-    symBlock  : BEGINBLOCK symbol ENDBLOCK
+    symBlock  : BEGINBLOCK symbol_ordinary ENDBLOCK
+              | BEGINBLOCK symbol_operation ENDBLOCK
     """
 	p[0] = p[2]
 
@@ -66,6 +67,13 @@ def p_binOp(p):
     """
     p[0] = Node(p[1],p[2],p[3],'BINARY')
 
+def p_command(p):
+    """
+    command : root
+    """
+    print("pase ro")
+    p[0] = p[1]
+
 def p_root(p):
     """
     root : ROOT simple
@@ -73,12 +81,11 @@ def p_root(p):
          | ROOT KDELIMITER start KDELIMITER simple
          | ROOT KDELIMITER start KDELIMITER block
     """
-
-#def p_expression_group(p):
-#    """
-#    expression : KDELIMITER expression KDELIMITER
-#    """
-#    p[0] = '('+ p[2] +')'
+    #print(len())
+    if(len(p)==3):
+        p[0] = Node(p[2],p[1],None,'ROOT')
+    elif(len(p)==5):
+        p[0] = Node(p[3],p[1],p[5],'ROOT')
 
 def p_ordinary(p):
     """
@@ -90,7 +97,7 @@ def p_ordinary(p):
 parser = ply.yacc.yacc()
 
 if __name__ == "__main__":
-    latex_string = "a+6"
+    latex_string = "\sqrt{4+3}"
     custom_lexer = lexer.get_lexer()
     cv = parser.parse(latex_string,custom_lexer)
     print(interpreter(cv))

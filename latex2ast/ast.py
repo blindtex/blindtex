@@ -21,15 +21,16 @@ class Child(AST):
 
 def lineal_read(child):
     temp_string = ""
-    if(child.type!='ORDINARY'):
-        temp_string = temp_string + str(lineal_read(child.left))
-        temp_string = temp_string + str(child.operator)
-        temp_string = temp_string + str(lineal_read(child.right))
-    else:
-        temp_string = str(child.value)
+    if(child != None):
+        if(child.type!='ORDINARY'):
+            temp_string = temp_string + str(child.operator)
+            temp_string = temp_string + str(lineal_read(child.left))
+            temp_string = temp_string + str(lineal_read(child.right))
+        else:
+            temp_string = str(child.value)
 
     return temp_string
 
 def interpreter(tree):
-    print(dir(tree))
+    print(tree.type)
     return(lineal_read(tree))
