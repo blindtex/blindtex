@@ -14,7 +14,11 @@ def p_start(p):
     """
     start : formula
     """
+    #| KDELIMITER formula KDELIMITER
+    #if(len(p)==2):
     p[0] = p[1]
+    #elif(len(p)==4):
+    #    p[0] = p[2]
 
 def p_formula(p):
     """
@@ -61,45 +65,38 @@ def p_symBlock(p):
 def p_binOp(p):
     """
     binOp : start KBINOP start
-          | start KBINOP ordinary
-          | ordinary KBINOP start
-          | ordinary KBINOP ordinary
     """
-    p[0] = Node(p[1],p[2],p[3],'BINARY')
+    p[0] = Node(p[1],p[2],p[3])
 
 def p_command(p):
     """
     command : root
     """
-    print("pase ro")
     p[0] = p[1]
 
 def p_root(p):
     """
-    root : ROOT simple
-         | ROOT block
-         | ROOT KDELIMITER start KDELIMITER simple
-         | ROOT KDELIMITER start KDELIMITER block
+    root : ROOT start
+         | ROOT KDELIMITER start KDELIMITER start
     """
-    #print(len())
     if(len(p)==3):
-        p[0] = Node(p[2],p[1],None,'ROOT')
-    elif(len(p)==5):
-        p[0] = Node(p[3],p[1],p[5],'ROOT')
+        p[0] = Node(None,p[1],p[2])
+    elif(len(p)==6):
+        p[0] = Node(None,p[1],p[5])
 
 def p_ordinary(p):
     """
     ordinary : NUM
              | CHAR
     """
-    p[0] = Child(p[1],'ORDINARY')
+    p[0] = Child(p[1])
 
 parser = ply.yacc.yacc()
 
 if __name__ == "__main__":
-    latex_string = "\sqrt{4+3}"
+    latex_string = "\sqrt{1+4}"
     custom_lexer = lexer.get_lexer()
-    cv = parser.parse(latex_string,custom_lexer)
+    cv = parser.parse(latex_string,custom_lexer)#,debug=1)
     print(interpreter(cv))
     while True:
         try:
