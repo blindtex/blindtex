@@ -65,8 +65,14 @@ def lineal_read(node):
     temp_string = ""
     if(node != None):
         if(node.type_node != 'leaf'):
+            # Go into left child
             temp_string = temp_string + str(lineal_read(node.left))
+            # Read parent node content
             temp_string = temp_string + str(node.content)
+            # Read superscript
+            if(node.superscript != None):
+                temp_string = temp_string + str(lineal_read(node.superscript))
+            # Go into left child
             temp_string = temp_string + str(lineal_read(node.right))
         else:
             temp_string = str(node.content)

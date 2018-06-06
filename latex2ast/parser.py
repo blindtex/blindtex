@@ -82,7 +82,7 @@ def p_root(p):
     if(len(p)==3):
         p[0] = Node(None,p[1],p[2])
     elif(len(p)==6):
-        p[0] = Node(None,p[1],p[5])
+        p[0] = Node(None,p[1],p[5],superscript=p[3])
 
 def p_ordinary(p):
     """
@@ -94,7 +94,7 @@ def p_ordinary(p):
 parser = ply.yacc.yacc()
 
 if __name__ == "__main__":
-    latex_string = "\sqrt{1+4}"
+    latex_string = "\sqrt[2]{1+4}"
     custom_lexer = lexer.get_lexer()
     cv = parser.parse(latex_string,custom_lexer)#,debug=1)
     print(interpreter(cv))
