@@ -5,40 +5,94 @@ import ply.yacc
 import lexer
 
 from ast import Node
-from ast import Child
-from ast import interpreter
 
 tokens = lexer.tokens
 
-def p_expression(p):
+def p_start(p):
     """
-    expression : expression KBINOP expression
-               | expression KBINOP ordinary
-               | ordinary KBINOP expression
-               | ordinary KBINOP ordinary
+    start : formula
     """
-    p[0] = Node(p[1],p[2],p[3],'BINARY')
+    p[0] = p[1]
+
+def p_formula(p):
+    """
+    formula : simple
+            | command
+            | block
+    """
+    p[0] = p[1]
+
+def p_block(p):
+    """
+    block : BEGINBLOCK start ENDBLOCK
+    """
+    p[0] = p[2]
+
+def p_simple(p):
+    """
+    simple : symbol_operation
+           | symbol_ordinary
+           | symbol_block
+    """
+    p[0] = p[1]
+
+def p_symbol_ordinary(p):
+	"""
+    symbol_ordinary : ordinary
+    """
+	p[0] = p[1]
 
 
-def p_expression_group(p):
+def p_symbol_operation(p):
     """
-    expression : KDELIMITER expression KDELIMITER
+    symbol_operation : binary_operator
     """
-    p[0] = '('+ p[2] +')'
+    p[0] = p[1]
+
+def p_symBlock(p):
+	"""
+    symbol_block  : BEGINBLOCK symbol_ordinary ENDBLOCK
+                  | BEGINBLOCK symbol_operation ENDBLOCK
+    """
+	p[0] = p[2]
+
+def p_binOp(p):
+    """
+    binary_operator : start KBINOP start
+    """
+    p[0] = Node(left=p[1], content=p[2], right=p[3])
+
+def p_command(p):
+    """
+    command : root
+    """
+    p[0] = p[1]
+
+def p_root(p):
+    """
+    root : ROOT start
+         | ROOT KDELIMITER start KDELIMITER start
+    """
+    if(len(p)==3): # \sqrt{x}
+        p[0] = Node(content=p[1], right=p[2])
+    elif(len(p)==6): # \sqrt[4]{y}
+        p[0] = Node(content=p[1], right=p[5], superscript=p[3])
 
 def p_ordinary(p):
     """
     ordinary : NUM
              | CHAR
     """
-    p[0] = Child(p[1],'ORDINARY')
+    p[0] = Node(content=p[1])
 
-parser = ply.yacc.yacc()
+def get_parser():
+    return ply.yacc.yacc()
 
 if __name__ == "__main__":
-    latex_string = "a+6"
+    parser = get_parser()
+    latex_string = "\sqrt{2+3}"
     custom_lexer = lexer.get_lexer()
-    cv = parser.parse(latex_string,custom_lexer)
+    cv = parser.parse(latex_string,custom_lexer)#,debug=1)
     print(interpreter(cv))
     while True:
         try:
@@ -46,7 +100,7 @@ if __name__ == "__main__":
                 s = raw_input()
             except NameError: # Python3
                 s = input('spi> ')
-                
+
             cv_s = parser.parse(s,custom_lexer)
             print(interpreter(cv_s))
         except EOFError:
