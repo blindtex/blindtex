@@ -5,8 +5,6 @@ import ply.yacc
 import lexer
 
 from ast import Node
-from ast import Child
-from ast import interpreter
 
 tokens = lexer.tokens
 
@@ -14,11 +12,7 @@ def p_start(p):
     """
     start : formula
     """
-    #| KDELIMITER formula KDELIMITER
-    #if(len(p)==2):
     p[0] = p[1]
-    #elif(len(p)==4):
-    #    p[0] = p[2]
 
 def p_formula(p):
     """
@@ -38,7 +32,7 @@ def p_simple(p):
     """
     simple : symbol_operation
            | symbol_ordinary
-           | symBlock
+           | symbol_block
     """
     p[0] = p[1]
 
@@ -51,22 +45,22 @@ def p_symbol_ordinary(p):
 
 def p_symbol_operation(p):
     """
-    symbol_operation : binOp
+    symbol_operation : binary_operator
     """
     p[0] = p[1]
 
 def p_symBlock(p):
 	"""
-    symBlock  : BEGINBLOCK symbol_ordinary ENDBLOCK
-              | BEGINBLOCK symbol_operation ENDBLOCK
+    symbol_block  : BEGINBLOCK symbol_ordinary ENDBLOCK
+                  | BEGINBLOCK symbol_operation ENDBLOCK
     """
 	p[0] = p[2]
 
 def p_binOp(p):
     """
-    binOp : start KBINOP start
+    binary_operator : start KBINOP start
     """
-    p[0] = Node(p[1],p[2],p[3])
+    p[0] = Node(left=p[1], content=p[2], right=p[3])
 
 def p_command(p):
     """
@@ -79,22 +73,24 @@ def p_root(p):
     root : ROOT start
          | ROOT KDELIMITER start KDELIMITER start
     """
-    if(len(p)==3):
-        p[0] = Node(None,p[1],p[2])
-    elif(len(p)==6):
-        p[0] = Node(None,p[1],p[5],superscript=p[3])
+    if(len(p)==3): # \sqrt{x}
+        p[0] = Node(content=p[1], right=p[2])
+    elif(len(p)==6): # \sqrt[4]{y}
+        p[0] = Node(content=p[1], right=p[5], superscript=p[3])
 
 def p_ordinary(p):
     """
     ordinary : NUM
              | CHAR
     """
-    p[0] = Child(p[1])
+    p[0] = Node(content=p[1])
 
-parser = ply.yacc.yacc()
+def get_parser():
+    return ply.yacc.yacc()
 
 if __name__ == "__main__":
-    latex_string = "\sqrt[2]{1+4}"
+    parser = get_parser()
+    latex_string = "\sqrt{2+3}"
     custom_lexer = lexer.get_lexer()
     cv = parser.parse(latex_string,custom_lexer)#,debug=1)
     print(interpreter(cv))
