@@ -24,7 +24,8 @@ class Node(AST):
                  superscript = None,
                  subscript = None,
                  left_delimiter = None,
-                 right_delimiter = None):
+                 right_delimiter = None,
+				 style = None):
         self.left = left
         self.right = right
         self.content = content
@@ -38,7 +39,7 @@ class Node(AST):
         self.subscript = subscript
         self.left_delimiter = left_delimiter
         self.right_delimiter = right_delimiter
-
+        self.style = style
 #def inoder_read(node):
 #    temp_string = ""
 #    if(node is not None):

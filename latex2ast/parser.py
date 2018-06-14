@@ -11,16 +11,81 @@ tokens = lexer.tokens
 def p_start(p):
     """
     start : formula
+		| start formula
     """
-    p[0] = p[1]
+    if(len(p) == 2):
+    	p[0] = p[1]
+    else:
+		p[0] =Node(content = 'concatenation', left = p[1], right =p[2] )
 
 def p_formula(p):
     """
-    formula : simple
-            | command
+    formula : symbol
             | block
     """
     p[0] = p[1]
+
+def p_delimiters(p):
+	'''
+	formula : delimiter start delimiter
+	'''
+	p[2].left_delimiter = p[1]
+	p[2].right_delimiter = p[3]
+	p[0] = p[2]
+
+def p_accent(p):
+	'''
+	formula : ACCENT block
+			| ACCENT symbol
+	'''
+	p[2].accent = p[1]
+	p[0] = p[2]
+
+def p_style(p):
+	'''
+	formula : STYLE block
+			| STYLE symbol
+	'''
+	p[2].style = p[1]
+	p[0] = p[2]
+
+def p_formula_scripted(p):
+	'''
+	formula : formula simple_scripted
+			| formula compound_scripted
+	'''
+	p[0] = p[1]
+
+def p_simple_scripted(p):
+	'''
+	simple_scripted : SUP symbol
+			| SUP block
+			| SUB symbol
+			| SUB block
+	'''
+	if(p[1] == '^'):
+		p[-1].superscript = p[2]
+	else:
+		p[-1].subscript = p[2]
+
+def p_compound_scripted(p):
+	'''
+	compound_scripted : SUP symbol SUB symbol
+					| SUP symbol SUB block
+					| SUP block SUB symbol
+					| SUP block SUB block
+					| SUB symbol SUP symbol
+					| SUB symbol SUP block
+					| SUB block SUP symbol
+					| SUB block SUP block
+	'''
+	if(p[1] == '^'):
+		p[-1].superscript = p[2]
+		p[-1].subscript = p[4]
+	else:
+		p[-1].subscript = p[2]
+		p[-1].superscript = p[4]
+
 
 def p_block(p):
     """
@@ -28,62 +93,20 @@ def p_block(p):
     """
     p[0] = p[2]
 
-def p_simple(p):
-    """
-    simple : symbol_operation
-           | symbol_ordinary
-           | symbol_block
-    """
-    p[0] = p[1]
-
-def p_symbol_ordinary(p):
-	"""
-    symbol_ordinary : ordinary
-    """
-	p[0] = p[1]
-
-
-def p_symbol_operation(p):
-    """
-    symbol_operation : binary_operator
-    """
-    p[0] = p[1]
-
-def p_symBlock(p):
-	"""
-    symbol_block  : BEGINBLOCK symbol_ordinary ENDBLOCK
-                  | BEGINBLOCK symbol_operation ENDBLOCK
-    """
-	p[0] = p[2]
-
-def p_binOp(p):
-    """
-    binary_operator : start KBINOP start
-    """
-    p[0] = Node(left=p[1], content=p[2], right=p[3])
-
-def p_command(p):
-    """
-    command : root
-    """
-    p[0] = p[1]
-
-def p_root(p):
-    """
-    root : ROOT start
-         | ROOT KDELIMITER start KDELIMITER start
-    """
-    if(len(p)==3): # \sqrt{x}
-        p[0] = Node(content=p[1], right=p[2])
-    elif(len(p)==6): # \sqrt[4]{y}
-        p[0] = Node(content=p[1], right=p[5], superscript=p[3])
-
 def p_ordinary(p):
     """
-    ordinary : NUM
-             | CHAR
+    symbol : NUM
+            | CHAR
+			| ORD
     """
     p[0] = Node(content=p[1])
+
+def p_delimiter(p):
+	'''
+	delimiter : KDELIMITER
+				| DELIMITER
+	'''
+	p[0] = p[1]	
 
 def get_parser():
     return ply.yacc.yacc()

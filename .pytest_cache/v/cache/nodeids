@@ -1,0 +1,19 @@
+[
+  "test/test_lexer.py::test_t_BEGINBLOCK", 
+  "test/test_lexer.py::test_t_ENDBLOCK", 
+  "test/test_lexer.py::test_t_KDELIMITER", 
+  "test/test_lexer.py::test_t_CHAR", 
+  "test/test_lexer.py::test_t_NUM", 
+  "test/test_lexer.py::test_t_KBINOP", 
+  "test/test_lexer.py::test_t_SUP", 
+  "test/test_lexer.py::test_t_COMMAND", 
+  "test/test_lexer.py::test_t_command_ROOT", 
+  "test/test_parser.py::test_symbol", 
+  "test/test_parser.py::test_block", 
+  "test/test_parser.py::test_concatenation", 
+  "test/test_parser.py::test_delimiters", 
+  "test/test_parser.py::test_accent", 
+  "test/test_parser.py::test_style", 
+  "test/test_parser.py::test_simple_indexes", 
+  "test/test_parser.py::test_compound_indexes"
+]

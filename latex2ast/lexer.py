@@ -78,7 +78,7 @@ def get_lexer():
     NUM = r'[0-9]{1,}' # Extraer numeros de 1 o mas digitos
     #command_USER =
     command_UNKNOWN = r'[A-Za-z]+'
-    # ¿ t_ignore_SPACE= ?
+    t_ignore_SPACE=r'[ \t\n]+' #LaTeX does not care about spaces in math mode unless they are specified.
 
     #dictOfDicts = json.loads("{\"Dots\": \"dots|ldots|cdots|vdots|ddots\", \
     #\"Styles\": \"mathit|mathrm|mathbf|mathsf|mathtt|mathcal|boldmath\", \
