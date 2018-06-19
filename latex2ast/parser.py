@@ -106,7 +106,7 @@ def p_delimiter(p):
 	delimiter : KDELIMITER
 				| DELIMITER
 	'''
-	p[0] = p[1]	
+	p[0] = p[1]
 
 def get_parser():
     return ply.yacc.yacc()

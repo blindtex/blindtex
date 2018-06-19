@@ -11,6 +11,14 @@ def get_list_token(lexer):
 
     return list_of_tokens
 
+def test_token_sqrt():
+    simple_sqrt = '\sqrt a'
+    simple_sqrt_tokens = ['ROOT','CHAR']
+    lexer_test = lexer.get_lexer()
+    lexer_test.input(simple_sqrt)
+    list_of_tokens = get_list_token(lexer_test)
+    assert list_of_tokens == simple_sqrt_tokens
+
 def test_t_BEGINBLOCK():
     BEGINBLOCK = '{'
     lexer_test = lexer.get_lexer()
