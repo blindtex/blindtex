@@ -22,7 +22,7 @@ try:
 except IOError:
         print('File could not be oppened.')
 
-literals = [ '!',"'",]
+literals = [ '!',"'",',',]
 
 
 t_BEGINBLOCK = r'\{'
@@ -36,7 +36,7 @@ t_SUB = r'_'
 def t_COMMAND(t):
 	r'\\'
 	t.lexer.begin('command')
-	return
+	pass
 
 def t_command_PMOD(t):
 	r'pmod'
@@ -175,7 +175,7 @@ def t_command_BINOM(t):
 	return t
 
 def t_command_MATHSPACE(t):
-	r'[,!:;]|quad|qquad'
+	r'[,!:; ]|quad|qquad'
 	t.lexer.begin('INITIAL')
 	pass
 
@@ -203,7 +203,7 @@ def t_anything_ENDANY(t):
         pass
         
 def t_CHAR(t):
-	r'[A-Za-z"%\',.:;|]+?'
+	r'([A-Za-z]|\"|%|,|\.|;|:|\'|\|)+?'
 	return t
 def t_NUM(t):
         r'[0-9]+'
@@ -220,18 +220,36 @@ def t_command_UNKNOWN(t):
 	t.lexer.begin('INITIAL')
 	return t
 
+
 t_ignore_SPACE=r'[ \t\n]+'
+
 #---------------Error Handling-----------------
 class illegalCharacter(Exception):
         def __init__(self):
                 return
 def t_error(t):
-	print("Illegal character '%s'" % t.value[0])
+	BadCharacter = t.value[0]
+	print("Illegal character.")
+	print(BadCharacter)
 	t.lexer.skip(1)
 	raise illegalCharacter
 
+def t_command_error(t):
+	BadCharacter = t.value[0]
+	print("Illegal character.")
+	print(BadCharacter)
+	t.lexer.skip(1)
+	raise illegalCharacter
+
+def t_anything_error(t):
+	BadCharacter = t.value[0]
+	print("Illegal character.")
+	print(BadCharacter)
+	t.lexer.skip(1)
+	raise illegalCharacter
 #---------------------------------------------
-lexer= lex.lex()
+def giveLexer():
+	return lex.lex()
 
 if __name__ =="__main__":
 	while True:

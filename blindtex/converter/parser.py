@@ -64,7 +64,7 @@ def p_formula(p):
 				| block 
 				| command'''
 	p[0] = p[1]
-
+#Parcheo Feo.
 def p_block(p):
 	'''block : BEGINBLOCK start ENDBLOCK'''
 	p[0] = p[2]
@@ -96,6 +96,20 @@ def p_symbol(p):
 def p_simple(p):
 	'''simple : symbol 
 			| symBlock '''
+	p[0] = p[1]
+
+
+#All the possible commands that can go in a index.
+def p_index(p):
+	'''index : accent
+			| style
+			| pmod
+			| phantom
+			| root
+			| frac
+			| combi
+			| lim
+			| textBlock '''
 	p[0] = p[1]
 
 def p_commands(p):
@@ -175,7 +189,7 @@ def p_linebreak(p):
     '''lnbrk : LINEBREAK'''
     p[0] = formulate.formulate('salto de l&iacute;nea',OPTION)
 
-#-------------------------------Argument commands-------------------------------
+#-------------------------------Argumentsim commands-------------------------------
 def p_simpleAccent(p):
     '''accent : ACCENT simple'''
     p[0] = p[2] + formulate.formulate(dAccents.showReading(p[1]),OPTION)
@@ -264,7 +278,9 @@ def p_script(p):
 
 def p_sScript(p):
 	'''sScript : SUP simple
-				| SUB simple '''
+				| SUB simple
+				| SUP index
+				| SUB index'''
 	if(p[1] == '^'):
 		p[0] = formulate.formulate('sup', OPTION) + p[2]
 	else:
@@ -272,7 +288,7 @@ def p_sScript(p):
 
 def p_sbScript(p):
 	'''sbScript : SUP block
-				| SUB block '''
+				| SUB block'''
 	if(p[1] == '^'):
 		p[0] = formulate.formulate('sup', OPTION) + p[2] + formulate.formulate('fins&uacute;per',OPTION)
 	else:
@@ -280,19 +296,21 @@ def p_sbScript(p):
 
 
 def p_cScript(p):
-	'''cScript : SUP simple SUB simple
-				| SUP simple SUB block
-				| SUP block SUB simple
-				| SUP block SUB block
-				| SUB simple SUP simple
-				| SUB simple SUP block
-				| SUB block SUP simple
-				| SUB block SUP block '''
+	'''cScript : SUP cindex SUB cindex
+				| SUB cindex SUP cindex'''
 	if(p[1] =='^'):
 		p[0] = formulate.formulate('s&uacute;per',OPTION) + p[2] + formulate.formulate('fins&uacute;per',OPTION) + formulate.formulate('sub',OPTION) + p[4] + formulate.formulate('finsub',OPTION)
 	else:
 		p[0] = formulate.formulate('sub',OPTION) + p[2] + formulate.formulate('finsub',OPTION) + formulate.formulate('s&uacute;per',OPTION) + p[4] + formulate.formulate('fins&uacute;per',OPTION)
+
 	
+def p_indexForcScript(p):
+	'''cindex : simple
+			| block
+			| index '''
+	p[0] = p[1]
+
+
 def p_scrLarop(p):
 	'''scrLarop : LARGEOP sLaropScript
 				| LARGEOP cLaropScript '''
@@ -399,9 +417,10 @@ arrayRegex = re.compile(r'''((?<!\\)((\\begin\{array\}(\{.*?\})?)))
 ARRAY_CONTENT_GROUP = 5
 MATRIX_CONTENT_GROUP = 11
 def convert(String):
+        
         newString = seekAndReplaceMatrices(String)
         try:
-                return parser.parse(newString)
+                return parser.parse(newString,lexer = lexer.giveLexer())
         except ply.lex.LexError:
             reportProblem('LexError in:\n'+newString)
             return('Bad Formula')
@@ -409,7 +428,7 @@ def convert(String):
             reportProblem('Syntax Error in:\n' + newString)
             return('Bad Formula')
         except lexer.illegalCharacter:
-            reportProblem('illegal character in:\n' +newString)
+            reportProblem('Illegal character in:\n' +newString)
             return('Bad Formula')
 #EndOfFunction
 

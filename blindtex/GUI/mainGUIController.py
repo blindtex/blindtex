@@ -23,7 +23,7 @@ def convert(stringInput):
         </html>'''
     if parser.OPTION == 1:
             convertedFormula = parser.convert(stringInput)
-    print convertedFormula
+    #print convertedFormula
     return convertedFormula
 
 def onSaveController(pathname, text):
