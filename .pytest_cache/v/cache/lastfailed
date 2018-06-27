@@ -1,3 +1,4 @@
 {
+  "test/test_parser.py::test_negated": true, 
   "test/test_parser.py::test_simpleScripted": true
 }

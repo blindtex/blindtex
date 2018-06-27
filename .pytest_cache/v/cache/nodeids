@@ -1,4 +1,5 @@
 [
+  "test/test_lexer.py::test_token_sqrt", 
   "test/test_lexer.py::test_t_BEGINBLOCK", 
   "test/test_lexer.py::test_t_ENDBLOCK", 
   "test/test_lexer.py::test_t_KDELIMITER", 
@@ -8,12 +9,19 @@
   "test/test_lexer.py::test_t_SUP", 
   "test/test_lexer.py::test_t_COMMAND", 
   "test/test_lexer.py::test_t_command_ROOT", 
+  "test/test_lexer.py::test_t_command_LABEL", 
   "test/test_parser.py::test_symbol", 
   "test/test_parser.py::test_block", 
-  "test/test_parser.py::test_concatenation", 
-  "test/test_parser.py::test_delimiters", 
   "test/test_parser.py::test_accent", 
   "test/test_parser.py::test_style", 
   "test/test_parser.py::test_simple_indexes", 
-  "test/test_parser.py::test_compound_indexes"
+  "test/test_parser.py::test_compound_indexes", 
+  "test/test_parser.py::test_frac", 
+  "test/test_parser.py::test_root", 
+  "test/test_parser.py::test_choose", 
+  "test/test_parser.py::test_binom", 
+  "test/test_parser.py::test_pmod", 
+  "test/test_parser.py::test_text", 
+  "test/test_parser.py::test_label", 
+  "test/test_parser.py::test_concatenation"
 ]

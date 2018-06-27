@@ -1,228 +1,316 @@
+#-*-:coding:utf-8-*-
 import pytest
 from latex2ast import lexer
 from latex2ast import parser
 
-#def test_kbinop():
-#    custom_parser = parser.get_parser()
-#    latex_string = 'x+3'
-#    custom_lexer = lexer.get_lexer()
-#    cv = custom_parser.parse(latex_string,custom_lexer)
-#    assert cv.left.content == 'x'
-#    assert cv.content == '+'
-#    assert cv.right.content == '3'
 
-#def test_sqrt():
-#    custom_parser = parser.get_parser()
-#    latex_string = '\sqrt[8]{x}'
-#    custom_lexer = lexer.get_lexer()
-#    cv = custom_parser.parse(latex_string,custom_lexer)
-#    assert cv.left is None
-#    assert cv.content == 'sqrt'
-#    assert cv.superscript.content == '8'
-#    assert cv.right.content == 'x'
 
 def test_symbol():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'a'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	latex_string = '1'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == '1'
-	latex_string = r'\alpha'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'alpha'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string1 = 'a'
+    cv1 = custom_parser.parse(latex_string1,custom_lexer)
+    assert cv1[0].content == 'a'
+    latex_string2 = '1'
+    cv2 = custom_parser.parse(latex_string2,custom_lexer)
+    assert cv2[0].content == '1'
+    latex_string3 = r'\alpha'
+    cv3 = custom_parser.parse(latex_string3,custom_lexer)
+    assert cv3[0].content == 'alpha'
 #EOF
 def test_block():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = '{a}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = '{a}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'block'
+    assert cv[0].get_children()[0].content == 'a'
 #EOF
-def test_concatenation():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'ab'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'a\beta'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'beta'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = '2a'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == '2'
-	assert cv.right.content == 'a'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = '{a}b'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'a{b}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'abc'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == 'concatenation'
-	assert cv.left.left.content == 'a'
-	assert cv.left.right.content == 'b'
-	assert cv.right.content == 'c'
-	
+    
 #EOF
-def test_delimiters():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = '(a)'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.left_delimiter == '('
-	assert cv.right_delimiter == ')'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = '[a)'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.left_delimiter == '['
-	assert cv.right_delimiter == ')'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\{a\}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.left_delimiter == '{'
-	assert cv.right_delimiter == '}'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\langle a \rangle'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.left_delimiter == 'langle'
-	assert cv.right_delimiter == 'rangle'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'(ab)'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'b'
-	assert cv.left_delimiter == '('
-	assert cv.right_delimiter == ')'
 
 def test_accent():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\hat{a}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.accent == 'hat'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\acute a'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.accent == 'acute'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\hat{ab}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.accent == 'hat'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'b'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'\hat{a}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'block'
+    assert cv[0].get_children()[0].content == 'a'
+    assert cv[0].accent == 'hat'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'\acute a'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].accent == 'acute'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'\hat{ab}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'block'
+    assert cv[0].accent == 'hat'
+    assert cv[0].get_children()[0].content == 'a'
+    assert cv[0].get_children()[1].content == 'b'
 
 def test_style():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\mathit{a}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.style == 'mathit'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\mathbf a'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.style == 'mathbf'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'\mathrm{ab}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'concatenation'
-	assert cv.style == 'mathrm'
-	assert cv.left.content == 'a'
-	assert cv.right.content == 'b'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'\mathit{a}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'block'
+    assert cv[0].style == 'mathit'
+    assert cv[0].get_children()[0].content == 'a'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'\mathbf a'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].style == 'mathbf'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'\mathrm{ab}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'block'
+    assert cv[0].style == 'mathrm'
+    assert cv[0].get_children()[0].content == 'a'
+    assert cv[0].get_children()[1].content == 'b'
 
 def test_simple_indexes():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'a^b'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.superscript.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'a^{b}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.superscript.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'a_b'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.subscript.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'a_{b}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.subscript.content == 'b'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'a_{b^c}'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.subscript.content == 'b'
-	assert cv.subscript.superscript.content == 'c'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = 'a^b'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].superscript[0].content == 'b'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'a^{b}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].superscript[0].content == 'block'
+    assert cv[0].superscript[0].get_children()[0].content == 'b'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = 'a_b'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].subscript[0].content == 'b'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'a_{b}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].subscript[0].content == 'block'
+    assert cv[0].subscript[0].get_children()[0].content == 'b'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'a_{b^c}'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].subscript[0].content == 'block'
+    assert cv[0].subscript[0].get_children()[0].content == 'b'
+    assert cv[0].subscript[0].get_children()[0].superscript[0].content == 'c'
 
 def test_compound_indexes():
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = 'a^b_c'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.superscript.content == 'b'
-	assert cv.subscript.content == 'c'
-	custom_parser = parser.get_parser()
-	custom_lexer = lexer.get_lexer()
-	latex_string = r'a_c^b'
-	cv = custom_parser.parse(latex_string,custom_lexer)
-	assert cv.content == 'a'
-	assert cv.superscript.content == 'b'
-	assert cv.subscript.content == 'c'
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = 'a^b_c'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].superscript[0].content == 'b'
+    assert cv[0].subscript[0].content == 'c'
+    
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+    latex_string = r'a_c^b'
+    cv = custom_parser.parse(latex_string,custom_lexer)
+    assert cv[0].content == 'a'
+    assert cv[0].superscript[0].content == 'b'
+    assert cv[0].subscript[0].content == 'c'
+    
+def test_frac():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
 
-	
-	
-	
-	
-	
-	
+    latex_string1 = r'\frac 1 a'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'fraction'
+    assert cv1[0].get_children()[0].content == '1'
+    assert cv1[0].get_children()[1].content == 'a'
+
+    latex_string2 = r'\frac \alpha {\bigcap}'
+    cv2 = custom_parser.parse(latex_string2, custom_lexer)
+    assert cv2[0].content == 'fraction'
+    assert cv2[0].get_children()[0].content == 'alpha'
+    assert cv2[0].get_children()[1].content == 'block'
+    assert cv2[0].get_children()[1].get_children()[0].content == 'bigcap'
+
+    latex_string3 = r'\frac {\sqcap} \ni '
+    cv3 = custom_parser.parse(latex_string3, custom_lexer)
+    assert cv3[0].content == 'fraction'
+    assert cv3[0].get_children()[0].content == 'block'
+    assert cv3[0].get_children()[0].get_children()[0].content == 'sqcap'
+    assert cv3[0].get_children()[1].content == 'ni'
+
+    latex_string4 = r'\frac {\leftarrow}{\rangle}'
+    cv4 = custom_parser.parse(latex_string4, custom_lexer)
+    assert cv4[0].content == 'fraction'
+    assert cv4[0].get_children()[0].content == 'block'
+    assert cv4[0].get_children()[0].get_children()[0].content == 'leftarrow'
+    assert cv4[0].get_children()[1].content == 'block'
+    assert cv4[0].get_children()[1].get_children()[0].content == 'rangle'
+         
+
+def test_root():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'\sqrt \wp'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'root'
+    assert len(cv1[0].children) == 1
+    assert cv1[0].get_children()[0].content == 'wp'
+
+    latex_string2 = r'\sqrt{\clubsuit}'
+    cv2 = custom_parser.parse(latex_string2, custom_lexer)
+    assert cv2[0].content == 'root'
+    assert len(cv2[0].get_children()) == 1
+    assert cv2[0].get_children()[0].content == 'block'
+    assert cv2[0].get_children()[0].get_children()[0].content == 'clubsuit'
+
+    latex_string3  = r'\sqrt [\sum] \uplus'
+    cv3 = custom_parser.parse(latex_string3, custom_lexer)
+    assert cv3[0].content == 'root'
+    assert len(cv3[0].get_children()) == 2
+    assert cv3[0].get_children()[0].content == 'sum'
+    assert cv3[0].get_children()[1].content == 'uplus'
+
+    latex_string4  = r'\sqrt [\sum] {\uplus}'
+    cv4 = custom_parser.parse(latex_string4, custom_lexer)
+    assert cv4[0].content == 'root'
+    assert len(cv4[0].get_children()) == 2
+    assert cv4[0].get_children()[0].content == 'sum'
+    assert cv4[0].get_children()[1].content == 'block'
+    assert cv4[0].get_children()[1].get_children()[0].content == 'uplus'
+
+    latex_string5 = r'\sqrt [[] ]'
+    cv5 = custom_parser.parse(latex_string5, custom_lexer)
+    assert cv5[0].content == 'root'
+    assert len(cv5[0].get_children()) == 2
+    assert cv5[0].get_children()[0].content == '['
+    assert cv5[0].get_children()[1].content == ']'
+
+def test_choose():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'a \choose b'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'choose'
+    assert len(cv1[0].get_children()) == 2
+    assert cv1[0].get_children()[0].content == 'a'
+    assert cv1[0].get_children()[1].content == 'b'
+
+    latex_string2 = r'{\oint \choose \leftrightarrow}'
+    cv2 = custom_parser.parse(latex_string2, custom_lexer)
+    assert cv2[0].content == 'block'
+    assert cv2[0].get_children()[0].content == 'choose'
+    assert len(cv2[0].get_children()) == 1
+    assert len(cv2[0].get_children()[0].get_children()) == 2
+    assert cv2[0].get_children()[0].get_children()[0].content == 'oint'
+    assert cv2[0].get_children()[0].get_children()[1].content == 'leftrightarrow'
+
+#TODO: It is not recognizing blocks (?)
+def test_binom():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'\binom \Leftrightarrow \Gamma'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'binom'
+    assert len(cv1[0].get_children()) == 2
+    assert cv1[0].get_children()[0].content == 'Leftrightarrow'
+    assert cv1[0].get_children()[1].content == 'Gamma'
+
+    latex_string2 = r'\binom \Leftrightarrow {\Gamma}'
+    cv2 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv2[0].content == 'binom'
+    assert len(cv2[0].get_children()) == 2
+    assert cv2[0].get_children()[0].content == 'Leftrightarrow'
+    assert cv2[0].get_children()[1].content == 'Gamma'
+
+    latex_string3 = r'\binom {\Leftrightarrow} \Gamma'
+    cv3 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv3[0].content == 'binom'
+    assert len(cv3[0].get_children()) == 2
+    assert cv3[0].get_children()[0].content == 'Leftrightarrow'
+    assert cv3[0].get_children()[1].content == 'Gamma'
+
+    latex_string4 = r'\binom {\Leftrightarrow} {\Gamma}'
+    cv4 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv4[0].content == 'binom'
+    assert len(cv4[0].get_children()) == 2
+    assert cv4[0].get_children()[0].content == 'Leftrightarrow'
+    assert cv4[0].get_children()[1].content == 'Gamma'
+
+def test_pmod():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'\pmod \epsilon'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'pmod'
+    assert cv1[0].get_children()[0].content == 'epsilon'
+    assert len(cv1[0].get_children()) == 1
+
+    latex_string2 = r'\pmod {\oplus}'
+    cv2 = custom_parser.parse(latex_string2, custom_lexer)
+    assert cv2[0].content == 'pmod'
+    assert cv2[0].get_children()[0].content == 'block'
+    assert cv2[0].get_children()[0].get_children()[0].content == 'oplus'
+    assert len(cv2[0].get_children()) == 1
+
+def test_text():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'\text a'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'text'
+    assert cv1[0].get_children() == 'a' #A text character it is not a math object.
+    #assert len(cv1[0].get_children()) == 1
+
+    latex_string2 = r'\textrm {zb c 1 2 34 (d5)}'
+    cv2 = custom_parser.parse(latex_string2, custom_lexer)
+    assert cv2[0].content == 'text'
+    #assert len(cv2[0].get_children()) == 1
+    assert cv2[0].get_children() == 'zb c 1 2 34 (d5)' #A text character it is not a math object.
+    
+
+def test_label():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'\label{my label}'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'label'
+    assert cv1[0].get_children() == 'label{my label}' #A label it is not a math object.
+
+
+def test_concatenation():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'ab'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'a'
+    assert cv1[1].content == 'b'
+
+

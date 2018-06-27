@@ -4,6 +4,7 @@ import json
 import ply.lex as lex
 from ply.lex import TOKEN
 import json
+import re
 
 tokens = ('CHAR', 'SUP', 'SUB',
           'BEGINBLOCK','ENDBLOCK','ORD',
@@ -17,7 +18,7 @@ tokens = ('CHAR', 'SUP', 'SUB',
           'CHOOSE','BINOM','PMOD',
           'PHANTOM','TEXT','LABEL',
           'ANYTHING','ARRAYTEXT','USER',
-          'NUM')
+          'NUM','KNOT', 'MOD', 'TCHAR',)
 
 dictOfDicts = json.loads("{\"Dots\": \"dots|ldots|cdots|vdots|ddots\", \
     \"Styles\": \"mathit|mathrm|mathbf|mathsf|mathtt|mathcal|boldmath\", \
@@ -32,9 +33,10 @@ dictOfDicts = json.loads("{\"Dots\": \"dots|ldots|cdots|vdots|ddots\", \
 def get_lexer():
 
     states = (('command', 'exclusive'),#)
-              ('anything','exclusive'),)
+              ('anything','exclusive'),
+               ('text', 'exclusive'),)
 
-    literals = [ '!',"'",]
+    literals = [ '!',"'", '[', ']' ]
 
     BEGINBLOCK = r'\{'
     ENDBLOCK = r'\}'
@@ -42,6 +44,7 @@ def get_lexer():
     SUB = r'_'
     COMMAND = r'\\'
     command_PMOD = r'pmod'
+    command_MOD = r'mod|bmod'
     command_PHANTOM = r'[hv]?phantom'
     command_BEGARRAY = r'(begin\{array\}|begin\{[pbBvV]?matrix(\*)?\})(\[.*?\])?(\{.*?\})?'
     command_ENDARRAY = r'end\{array\}|end\{[pbBvV]?matrix(\*)?\}'
@@ -59,8 +62,9 @@ def get_lexer():
     KBINREL = r'[=<>]'
     #command_BINREL =
     #command_FUNC =
-    command_NOT = r'not'
-    KDELIMITER = r'\(|\)|\[|\]'
+    KNOT = r'¬'
+    command_NOT = r'not' #Negate binary relations
+    KDELIMITER = r'\(|\)'
     #command_DELIMITER =
     #command_ACCENT =
     #command_STYLE =
@@ -68,10 +72,13 @@ def get_lexer():
     command_CHOOSE = r'choose'
     command_BINOM = r'binom'
     command_MATHSPACE = r'[,!:;]|quad|qquad'
-    command_TEXT = r'(text(rm)?|mbox)\{'
-    command_LABEL = r'label\{'
+    command_TEXT = r'(text(rm)?|mbox)'
+    text_TCHAR = r'[A-Za-z0-9"¡!¿?,;.:()¬]'#TODO: Make this more inclusive.
+    text_ignore_SPACE = r'[ \t\n]+'
+    text_TBBLOCK = r'\{'
+    command_LABEL = r'label\{(.)*(?<!\\)\}'
     ARRAYTEXT = r'~text\{'
-    anything_ANYTHING = r'[^}]'
+    anything_ANYTHING = r'[^}]+'
     anything_ENDANY = r'(?<!\\)\}'
     CHAR = r'[A-Za-z"%\',.:;|]+?'
     #NUM = r'[0-9]?'
@@ -110,7 +117,12 @@ def get_lexer():
     def t_COMMAND(t):
     	t.lexer.begin('command')
     	return
-
+    
+    @TOKEN(command_MOD)
+    def t_command_MOD(t):
+        t.lexer.begin('INITIAL')
+        return t
+    
     @TOKEN(command_PMOD)
     def t_command_PMOD(t):
     	t.lexer.begin('INITIAL')
@@ -203,6 +215,10 @@ def get_lexer():
     def t_command_NOT(t):
     	t.lexer.begin('INITIAL')
     	return t
+	
+    @TOKEN(KNOT)
+    def t_KNOT(t):
+        return t
 
     @TOKEN(KDELIMITER)
     def t_KDELIMITER(t):
@@ -245,8 +261,22 @@ def get_lexer():
 
     @TOKEN(command_TEXT)
     def t_command_TEXT(t):
-        t.lexer.begin('anything')
+        t.lexer.begin('text')
         return t
+
+    @TOKEN(text_TCHAR)
+    def t_text_TCHAR(t):
+        t.lexer.begin('INITIAL')
+        return t
+
+    @TOKEN(text_TBBLOCK)
+    def t_text_TBBLOCK(t):
+        t.lexer.begin('anything')
+        pass
+
+    @TOKEN(text_ignore_SPACE)
+    def t_text_ignore_SPACE(t):
+        pass
 
     @TOKEN(command_LABEL)
     def t_command_LABEL(t):
@@ -294,8 +324,14 @@ def get_lexer():
         print("Illegal character '%s'" % t.value[0])
         #t.lexer.skip(1)
         #raise illegalCharacter
+	
+    def t_anything_error(t):
+        print("Illegal character '%s'" % t.value[0])
 
-    return lex.lex()
+    def t_text_error(t):
+        print("Illegal character '%s'" % t.value[0])
+	
+    return lex.lex(reflags = re.UNICODE)
 
 if __name__ =="__main__":
     lexer = get_lexer()

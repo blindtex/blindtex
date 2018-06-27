@@ -34,7 +34,7 @@ def test_t_ENDBLOCK():
     assert all(['ENDBLOCK' == token for token in list_of_tokens ])
 
 def test_t_KDELIMITER():
-    KDELIMITER = '()[]'
+    KDELIMITER = '()'#For reasons [ and ] must be taken.
     lexer_test = lexer.get_lexer()
     lexer_test.input(KDELIMITER)
     list_of_tokens = get_list_token(lexer_test)
@@ -81,3 +81,10 @@ def test_t_command_ROOT():
     lexer_test.input(command_ROOT)
     list_of_tokens = get_list_token(lexer_test)
     assert all(['ROOT' == token for token in list_of_tokens ])
+
+def test_t_command_LABEL():
+    command_LABEL = r'\label{my label}'
+    lexer_test = lexer.get_lexer()
+    lexer_test.input(command_LABEL)
+    list_of_tokens = get_list_token(lexer_test)
+    assert all(['LABEL' == token for token in list_of_tokens])
