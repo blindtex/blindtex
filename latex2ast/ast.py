@@ -13,6 +13,10 @@ class AST():
     content = None
 
 class Node(AST):
+
+    children = None
+    style = None
+
     def __init__(self,
                  content = None,
                  children = None,
@@ -24,7 +28,7 @@ class Node(AST):
                  subscript = None,
                  left_delimiter = None,
                  right_delimiter = None,
-		 style = None):
+                 style = None):
         self.children = None #These are the children of the node in a list.
         self.content = content
 
@@ -38,18 +42,18 @@ class Node(AST):
         self.left_delimiter = left_delimiter
         self.right_delimiter = right_delimiter
         self.style = style
-    
+
     def append_child(self, node_new_child):
-		if(self.children == None):
-			self.children = node_new_child
-		else:
-			self.children.append(node_new_child)
-	#TODO: Verify if the list has de capacity for the index and so.
+        if(self.children == None):
+             self.children = node_new_child
+        else:
+             self.children.append(node_new_child)
+    #TODO: Verify if the list has de capacity for the index and so.
     def add_child(self, index, node_new_child):
-		if(self.children == None):
-			self.children = node_new_child
-		else:
-			self.children.insert(index, node_new_child)
+        if(self.children == None):
+             self.children = node_new_child
+        else:
+             self.children.insert(index, node_new_child)
 
     def get_children(self):
         return self.children

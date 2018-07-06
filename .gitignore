@@ -18,8 +18,9 @@ __pycache__/
 # C extensions
 *.so
 
-# Distribution / packaging
+# Distribution / packaging / test
 .Python
+.pytest_cache/
 env/
 venv/
 build/
