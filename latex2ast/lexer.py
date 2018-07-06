@@ -280,7 +280,7 @@ def get_lexer():
 
     @TOKEN(command_LABEL)
     def t_command_LABEL(t):
-        t.lexer.begin('anything')
+        t.lexer.begin('INITIAL')
         return t
 
     @TOKEN(ARRAYTEXT)
