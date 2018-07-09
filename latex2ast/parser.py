@@ -2,10 +2,9 @@
 
 import ply.lex
 import ply.yacc
-import lexer
+from latex2ast import lexer
+from latex2ast.ast import Node
 
-from ast import Node
-import ast
 tokens = lexer.tokens
 
 precedence = (
@@ -255,6 +254,6 @@ if __name__ == "__main__":
                 s = input('spi> ')
 
             cv_s = parser.parse(s,lexer)
-            print(ast.literal_read_formula(cv_s))
+            print(cv_s)
         except EOFError:
             break
