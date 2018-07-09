@@ -1,6 +1,6 @@
 from latex2ast import lexer
 from latex2ast import parser
-from latex2ast import ast
+#from latex2ast import ast
 
 to_read = {'simple_superscript' : 'super %s ',
                 'comp_superscript' : 'super %s endsuper ',
@@ -190,6 +190,6 @@ if __name__ == "__main__":
                 s = input('spi> ')
 
             cv_s = par.parse(s,lexer)
-            print(ast.literal_read_formula(cv_s))
+            print(literal_read_formula(cv_s))
         except EOFError:
             break

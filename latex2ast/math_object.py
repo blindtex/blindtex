@@ -1,22 +1,5 @@
 #-*-:coding:utf-8-*-
-class AST():
-
-    # Attributes of Math Object proposed by Raman
-    left_superscript = None
-    left_subscript = None
-    accent = None
-    underbar = None
-    superscript = None
-    subscript = None
-    left_delimiter = None
-    right_delimiter = None
-    content = None
-
-class Node(AST):
-
-    children = None
-    style = None
-    kind = None
+class MathObject():
 
     def __init__(self,
                  content = None,
@@ -33,10 +16,9 @@ class Node(AST):
                  kind = None,):
 
         self.children = children #These are the children of the node in a list.
-
         self.content = content
 
-        # Math Object's Attributes
+        #Attributes of Math Object proposed by Raman
         self.left_superscript = left_superscript
         self.left_subscript = left_subscript
         self.accent = accent

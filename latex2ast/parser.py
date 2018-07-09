@@ -3,7 +3,7 @@
 import ply.lex
 import ply.yacc
 from latex2ast import lexer
-from latex2ast.ast import Node
+from latex2ast.math_object import MathObject
 
 tokens = lexer.tokens
 
@@ -54,7 +54,7 @@ def p_block(p):
     """
     block : BEGINBLOCK formula ENDBLOCK
     """
-    p[0] = Node(content = 'block')
+    p[0] = MathObject(content = 'block')
     p[0].append_child(p[2])
 
 
@@ -136,44 +136,44 @@ def p_symbol(p):
                         | KNOT
                         | USER
     """
-    p[0] = Node(content = p[1])
+    p[0] = MathObject(content = p[1])
 
 def p_ord(p):
     ''' symbol : NUM
                             | CHAR
                             | ORD '''
-    p[0] = Node(content = p[1], kind = 'Ordinary')#Beware to distinguish if is in the dictionary or not.
+    p[0] = MathObject(content = p[1], kind = 'Ordinary')#Beware to distinguish if is in the dictionary or not.
 
 def p_largeOp(p):
     ''' symbol : LARGEOP '''
-    p[0] = Node(content = p[1], kind = 'LargeOperators')
+    p[0] = MathObject(content = p[1], kind = 'LargeOperators')
 
 def p_binop(p):
     ''' symbol : BINOP
                        | KBINOP '''
-    p[0] = Node(content = p[1], kind = 'BinaryOperators')#Beware to distinguish if is in the dictionary or not.
+    p[0] = MathObject(content = p[1], kind = 'BinaryOperators')#Beware to distinguish if is in the dictionary or not.
 
 def p_binrel(p):
     ''' symbol : KBINREL
                             | BINREL'''
-    p[0] = Node(content = p[1], kind = 'BinaryRelations')#Beware to distinguish if is in the dictionary or not.
+    p[0] = MathObject(content = p[1], kind = 'BinaryRelations')#Beware to distinguish if is in the dictionary or not.
 
 def p_func(p):
     ''' symbol : FUNC '''
-    p[0] = Node(content = p[1], kind = 'MathFunctions')
+    p[0] = MathObject(content = p[1], kind = 'MathFunctions')
 
 def p_arrow(p):
     ''' symbol : ARROW '''
-    p[0] = Node(content = p[1], kind = 'Arrows')
+    p[0] = MathObject(content = p[1], kind = 'Arrows')
 
 def p_delimiter(p):
     ''' symbol : DELIMITER
                             | kdelimiter '''
-    p[0] = Node(content = p[1], kind = 'Delimiters')
+    p[0] = MathObject(content = p[1], kind = 'Delimiters')
 
 def p_dots(p):
     ''' symbol : DOTS '''
-    p[0] = Node(content = p[1], kind = 'Dots')
+    p[0] = MathObject(content = p[1], kind = 'Dots')
 
 #We count [ and ] apart because the \sqrt structure uses them.
 def p_kdelimiter(p):
@@ -184,9 +184,9 @@ def p_kdelimiter(p):
 
 def p_fraction(p):
     '''fraction : FRAC argument argument '''
-    p[0] = Node(content = 'fraction')
+    p[0] = MathObject(content = 'fraction')
     p[0].append_child(p[2])
-    p[0].append_child(p[3][0]) #This is because p[3] is a list, as index returns that, but we want to append the node, not the list.
+    p[0].append_child(p[3][0]) #This is because p[3] is a list, as index returns that, but we want to append the MathObject, not the list.
 
 def p_root(p):
     '''root : sqr_root
@@ -195,14 +195,14 @@ def p_root(p):
 
 def p_sqr_root(p):
     '''sqr_root : ROOT argument '''
-    p[0] = Node(content = 'root')
+    p[0] = MathObject(content = 'root')
     p[0].append_child(p[2])
 
 def p_indexed_root(p):
     '''indexed_root : ROOT root_index argument '''
-    p[0] = Node(content = 'root')
+    p[0] = MathObject(content = 'root')
     p[0].append_child(p[2])#The first child will be the index.
-    p[0].append_child(p[3][0])#This is because p[5] is a list, as index returns that, but we want to append the node, not the list.
+    p[0].append_child(p[3][0])#This is because p[5] is a list, as index returns that, but we want to append the MathObject, not the list.
 
 #TODO:Here argument must be changed by formula, but this change generates lots of problems.
 def p_root_index(p):
@@ -211,31 +211,31 @@ def p_root_index(p):
 
 def p_choose(p):
     ''' choose : formula CHOOSE formula '''
-    p[0] = Node(content = 'choose')
+    p[0] = MathObject(content = 'choose')
     p[0].append_child(p[1])
     p[0].append_child(p[3][0])
 
 #Something funny here. See test_binom
 def p_binom(p):
     '''binom : BINOM argument argument '''
-    p[0] = Node(content = 'binom')
+    p[0] = MathObject(content = 'binom')
     p[0].append_child(p[2])
     p[0].append_child(p[3][0])
 
 def p_pmod(p):
     ''' pmod : PMOD argument '''
-    p[0] = Node(content = 'pmod')
+    p[0] = MathObject(content = 'pmod')
     p[0].append_child(p[2])
 
 def p_text(p):
     ''' text : TEXT TCHAR
             | TEXT ANYTHING'''
-    p[0] = Node(content = 'text')
+    p[0] = MathObject(content = 'text')
     p[0].append_child(p[2])
 
 def p_label(p):
     '''label : LABEL '''
-    p[0] = Node(content = 'label')
+    p[0] = MathObject(content = 'label')
     p[0].append_child(p[1])
 
 
