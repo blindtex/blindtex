@@ -29,8 +29,8 @@ class Node(AST):
                  subscript = None,
                  left_delimiter = None,
                  right_delimiter = None,
-		 style = None,
-		 kind = None,):
+                 style = None,
+                 kind = None,):
 
         self.children = children #These are the children of the node in a list.
 
@@ -47,22 +47,22 @@ class Node(AST):
         self.right_delimiter = right_delimiter
         self.style = style
         self.kind = kind
-	#The kind is the use of the math_object Ord, binary operator, arrow...etc. Just the symbols will have it.
-	#This will serve to know beforehand in what dictionary look for and if it has some special behaviour.
-	#It is not convenient to put kind in block, fraction, root...etc for the further exploration of the formula.
+        #The kind is the use of the math_object Ord, binary operator, arrow...etc. Just the symbols will have it.
+        #This will serve to know beforehand in what dictionary look for and if it has some special behaviour.
+        #It is not convenient to put kind in block, fraction, root...etc for the further exploration of the formula.
 
     def append_child(self, node_new_child):
-	if(self.children == None):
-	    self.children = node_new_child
-	else:
-	    self.children.append(node_new_child)
+        if(self.children == None):
+            self.children = node_new_child
+        else:
+            self.children.append(node_new_child)
 
     #TODO: Verify if the list has de capacity for the index and so.
     def add_child(self, index, node_new_child):
         if(self.children == None):
-             self.children = node_new_child
+            self.children = node_new_child
         else:
-             self.children.insert(index, node_new_child)
+            self.children.insert(index, node_new_child)
 
     def get_children(self):
         return self.children

@@ -99,165 +99,165 @@ def get_lexer():
 
     @TOKEN(BEGINBLOCK)
     def t_BEGINBLOCK(t):
-    	return t
+        return t
 
     @TOKEN(ENDBLOCK)
     def t_ENDBLOCK(t):
-    	return t
+        return t
 
     @TOKEN(SUP)
     def t_SUP(t):
-    	return t
+        return t
 
     @TOKEN(SUB)
     def t_SUB(t):
-    	return t
+        return t
 
     @TOKEN(COMMAND)
     def t_COMMAND(t):
-    	t.lexer.begin('command')
-    	return
-    
+        t.lexer.begin('command')
+        return
+
     @TOKEN(command_MOD)
     def t_command_MOD(t):
         t.lexer.begin('INITIAL')
         return t
-    
+
     @TOKEN(command_PMOD)
     def t_command_PMOD(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_PHANTOM)
     def t_command_PHANTOM(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_BEGARRAY)
     def t_command_BEGARRAY(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_ENDARRAY)
     def t_command_ENDARRAY(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_LINEBREAK)
     def t_command_LINEBREAK(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(COL)
     def t_COL(t):
-    	return t
+        return t
 
     @TOKEN(dictOfDicts['LargeOperators'])
     def t_command_LARGEOP(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['Ordinary'])
     def t_command_ORD(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_FRAC)
     def t_command_FRAC(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_ROOT)
     def t_command_ROOT(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['Arrows'])
     def t_command_ARROW(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_leftRight)
     def t_command_leftRight(t):
-    	t.lexer.begin('INITIAL')
-    	pass
+        t.lexer.begin('INITIAL')
+        pass
 
     @TOKEN(KBINOP)
     def t_KBINOP(t):#Binary operators that can be made from the keyboard.
-    	return t
+        return t
 
     @TOKEN(dictOfDicts['Dots'])
     def t_command_DOTS(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['BinaryOperators'])
     def t_command_BINOP(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(KBINREL)
     def t_KBINREL(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['BinaryRelations'])
     def t_command_BINREL(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['MathFunctions'])
     def t_command_FUNC(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_NOT)
     def t_command_NOT(t):
-    	t.lexer.begin('INITIAL')
-    	return t
-	
+        t.lexer.begin('INITIAL')
+        return t
+
     @TOKEN(KNOT)
     def t_KNOT(t):
         return t
 
     @TOKEN(KDELIMITER)
     def t_KDELIMITER(t):
-    	return t
+        return t
 
     @TOKEN(dictOfDicts['Delimiters'])
     def t_command_DELIMITER(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['Accents'])
     def t_command_ACCENT(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(dictOfDicts['Styles'])
     def t_command_STYLE(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_LIM)
     def t_command_LIM(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_CHOOSE)
     def t_command_CHOOSE(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_BINOM)
     def t_command_BINOM(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_MATHSPACE)
     def t_command_MATHSPACE(t):
-    	t.lexer.begin('INITIAL')
-    	pass
+        t.lexer.begin('INITIAL')
+        pass
 
     @TOKEN(command_TEXT)
     def t_command_TEXT(t):
@@ -299,7 +299,7 @@ def get_lexer():
 
     @TOKEN(CHAR)
     def t_CHAR(t):
-    	return t
+        return t
 
     @TOKEN(NUM)
     def t_NUM(t):
@@ -307,13 +307,13 @@ def get_lexer():
 
     @TOKEN(dictOfDicts['UserDict'])
     def t_command_USER(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     @TOKEN(command_UNKNOWN)
     def t_command_UNKNOWN(t):
-    	t.lexer.begin('INITIAL')
-    	return t
+        t.lexer.begin('INITIAL')
+        return t
 
     def t_command_error(t):
         print("Illegal character '%s'" % t.value[0])
@@ -324,13 +324,13 @@ def get_lexer():
         print("Illegal character '%s'" % t.value[0])
         #t.lexer.skip(1)
         #raise illegalCharacter
-	
+
     def t_anything_error(t):
         print("Illegal character '%s'" % t.value[0])
 
     def t_text_error(t):
         print("Illegal character '%s'" % t.value[0])
-	
+
     return lex.lex(reflags = re.UNICODE)
 
 if __name__ =="__main__":

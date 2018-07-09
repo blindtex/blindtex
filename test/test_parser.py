@@ -350,7 +350,7 @@ def test_concatenation():
     assert type(cv1) is list
     assert cv1[0].content == 'a'
     assert cv1[1].content == 'b'
-        
+
     latex_string2 = r'a^2b_i^3'
     cv2 = custom_parser.parse(latex_string2, custom_lexer)
     assert cv2[0].content == 'a'
@@ -358,5 +358,3 @@ def test_concatenation():
     assert cv2[1].content == 'b'
     assert cv2[1].subscript[0].content == 'i'
     assert cv2[1].superscript[0].content == '3'
-
-
