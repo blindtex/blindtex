@@ -1,5 +1,4 @@
-from latex2ast import lexer
-from latex2ast import parser
+from latex2ast import converter
 #from latex2ast import ast
 
 to_read = {'simple_superscript' : 'super %s ',
@@ -179,9 +178,6 @@ def literal_read_formula(list_formula):
 #EndOfFunction
 
 if __name__ == "__main__":
-    par = parser.get_parser()
-    lexer = lexer.get_lexer()
-    #cv = parser.parse(latex_string,custom_lexer)#,debug=1)
     while True:
         try:
             try:
@@ -189,7 +185,7 @@ if __name__ == "__main__":
             except NameError: # Python3
                 s = input('spi> ')
 
-            cv_s = par.parse(s,lexer)
+            cv_s = converter.latex2list(s)
             print(literal_read_formula(cv_s))
         except EOFError:
             break
