@@ -22,7 +22,7 @@ def convert(stringInput):
         </body>
         </html>'''
     if parser.OPTION == 1:
-            convertedFormula = parser.convert(stringInput)
+        convertedFormula = parser.convert(stringInput)
     print convertedFormula
     return convertedFormula
 

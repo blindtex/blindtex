@@ -11,7 +11,7 @@ import converter.formulate as formulate
 class mainWindow(wx.Frame):
 
     def __init__(self, parent, title):
-        
+
         wx.Frame.__init__(self, parent, wx.ID_ANY, title, size = (wx.DisplaySize()[0]/3, wx.DisplaySize()[1]/3),
                           style = wx.DEFAULT_FRAME_STYLE|wx.CLIP_CHILDREN|wx.TAB_TRAVERSAL)
 
@@ -21,7 +21,7 @@ class mainWindow(wx.Frame):
 
         #Main sizer.
         self.mainSizer = wx.BoxSizer(wx.VERTICAL)
-        
+
         #Dictionary selection Sizer.
         self.chooseDictBox = wx.BoxSizer(wx.HORIZONTAL)
         #Dictionary text
@@ -43,7 +43,7 @@ class mainWindow(wx.Frame):
         self.slctdDictStaticText = wx.StaticText(self.principalPanel, label = 'Commandos:')
         self.slctdDictCommands = wx.ComboBox(self.principalPanel, choices = [], style = wx.TE_PROCESS_ENTER)
         self.Bind(wx.EVT_TEXT_ENTER, self.selectCommand, source = self.slctdDictCommands)
-        
+
         self.commandsBoxSizer.Add(self.slctdDictStaticText, flag = wx.ALL | wx.EXPAND | wx.CENTER, border= 3, proportion = 1)
         self.commandsBoxSizer.Add(self.slctdDictCommands, flag = wx.ALL | wx.EXPAND | wx.CENTER, border= 3, proportion = 1)
         #Selected CommandBox Sizer
@@ -98,7 +98,7 @@ class mainWindow(wx.Frame):
         #Confirm add Button
         self.confirmButton = wx.Button(self.principalPanel, label = "Confirmar")
         self.Bind(wx.EVT_BUTTON, self.addCommand, source= self.confirmButton)
-        #The  Add Command Addings       
+        #The  Add Command Addings
         self.addCommandBoxSizer.Add(self.newCommandBoxSizer, flag = wx.ALL | wx.EXPAND | wx.CENTER, border= 8, proportion = 1)
         self.addCommandBoxSizer.Add(self.newReadingBoxSizer, flag = wx.ALL | wx.EXPAND | wx.CENTER, border= 8, proportion = 1)
         self.addCommandBoxSizer.Add(self.confirmButton, flag = wx.ALL | wx.CENTER, border= 8, proportion = 1)
@@ -111,16 +111,16 @@ class mainWindow(wx.Frame):
         self.slctdDictSizer.Show(self.commandsBoxSizer, show = False)
         self.slctdDictSizer.Show(self.slctdCommandBoxSizer, show = False)
         self.slctdDictSizer.Show(self.addCommandBoxSizer, show = False)
-        
+
         self.selectedDictBoxSizer.Add(self.slctdDictSizer,flag = wx.ALL | wx.EXPAND | wx.CENTER, border = 8, proportion = 1 )
         self.selectedDictBoxSizer.Show(self.slctdDictSizer, show = False)
-        
-        
+
+
         self.mainSizer.Add(self.chooseDictBox, flag = wx.ALL | wx.EXPAND | wx.CENTER, border = 8, proportion = 1)
         self.mainSizer.Add(self.selectedDictBoxSizer, flag = wx.ALL | wx.EXPAND | wx.CENTER, border = 8, proportion = 1)
         self.mainSizer.Show(self.selectedDictBoxSizer, show = False)
         self.principalPanel.SetSizer(self.mainSizer)
-        
+
         self.Centre()
         self.Show()
         self.Fit()
@@ -129,7 +129,7 @@ class mainWindow(wx.Frame):
         dictName = self.dictComboBox.GetStringSelection()
         #Open The dictionary
         self.selectedDictionary = dictionary.dictionary(os.path.join('converter','dicts', dictName+'.json'))
-        
+
         self.slctdDictStaticBox.SetLabel(dictName)
         self.slctdDictCommands.Set(getCommandNames(dictName))
         self.selectedDictBoxSizer.Show(self.slctdDictSizer, show = True)
@@ -150,7 +150,7 @@ class mainWindow(wx.Frame):
         for reading in self.selectedDictionary.showReadings(self.commandName):
             nonHtmlReadings.append(formulate.replaceHtml(reading))
         self.possibleReadingsComboBox.Set(nonHtmlReadings)
-        
+
         #EndOfFunction
     def chooseReading(self, event):
         self.newPossibleReading = self.possibleReadingsComboBox.GetStringSelection()
@@ -169,7 +169,7 @@ class mainWindow(wx.Frame):
             self.selectedDictionary.save()
         elif self.addReadingDialog.ShowModal() == wx.ID_NO:
             pass
-        
+
         #EndOfFunction
     def addCommandShow(self, event):
         self.slctdDictSizer.Show(self.addCommandBoxSizer, show = True)

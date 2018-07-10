@@ -17,7 +17,7 @@ def convertProcess(path):
 def convertProcessPdf(path):
     global presult
     presult = mainGUIController.onClickConvertToPdfController(path)
-    
+
 class mainGUI(wx.Frame):
     sLector = 0
     def __init__(self, parent, title):
@@ -79,7 +79,7 @@ class mainGUI(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onClickConvertFile, cDocument, 6)
         self.Bind(wx.EVT_MENU, self.onClickOpenDictionary, cDict, 7)
         self.Bind(wx.EVT_MENU, self.onClickConvertToPdf, cConvertToPdf, 8)
-        
+
         menuBar.Append(actionMenu, '&Acciones')
 
         # Menú de configuraciones
@@ -90,7 +90,7 @@ class mainGUI(wx.Frame):
         self.Bind(wx.EVT_MENU, self.voiceOverChek, VoiceOverItem)
         self.Bind(wx.EVT_MENU, self.nvdaChek, nvdaItem)
         self.Bind(wx.EVT_MENU, self.literalCheck, literalItem)
-        
+
         menuBar.Append(lectorMenu, '&Configuración')
 
         # Panel principal
@@ -157,18 +157,18 @@ class mainGUI(wx.Frame):
     def nvdaChek(self, event):
         parser.setOption(2)
         self.sLector = 2
-        
+
 
     def voiceOverChek(self, event):
         parser.setOption(0)
         self.sLector = 0
-        
-        
+
+
     def literalCheck(self, event):
         parser.setOption(1)
         self.sLector = 1
-        
-        
+
+
     def onClickConvertLiteral(self, event):
         if self.inputTextbox.GetValue() == "":
             print("No hay valores que mostrar")
@@ -246,7 +246,7 @@ class mainGUI(wx.Frame):
 
     # EndOfFunction
 
-    
+
     def onClickOpenDictionary(self, event):
         dictionariesGUI.openWindow()
 
@@ -276,7 +276,7 @@ class mainGUI(wx.Frame):
                 errorm.Destroy()
 
         #EndOfFunction
-                
+
     def OnQuit(self, event):
         self.Close()
 
