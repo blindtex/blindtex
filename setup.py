@@ -1,6 +1,7 @@
 import setuptools
 
 import pkg_resources
+from setuptools import find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
@@ -17,11 +18,19 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/blindtex/blindtex/",
-    packages=setuptools.find_packages(exclude=['*test*']),
+    packages = find_packages(exclude=['docs', 'tests*']),
     install_requires=install_requires,
+    extras_require = {
+        'test': ['coverage', 'pytest', 'pytest-cov'],
+    },
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ),
+    #entry_points={
+    #      'console_scripts': [
+    #          'blindtex = blindtex.blindtex:main'
+    #      ]
+    #  }
 )
