@@ -111,7 +111,7 @@ def is_simple(Node):
     if(Node.content in with_children):
         bool_it_is = False
     elif(Node.content == 'block' and len(Node.get_children()) > 1):
-        bool_it_is = False
+        bool_it_is = False #There is a bug: If the block is {{a + b}} it will say it is simple.
     else:
         bool_it_is = True #Redundant but safe.
     return bool_it_is
