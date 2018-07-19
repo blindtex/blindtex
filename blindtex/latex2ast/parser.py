@@ -64,7 +64,17 @@ def p_accent(p):
                     | ACCENT symbol
     '''
     p[2].accent = p[1]
-    p[0] = [p[2]]
+    p[0] = [p[2]]#Are you sure this does not create a conflict if the MathObject is complex?
+
+def p_overset(p):
+    '''math_object : OVERSET argument argument '''
+    p[3].accent = p[2]
+    p[0] = [p[3]]#Are you sure this does not create a conflict if the MathObject is complex?
+
+def p_underset(p):
+    '''math_object : UNDERSET argument argument '''
+    p[3].under = p[2]
+    p[0] = [p[3]]#Are you sure this does not create a conflict if the MathObject is complex?
 
 def p_style(p):
     '''
@@ -72,7 +82,7 @@ def p_style(p):
                     | STYLE symbol
     '''
     p[2].style = p[1]
-    p[0] = [p[2]]
+    p[0] = [p[2]]#Are you sure this does not create a conflict if the MathObject is complex?
 
 
 def p_formula_scripted(p):
@@ -106,9 +116,19 @@ def p_simple_scripted(p):
                                     | SUB script
     '''
     if(p[1] == '^'):
-        p[-1][0].superscript = p[2]#Adds the script to the previous element.
+        #This distintion is made for formulas like a^2 ^3 (double scripted)
+        #LaTeX accepts them and we have to.
+        #Here we create a new Node with content 'nothing_scripted' that will be processed later. 
+        if(p[-1][0].superscript == None):
+            p[-1][0].superscript = p[2]#Adds the script to the previous element.
+        else:
+            p[-1].append(MathObject(content = 'nothing_scripted', superscript = p[2]))#What a duct tape fix.
     else:
-        p[-1][0].subscript = p[2]
+        if(p[-1][0].subscript == None):
+            p[-1][0].subscript = p[2]
+        else:
+            p[-1].append(MathObject(content = 'nothing_scripted', subscript = p[2]))
+
 
 def p_compound_scripted(p):
     '''
@@ -116,14 +136,19 @@ def p_compound_scripted(p):
                                     | SUB script SUP script
     '''
     if(p[1] == '^'):
-        p[-1][0].superscript = p[2]
-        p[-1][0].subscript = p[4]
+        #See p_simple_scripted
+        if(p[-1][0].superscript == None and p[-1][0].subscript == None):
+            #If some is not and the parser reached here, something funny is happening.
+            p[-1][0].superscript = p[2]
+            p[-1][0].subscript = p[4]
+        else:
+            p[-1].append(Node(content = 'nothing_scripted', superscript = p[2], subscript = p[4]))
     else:
-        p[-1][0].subscript = p[2]
-        p[-1][0].superscript = p[4]
-
-
-
+        if(p[-1][0].superscript == None and p[-1][0].subscript == None):
+            p[-1][0].subscript = p[2]
+            p[-1][0].superscript = p[4]
+        else:
+            p[-1].append(Node(content = 'nothing_scripted', superscript = p[4], subscript = p[2]))
 
 def p_symbol(p):
     """

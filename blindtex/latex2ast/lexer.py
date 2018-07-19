@@ -18,7 +18,7 @@ tokens = ('CHAR', 'SUP', 'SUB',
           'CHOOSE','BINOM','PMOD',
           'PHANTOM','TEXT','LABEL',
           'ANYTHING','ARRAYTEXT','USER',
-          'NUM','KNOT', 'MOD', 'TCHAR',)
+          'NUM','KNOT', 'MOD', 'TCHAR','UNDERSET', 'OVERSET')
 
 dictOfDicts = json.loads("{\"Dots\": \"dots|ldots|cdots|vdots|ddots\", \
     \"Styles\": \"mathit|mathrm|mathbf|mathsf|mathtt|mathcal|boldmath\", \
@@ -49,6 +49,8 @@ def get_lexer():
     command_BEGARRAY = r'(begin\{array\}|begin\{[pbBvV]?matrix(\*)?\})(\[.*?\])?(\{.*?\})?'
     command_ENDARRAY = r'end\{array\}|end\{[pbBvV]?matrix(\*)?\}'
     command_LINEBREAK = r'\\'
+    command_UNDERSET = r'underset'
+    command_OVERSET = r'overset'
     COL = r'[&]'
     #command_LARGEOP =
     #command_ORD =
@@ -145,6 +147,16 @@ def get_lexer():
 
     @TOKEN(command_LINEBREAK)
     def t_command_LINEBREAK(t):
+        t.lexer.begin('INITIAL')
+        return t
+
+    @TOKEN(command_UNDERSET)
+    def t_command_UNDERSET(t):
+        t.lexer.begin('INITIAL')
+        return t
+
+    @TOKEN(command_OVERSET)
+    def t_command_OVERSET(t):
         t.lexer.begin('INITIAL')
         return t
 
