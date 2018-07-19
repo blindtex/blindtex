@@ -16,3 +16,13 @@ def test_read_equation_list():
     expected_reading = ['int', 'from', '0', 'to', '2', 'of', 'x', 'super', '4', 'd', 'x']
     reading = blindtex.read_equation_list(equation)
     assert expected_reading == reading
+
+    equation = "\\sqrt[5]{x+b}"
+    expected_reading = ['root','5','of','x','+','b','endroot']
+    reading = blindtex.read_equation_list(equation)
+    assert expected_reading == reading
+
+    equation = "\\sqrt{x+b}"
+    expected_reading = ['squarerootof','x','+','b','endroot']
+    reading = blindtex.read_equation_list(equation)
+    assert expected_reading == reading
