@@ -1,1 +1,1 @@
-{"dots": [0, ["puntos"]], "cdots": [0, ["puntos centrados"]], "ddots": [0, ["puntos diagonales"]], "ldots": [0, ["puntos bajos"]], "vdots": [0, ["puntos verticales"]]}
+{"cdots": [0, ["puntosCentrados", "22EF"]], "ldots": [0, ["puntosBajos", "2026"]], "vdots": [0, ["puntosVerticales", "22EE"]], "ddots": [0, ["puntosDiagonales", "22F1"]], "dots": [0, ["puntos", "22EF"]]}

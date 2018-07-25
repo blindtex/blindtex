@@ -7,6 +7,7 @@ class MathObject():
                  left_superscript = None,
                  left_subscript = None,
                  accent = None,
+                 above = None,
                  under = None,
                  superscript = None,
                  subscript = None,
@@ -22,6 +23,7 @@ class MathObject():
         self.left_superscript = left_superscript
         self.left_subscript = left_subscript
         self.accent = accent
+        self.above = above
         self.under = under
         self.superscript = superscript
         self.subscript = subscript

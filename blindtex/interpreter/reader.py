@@ -19,168 +19,169 @@ to_read = {'simple_superscript' : 'super %s ',
                 'comp_text' : 'text %s endtext ',
                 'from_to' : 'from %s to %s of ',
                 'over' : 'over %s of ',
-                'to' : 'to %s of '}
+                'to' : 'to %s of ',
+                'end' : 'end%s '}
 
-def literal_read(Node):
+def lineal_read(Node):
     #Dictionary with the possible nodes with children and the functions each case call.
-    with_children = {'block' : literal_read_block,
-                     'fraction' : literal_read_fraction,
-                     'root' : literal_read_root,
-                     'choose' : literal_read_choose_binom,
-                     'binom' : literal_read_choose_binom,
-                     'pmod' : literal_read_pmod,
-                     'text' : literal_read_text,
-                     'label' : literal_read_label}
+    with_children = {'block' : lineal_read_block,
+                     'fraction' : lineal_read_fraction,
+                     'root' : lineal_read_root,
+                     'choose' : lineal_read_choose_binom,
+                     'binom' : lineal_read_choose_binom,
+                     'pmod' : lineal_read_pmod,
+                     'text' : lineal_read_text,
+                     'label' : lineal_read_label}
 
-    str_literal_read = ''
+    str_lineal_read = ''
 
     #The attributes will be readed in this order:
     # accent -> content-> children* -> style -> superscript -> subscript
     #TODO: Add the option for the user to change this.
-
+    #TODO: Add the option to ommit style or whatever.
     #TODO: Add the translation by dictionary.
 
 
-
-
+    
     #I'll go for the easiest and less elegant way: A chain of ifs.
-    if(Node.accent != None):
-        str_literal_read = str_literal_read + '%s '%Node.accent
-
     if(Node.content in with_children):
         #Identify the type of children the node has and act accordingly
-        str_literal_read = str_literal_read + with_children[Node.content](Node.children)
+        str_lineal_read = str_lineal_read + with_children[Node.content](Node.children)
     else:
-        str_literal_read = str_literal_read + '%s '%Node.content
+        str_lineal_read = str_lineal_read + '%s '%Node.content
 
     if(Node.style != None):
-        str_literal_read = str_literal_read + Node.style
+        str_lineal_read = lineal_read_style(Node, str_lineal_read)
+
+    if(Node.accent != None):
+        str_lineal_read = lineal_read_accent(Node, str_lineal_read)
 
     #This part is to read the limits of large Operators like integral or sum.
     if(Node.kind == 'LargeOperators'):
         if(Node.subscript != None and Node.superscript != None):
-            str_literal_read = str_literal_read + to_read['from_to']%(literal_read(Node.subscript[0]),
-                                                                    literal_read(Node.superscript[0]))
+            str_lineal_read = str_lineal_read + to_read['from_to']%(lineal_read(Node.subscript[0]),
+                                                                    lineal_read(Node.superscript[0]))
         elif(Node.subscript != None and Node.superscript == None):
-            str_literal_read = str_literal_read + to_read['over']%literal_read(Node.subscript[0])
+            str_lineal_read = str_lineal_read + to_read['over']%lineal_read(Node.subscript[0])
 
         elif(Node.subscript == None and Node.superscript != None):
-            str_literal_read = str_literal_read + to_read['to']%literal_read(Node.superscript[0])
-
+            str_lineal_read = str_lineal_read + to_read['to']%lineal_read(Node.superscript[0])
     else:
         if(Node.superscript != None):
-            str_literal_read = str_literal_read + literal_read_superscript(Node.superscript[0])
+            str_lineal_read = str_lineal_read + lineal_read_superscript(Node.superscript[0])
 
         if(Node.subscript != None):
-            str_literal_read = str_literal_read + literal_read_subscript(Node.subscript[0])
+            str_lineal_read = str_lineal_read + lineal_read_subscript(Node.subscript[0])
 
-    if(not is_simple(Node) and Node.accent != None):
-        str_literal_read  = str_literal_read + 'end%s'%Node.accent
-
-    return str_literal_read
+    return str_lineal_read
 #EndOfFunction
 
+def lineal_read_accent(node, str_read):
+    if(is_simple(node)):
+        return str_read + '%s '%node.accent
+    else:
+        return '%s '%node.accent + str_read + to_read['end']%node.accent    
+#EOF
 
-def literal_read_superscript(node_script):
+def lineal_read_style(node, str_read):
+    if(is_simple(node)):
+        return str_read + '%s '%node.style
+    else:
+        return '%s '%node.style + str_read + to_read['end']%node.style
+#EOF
+
+def lineal_read_superscript(node_script):
     #Here if the script is a block it will be considered as a compound script.
     #This to avoid the following ambiguity: a^{b_c} and a^b_c
-    #That would be readed equals.
+    #That, otherwise, would be read the same.
     if(is_simple(node_script) and node_script.content != 'block'):
-        return to_read['simple_superscript']%literal_read(node_script)
+        return to_read['simple_superscript']%lineal_read(node_script)
     else:
-        return to_read['comp_superscript']%literal_read(node_script)
+        return to_read['comp_superscript']%lineal_read(node_script)
 #EndOfFunction
 
-def literal_read_subscript(node_script):
-    #See literal_read_superscript.
+def lineal_read_subscript(node_script):
+    #See lineal_read_superscript.
     if(is_simple(node_script) and node_script.content != 'block'):
-        return to_read['simple_subscript']%literal_read(node_script)
+        return to_read['simple_subscript']%lineal_read(node_script)
     else:
-        return to_read['comp_subscript']%literal_read(node_script)
+        return to_read['comp_subscript']%lineal_read(node_script)
 #EndOfFunction
+
 
 def is_simple(Node):
-    bool_it_is = True #It is innocent by the moment.
-    with_children = ['fraction',
-                     'root',
-                     'choose',
-                     'binom',
-                     'pmod' ,
-                     'text',
-                     'label']
-    if(Node.content in with_children):
-        bool_it_is = False
-    elif(Node.content == 'block' and len(Node.get_children()) > 1):
-        bool_it_is = False #There is a bug: If the block is {{a + b}} it will say it is simple.
+    if(Node.get_children() == None):
+        return True
+    elif(Node.content == 'block' and len(Node.get_children()) == 1 ):
+        return(is_simple(Node.get_children()[0]))#This is for cases like {{a+b}} (not simple) or {{{\alpha}}}(simple).
     else:
-        bool_it_is = True #Redundant but safe.
-    return bool_it_is
+        return False
 #EndOfFunction
 
-def literal_read_block(list_children):
+def lineal_read_block(list_children):
     # The child of a block is a formula, a formula is a list of nodes.
     str_result = ''
     for node in list_children:
-        str_result = str_result + literal_read(node)
+        str_result = str_result + lineal_read(node)
 
     return str_result
 #EndOfFunction
 
-def literal_read_fraction(list_children):
+def lineal_read_fraction(list_children):
     #The list received here must be of lenght 2. The numerator and denominator.
     if(is_simple(list_children[0]) and is_simple(list_children[1])):
-        return to_read['simple_frac']%(literal_read(list_children[0]), literal_read(list_children[1]))
+        return to_read['simple_frac']%(lineal_read(list_children[0]), lineal_read(list_children[1]))
     else:
-        return to_read['comp_frac']%(literal_read(list_children[0]), literal_read(list_children[1]))
+        return to_read['comp_frac']%(lineal_read(list_children[0]), lineal_read(list_children[1]))
 #EndOfFunction
 
-def literal_read_root(list_children):
+def lineal_read_root(list_children):
     #There are two cases here: Either the root has an index \sqrt[i]{k} or not.
     if(len(list_children) == 1):#It has not index
         if(is_simple(list_children[0])):
-            return to_read['simple_sqrt']%(literal_read(list_children[0]))
+            return to_read['simple_sqrt']%(lineal_read(list_children[0]))
         else:
-            return to_read['comp_sqrt']%(literal_read(list_children[0]))
+            return to_read['comp_sqrt']%(lineal_read(list_children[0]))
     else:
         if(is_simple(list_children[1])):
-            return to_read['simple_root']%(literal_read(list_children[0]), literal_read(list_children[1]))
+            return to_read['simple_root']%(lineal_read(list_children[0]), lineal_read(list_children[1]))
         else:
-            return to_read['comp_root']%(literal_read(list_children[0]), literal_read(list_children[1]))
+            return to_read['comp_root']%(lineal_read(list_children[0]), lineal_read(list_children[1]))
 #EndOfFunction
 
-def literal_read_choose_binom(list_children):
+def lineal_read_choose_binom(list_children):
     if(is_simple(list_children[0]) and is_simple(list_children[1])):
-        return to_read['simple_choose']%(literal_read(list_children[0]), literal_read(list_children[1]))
+        return to_read['simple_choose']%(lineal_read(list_children[0]), lineal_read(list_children[1]))
     else:
-        return to_read['comp_choose']%(literal_read(list_children[0]), literal_read(list_children[1]))
+        return to_read['comp_choose']%(lineal_read(list_children[0]), lineal_read(list_children[1]))
 #EndOfFunction
 
-def literal_read_pmod(list_children):
+def lineal_read_pmod(list_children):
     if(is_simple(list_children[0])):
-        return to_read['simple_modulo']%(literal_read(list_children[0]))
+        return to_read['simple_modulo']%(lineal_read(list_children[0]))
     else:
-        return to_read['comp_modulo']%(literal_read(list_children[0]))
+        return to_read['comp_modulo']%(lineal_read(list_children[0]))
 #EndOfFunction
 
-def literal_read_text(list_children):
+def lineal_read_text(list_children):
     return 'text %s endtext'%(list_children)#Here the child is a string
 #EndOfFunction
 
-def literal_read_label(list_children):
+def lineal_read_label(list_children):
     return r'\%s'%(list_children)#The labels must be inaltered.
 #EndOFFunction
 
-def literal_read_formula(list_formula):
+def lineal_read_formula(list_formula):
     str_result = ''
     for node in list_formula:
-        str_result = str_result + literal_read(node)
+        str_result = str_result + lineal_read(node)
     return str_result
 #EndOfFunction
 
-def literal_read_formula_list(list_formula):
+def lineal_read_formula_list(list_formula):
     str_result = ''
     for node in list_formula:
-        str_result = str_result + literal_read(node)
+        str_result = str_result + lineal_read(node)
     return str_result.split()
 #EndOfFunction
 
@@ -194,6 +195,6 @@ if __name__ == "__main__":
                 s = input('spi> ')
 
             cv_s = converter.latex2list(s)
-            print(literal_read_formula(cv_s))
+            print(lineal_read_formula(cv_s))
         except EOFError:
             break

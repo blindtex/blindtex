@@ -68,7 +68,7 @@ def p_accent(p):
 
 def p_overset(p):
     '''math_object : OVERSET argument argument '''
-    p[3].accent = p[2]
+    p[3].above = p[2]
     p[0] = [p[3]]#Are you sure this does not create a conflict if the MathObject is complex?
 
 def p_underset(p):
@@ -109,7 +109,7 @@ def p_script(p):
                     | text'''
     p[0] = [p[1]]
 
-#TODO: What if p[-1] is nothing? "_3^2 A" is a valid LaTeX formula.
+
 def p_simple_scripted(p):
     '''
     simple_scripted : SUP script
