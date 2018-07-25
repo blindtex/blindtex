@@ -1,5 +1,6 @@
+#!/usr/bin/python3
 import argparse
-from blindtex import blindtex
+from blindtex import tex2all
 
 def main():
     parser = argparse.ArgumentParser(description="Tool for LaTeX's equations convertion")
@@ -10,7 +11,7 @@ def main():
     args = parser.parse_args()
 
     if args.equation:
-        print(blindtex.read_equation(args.equation))
+        print(tex2all.read_equation(args.equation))
 
 if __name__=='__main__':
     main()

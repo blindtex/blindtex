@@ -28,9 +28,9 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ),
-    #entry_points={
-    #      'console_scripts': [
-    #          'blindtex = blindtex.blindtex:main'
-    #      ]
-    #  }
+    entry_points={
+          'console_scripts': [
+              'blindtex = blindtex.tex2all:main'
+          ]
+      }
 )
