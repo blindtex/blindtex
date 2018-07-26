@@ -1,10 +1,30 @@
+#-*-:coding:utf-8-*-
 from blindtex.latex2ast import converter
 #from latex2ast import ast
+from blindtex.interpreter import dictionary
+import os
+import os.path
+
+DICTSPATH = os.path.join('blindtex', 'lang', 'dicts')
+
+DICTS = {'Accents' : dictionary.dictionary(os.path.join(DICTSPATH,'Accents.json')),
+             'Arrows' : dictionary.dictionary(os.path.join(DICTSPATH,'Arrows.json')),
+             'BinaryOperators' : dictionary.dictionary(os.path.join(DICTSPATH,'BinaryOperators.json')),
+             'BinaryRelations' : dictionary.dictionary(os.path.join(DICTSPATH,'BinaryRelations.json')),
+             'Delimiters' : dictionary.dictionary(os.path.join(DICTSPATH,'Delimiters.json')),
+             'Dots' : dictionary.dictionary(os.path.join(DICTSPATH,'Dots.json')),
+             'LargeOperators' : dictionary.dictionary(os.path.join(DICTSPATH,'LargeOperators.json')),
+             'MathFunctions' : dictionary.dictionary(os.path.join(DICTSPATH,'MathFunctions.json')),
+             'Ordinary' : dictionary.dictionary(os.path.join(DICTSPATH,'Ordinary.json')),
+             'Styles' : dictionary.dictionary(os.path.join(DICTSPATH,'Styles.json')),
+             'UserDict' : dictionary.dictionary(os.path.join(DICTSPATH,'UserDict.json')),}
+
+
 
 to_read = {'simple_superscript' : 'super %s ',
                 'comp_superscript' : 'super %s endsuper ',
                 'simple_subscript' : 'sub %s ',
-                'comp_subscript' : 'sub %s %endsub ',
+                'comp_subscript' : 'sub %s endsub ',
                 'simple_frac' : '%s over %s ',
                 'comp_frac' : 'fraction %s over %s endfraction ',
                 'simple_sqrt' : 'squarerootof %s ',
@@ -48,7 +68,7 @@ def lineal_read(Node):
         #Identify the type of children the node has and act accordingly
         str_lineal_read = str_lineal_read + with_children[Node.content](Node.children)
     else:
-        str_lineal_read = str_lineal_read + '%s '%Node.content
+        str_lineal_read = str_lineal_read + lineal_read_content(Node)
 
     if(Node.style != None):
         str_lineal_read = lineal_read_style(Node, str_lineal_read)
@@ -76,18 +96,27 @@ def lineal_read(Node):
     return str_lineal_read
 #EndOfFunction
 
-def lineal_read_accent(node, str_read):
-    if(is_simple(node)):
-        return str_read + '%s '%node.accent
+def lineal_read_content(node):
+    if(node.kind != None):
+        return '%s '%DICTS[node.kind].showReading(node.content)
     else:
-        return '%s '%node.accent + str_read + to_read['end']%node.accent    
+        return '%s '%node.content
+#EOF
+
+def lineal_read_accent(node, str_read):
+    node_accent = DICTS['Accents'].showReading(node.accent)
+    if(is_simple(node)):
+        return str_read + '%s '%node_accent
+    else:
+        return '%s '%node_accent + str_read + to_read['end']%node_accent    
 #EOF
 
 def lineal_read_style(node, str_read):
+    node_style = DICTS['Styles'].showReading(node.style)
     if(is_simple(node)):
-        return str_read + '%s '%node.style
+        return str_read + '%s '%node_style
     else:
-        return '%s '%node.style + str_read + to_read['end']%node.style
+        return '%s '%node_style + str_read + to_read['end']%node_style
 #EOF
 
 def lineal_read_superscript(node_script):

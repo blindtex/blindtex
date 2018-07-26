@@ -164,10 +164,13 @@ def p_symbol(p):
     p[0] = MathObject(content = p[1])
 
 def p_ord(p):
-    ''' symbol : NUM
-                            | CHAR
-                            | ORD '''
+    ''' symbol :  ORD '''
     p[0] = MathObject(content = p[1], kind = 'Ordinary')#Beware to distinguish if is in the dictionary or not.
+
+def p_noKind_ord(p):
+    '''symbol : NUM
+               | CHAR '''
+    p[0] = MathObject(content = p[1])
 
 def p_largeOp(p):
     ''' symbol : LARGEOP '''
