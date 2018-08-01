@@ -40,7 +40,10 @@ to_read = {'simple_superscript' : 'super %s ',
                 'from_to' : 'from %s to %s of ',
                 'over' : 'over %s of ',
                 'to' : 'to %s of ',
-                'end' : 'end%s '}
+                'end' : 'end%s ',
+                'linebreak' : 'linebreak',
+                'array' : 'array %s endarray',
+                'array_element' : 'element',}
 
 def lineal_read(Node):
     #Dictionary with the possible nodes with children and the functions each case call.
@@ -51,7 +54,8 @@ def lineal_read(Node):
                      'binom' : lineal_read_choose_binom,
                      'pmod' : lineal_read_pmod,
                      'text' : lineal_read_text,
-                     'label' : lineal_read_label}
+                     'label' : lineal_read_label,
+                     'array' : lineal_read_array}
 
     str_lineal_read = ''
 
@@ -99,6 +103,8 @@ def lineal_read(Node):
 def lineal_read_content(node):
     if(node.kind != None):
         return '%s '%DICTS[node.kind].showReading(node.content)
+    elif(node.content == r'\\'):
+        return to_read['linebreak']
     else:
         return '%s '%node.content
 #EOF
@@ -214,6 +220,26 @@ def lineal_read_formula_list(list_formula):
     return str_result.split()
 #EndOfFunction
 
+def lineal_read_array(list_array):
+    nrow = 1
+    ncol = 1
+    str_result = '%s%d_%d '%(to_read['array_element'],nrow, ncol)
+    array = list_array
+    
+    for element in array:
+        str_element_reading = lineal_read(element)
+        if(str_element_reading == '& '):
+            ncol += 1
+            str_result += '%s%d_%d '%(to_read['array_element'],nrow, ncol)
+            continue
+        elif(str_element_reading == to_read['linebreak']):
+            nrow += 1
+            ncol = 1
+            str_result += '%s%d_%d '%(to_read['array_element'],nrow, ncol)
+            continue
+        str_result += '%s '%str_element_reading
+        
+    return to_read['array']%str_result
 
 if __name__ == "__main__":
     while True:
