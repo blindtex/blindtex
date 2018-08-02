@@ -17,7 +17,7 @@ tokens = ('CHAR', 'SUP', 'SUB',
           'ENDARRAY','LINEBREAK','COL',
           'CHOOSE','BINOM','PMOD',
           'PHANTOM','TEXT','LABEL',
-          'ANYTHING','ARRAYTEXT','USER',
+          'ANYTHING','USER',
           'NUM','KNOT', 'MOD', 'TCHAR','UNDERSET', 'OVERSET')
 
 dictOfDicts = json.loads("{\"Dots\": \"dots|ldots|cdots|vdots|ddots\", \
@@ -79,7 +79,7 @@ def get_lexer():
     text_ignore_SPACE = r'[ \t\n]+'
     text_TBBLOCK = r'\{'
     command_LABEL = r'label\{(.)*(?<!\\)\}'
-    ARRAYTEXT = r'~text\{'
+    #ARRAYTEXT = r'~text\{'
     anything_ANYTHING = r'[^}]+'
     anything_ENDANY = r'(?<!\\)\}'
     CHAR = r'[A-Za-z"%\',.:;|]+?'
@@ -293,11 +293,6 @@ def get_lexer():
     @TOKEN(command_LABEL)
     def t_command_LABEL(t):
         t.lexer.begin('INITIAL')
-        return t
-
-    @TOKEN(ARRAYTEXT)
-    def t_ARRAYTEXT(t):
-        t.lexer.begin('anything')
         return t
 
     @TOKEN(anything_ANYTHING)

@@ -23,13 +23,21 @@ def p_start(p):
 def p_formula(p):
     """
     formula : math_object
-                        | concat
+            | concat
     """
     if(p[0] == None):
         p[0] = p[1]
     else:
         p[0] = p[0] + p[1]
 
+def p_lnbrk(p):
+    '''lnbrk : LINEBREAK '''
+    p[0] = MathObject(content = r'\\')
+
+def p_col(p):
+    '''col : COL '''
+    p[0] = MathObject(content = '&')
+    
 #Rule to deal with concatenation of math objects.
 def p_formulas(p):
     '''concat :  math_object formula'''
@@ -47,7 +55,10 @@ def p_math_object(p):
             | binom
             | pmod
             | text
-            | label'''
+            | label
+            | array
+            | lnbrk
+            | col'''
     p[0] = [p[1]]#It returns a list of one object.
 
 def p_block(p):
@@ -56,7 +67,6 @@ def p_block(p):
     """
     p[0] = MathObject(content = 'block')
     p[0].append_child(p[2])
-
 
 def p_accent(p):
     '''
@@ -84,7 +94,6 @@ def p_style(p):
     p[2].style = p[1]
     p[0] = [p[2]]#Are you sure this does not create a conflict if the MathObject is complex?
 
-
 def p_formula_scripted(p):
     '''
     math_object : math_object simple_scripted
@@ -109,7 +118,6 @@ def p_script(p):
                     | text'''
     p[0] = [p[1]]
 
-
 def p_simple_scripted(p):
     '''
     simple_scripted : SUP script
@@ -128,7 +136,6 @@ def p_simple_scripted(p):
             p[-1][0].subscript = p[2]
         else:
             p[-1].append(MathObject(content = 'nothing_scripted', subscript = p[2]))
-
 
 def p_compound_scripted(p):
     '''
@@ -157,7 +164,6 @@ def p_symbol(p):
             | MOD
             | "!"
             | NOT
-            | LINEBREAK
                         | KNOT
                         | USER
     """
@@ -265,6 +271,16 @@ def p_label(p):
     '''label : LABEL '''
     p[0] = MathObject(content = 'label')
     p[0].append_child(p[1])
+
+def p_array(p):
+    '''array : BEGARRAY start ENDARRAY '''
+    p[0] = MathObject(content = 'array')
+    p[0].append_child(p[2])
+
+#Here we have a delay of the problem. If  LINEBREAK is included as the
+# row separator there is a conflict with LINEBREAK as symbol in any 
+# formula, so, I decided to postpone the row and column finding in the later processes.
+#By the moment it creates a large list with all the rows in one.
 
 
 def get_parser():

@@ -356,3 +356,21 @@ def test_concatenation():
     assert cv2[1].content == 'b'
     assert cv2[1].subscript[0].content == 'i'
     assert cv2[1].superscript[0].content == '3'
+
+def test_array():
+    custom_parser = parser.get_parser()
+    custom_lexer = lexer.get_lexer()
+
+    latex_string1 = r'\begin{array}a&b\\c&d\end{array}'
+    cv1 = custom_parser.parse(latex_string1, custom_lexer)
+    assert cv1[0].content == 'array'
+    children = cv1[0].get_children()
+    assert len(children) == 7 #Two Rows
+    assert children[0].content == 'a'
+    assert children[1].content == '&'
+    assert children[2].content == 'b'
+    assert children[3].content == r'\\'
+    assert children[4].content == 'c'
+    assert children[5].content == '&'
+    assert children[6].content == 'd'
+
