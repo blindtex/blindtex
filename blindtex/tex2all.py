@@ -9,8 +9,8 @@ def read_equation(latex_equation,mode='lineal'):
         return(literal_lineal_eq)
 
 def to_list(latex_equation):
-    list_objet_math = converter.latex2list(latex_equation)
-    list_lineal_reading = reader.lineal_read_formula_list(list_objet_math)
+    list_object_math = converter.latex2list(latex_equation)
+    list_lineal_reading = reader.lineal_read_formula_list(list_object_math)
     list_lineal_reading_translated_to_spanish = translator.translate_lineal_read(list_lineal_reading, lang='es')
     return list_lineal_reading_translated_to_spanish
 
