@@ -19,7 +19,7 @@ def read_json_file(fileName):
         print("File %s could not be openned."%(fileName))
         return ""
 
-def translate_lineal_read(list_of_tokens):
+def translate_lineal_read(list_of_tokens,lang='es'):
     spanish_dict = read_json_file(os.path.join(DICTSPATH,"spanish.json"))
     list_translated = []
     for token in list_of_tokens:

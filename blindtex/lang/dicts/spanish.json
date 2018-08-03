@@ -1,5 +1,10 @@
 {
    "from":"desde",
+   "of":"de",
+   "root":"raíz",
+   "fraction":"fracción",
+   "endfraction":"finFracción",
+   "over":"sobre",
    "hat":"gorro",
    "breve":"breve",
    "grave":"grave",

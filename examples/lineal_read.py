@@ -11,7 +11,7 @@ def main():
     args = parser.parse_args()
 
     if args.equation:
-        print(tex2all.read_equation(args.equation))
+        print(tex2all.to_list(args.equation))
 
 if __name__=='__main__':
     main()

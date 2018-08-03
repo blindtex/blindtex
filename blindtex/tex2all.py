@@ -1,6 +1,6 @@
-import argparse
 from blindtex.latex2ast import converter
 from blindtex.interpreter import reader
+from blindtex.lang import translator
 
 def read_equation(latex_equation,mode='lineal'):
     if mode == 'lineal':
@@ -8,6 +8,11 @@ def read_equation(latex_equation,mode='lineal'):
         literal_lineal_eq = reader.lineal_read_formula(cv_s)
         return(literal_lineal_eq)
 
+def to_list(latex_equation):
+    list_objet_math = converter.latex2list(latex_equation)
+    list_lineal_reading = reader.lineal_read_formula_list(list_objet_math)
+    list_lineal_reading_translated_to_spanish = translator.translate_lineal_read(list_lineal_reading, lang='es')
+    return list_lineal_reading_translated_to_spanish
 
 def read_equation_list(latex_equation,mode='lineal'):
     if mode == 'lineal':
