@@ -1,6 +1,7 @@
 import json
 import os
 import os.path
+import pkg_resources
 
 DICTSPATH = os.path.join('blindtex', 'lang', 'dicts')
 
@@ -20,11 +21,11 @@ def read_json_file(fileName):
         return ""
 
 def translate_lineal_read(list_of_tokens,lang='es'):
-    spanish_dict = read_json_file(os.path.join(DICTSPATH,"spanish.json"))
+    diccionary = read_json_file(pkg_resources.resource_filename(__package__, 'dicts/spanish.json'))
     list_translated = []
     for token in list_of_tokens:
-        if spanish_dict.get(token):
-            list_translated.append(spanish_dict[token])
+        if diccionary.get(token):
+            list_translated.append(diccionary[token])
         else:
             list_translated.append(token)
     return list_translated

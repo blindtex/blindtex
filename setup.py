@@ -19,6 +19,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/blindtex/blindtex/",
     packages = find_packages(exclude=['docs', 'tests*']),
+    include_package_data = True,
     install_requires=install_requires,
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
