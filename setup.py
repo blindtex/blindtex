@@ -9,6 +9,9 @@ with open("README.md", "r") as fh:
 with open("requirements.txt", "r") as f:
     install_requires = [str(req) for req in pkg_resources.parse_requirements(f)]
 
+with open("requirements-test.txt", "r") as f:
+    install_test_requires = [str(req) for req in pkg_resources.parse_requirements(f)]
+
 setuptools.setup(
     name="blindtex",
     version="0.0.1",
@@ -22,7 +25,7 @@ setuptools.setup(
     include_package_data = True,
     install_requires=install_requires,
     extras_require = {
-        'test': ['coverage', 'pytest', 'pytest-cov'],
+        'test': install_test_requires,
     },
     classifiers=(
         "Programming Language :: Python :: 3",
