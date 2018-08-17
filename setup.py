@@ -14,7 +14,7 @@ with open("requirements-test.txt", "r") as f:
 
 setuptools.setup(
     name="blindtex",
-    version="0.0.1",
+    version="0.0.2",
     author="BlindTeX Team",
     author_email="blindtexunal@gmail.com",
     description="A package for converter LaTeX equations to natural language and more!.",
