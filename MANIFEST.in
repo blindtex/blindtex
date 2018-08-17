@@ -1,0 +1,15 @@
+# MANIFEST.in
+exclude .gitignore
+exclude .coverage
+exclude .travis.yml
+include README.rst
+include requirements.txt
+include setup.cfg
+include dicts/spanish.json
+include blindtex/lang/dicts/*
+prune .cache
+prune .git
+prune build
+prune dist
+recursive-exclude *.egg-info *
+recursive-include tests *

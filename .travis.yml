@@ -1,11 +1,13 @@
 language: python
 python:
-  - "2.7"
+#  - "2.7"
+  - "3.6"
 before_install:
     - pip install pytest pytest-cov
     - pip install coveralls coverage
 install:
     - pip install -r requirements.txt
+    - pip install -r requirements-test.txt
 script:
     - coverage run -m py.test
     - coverage report -m
