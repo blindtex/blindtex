@@ -2,12 +2,11 @@
 
 import os
 import copy
+import json
 import string
 import subprocess
-from blindtex import mainBlindtex
-import os
+#from blindtex import mainBlindtex
 from sys import argv
-
 #HU1
 #Method to open a file and return its content as a string.
 def openFile(fileName):
@@ -25,6 +24,21 @@ def openFile(fileName):
         print("File %s could not be openned."%(fileName))
         return ""
 #EndOfFunction
+
+def read_json_file(fileName):
+    '''This function takes a file a return its content as a string.
+            Args:
+                    fileName(str): The name of the file to be oppened.
+            Returns:
+                    str: The content of the file.'''
+    try:
+        myFile = open(fileName,'r')
+        stringDocument = json.load(myFile)
+        myFile.close()
+        return stringDocument
+    except IOError:
+        print("File %s could not be openned."%(fileName))
+        return ""
 
 #Replace the document containing the LaTeX math with the output of the function seekAndReplace. Write the content in a new file.
 def replaceAndWrite(contentList, replacedDocument, fileName):
