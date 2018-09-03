@@ -1,5 +1,3 @@
-import json
-
 def translate_lineal_read(list_of_tokens, dictionary):
     """
     Args:

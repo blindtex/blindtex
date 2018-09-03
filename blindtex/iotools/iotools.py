@@ -6,6 +6,7 @@ import json
 import string
 import subprocess
 #from blindtex import mainBlindtex
+import sys
 from sys import argv
 #HU1
 #Method to open a file and return its content as a string.
@@ -32,13 +33,23 @@ def read_json_file(fileName):
             Returns:
                     str: The content of the file.'''
     try:
-        myFile = open(fileName,'r')
-        stringDocument = json.load(myFile)
-        myFile.close()
-        return stringDocument
-    except IOError:
-        print("File %s could not be openned."%(fileName))
-        return ""
+        with open(fileName,'r') as myFile:
+            stringDocument = json.load(myFile)
+
+    except OSError as err:
+        print("OS error: {0}".format(err))
+        raise
+    except ValueError:
+        print("Could not parser",fileName,"file, please check json syntax.")
+        raise
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        raise
+
+    return stringDocument
+
+
+
 
 #Replace the document containing the LaTeX math with the output of the function seekAndReplace. Write the content in a new file.
 def replaceAndWrite(contentList, replacedDocument, fileName):
