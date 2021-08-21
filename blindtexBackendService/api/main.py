@@ -13,7 +13,8 @@ app = FastAPI()
 def read_root():
     return {"Bienvenido a Blindtex. Para más información http://blindtex.org/"}
 
-@app.post("/readLatexExpression/")
+@app.post("/readLatexExpression/", response_model=LatexExpression)
 async def read_equation(eq: LatexExpression):
-    tranformation=tex2all.read_equation(eq.expression)
-    return tranformation
+    convertion = {}
+    convertion['expression'] = tex2all.read_equation(eq.expression)
+    return convertion
