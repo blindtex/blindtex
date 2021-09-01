@@ -11,6 +11,28 @@ curl --location --request POST 'http://127.0.0.1/readLatexExpression/' --header 
 
 # Despliegue del api
 
+Configurar archivos _Procfile, runtime.txt_ y leer referencias
+```
+
+git remote add heroku https://git.heroku.com/blindtex-app.git
+heroku buildpacks:clear
+heroku buildpacks:set https://github.com/timanovsky/subdir-heroku-buildpack
+heroku buildpacks:add heroku/python
+heroku config:set PROJECT_PATH=blindtexBackendService/api
+git push heroku master
+
+
+curl --location --request POST 'https://blindtex-app.herokuapp.com/readLatexExpression/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "expression":"(x^2 + y^2 = z^2) + 89/234" 
+}'
+```
+
+Referencias
+* https://medium.com/@timanovsky/heroku-buildpack-to-support-deployment-from-subdirectory-e743c2c838dd
+* https://github.com/timanovsky/subdir-heroku-buildpack
+
 
 # Despliegue de app web
 
