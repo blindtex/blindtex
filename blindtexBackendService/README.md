@@ -32,6 +32,7 @@ curl --location --request POST 'https://blindtex-app.herokuapp.com/readLatexExpr
 Referencias
 * https://medium.com/@timanovsky/heroku-buildpack-to-support-deployment-from-subdirectory-e743c2c838dd
 * https://github.com/timanovsky/subdir-heroku-buildpack
+* https://towardsdatascience.com/how-to-deploy-your-fastapi-app-on-heroku-for-free-8d4271a4ab9
 
 
 # Despliegue de app web
