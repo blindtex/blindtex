@@ -3,11 +3,23 @@ from typing import Optional
 from fastapi import FastAPI
 from blindtex import tex2all
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 class LatexExpression(BaseModel):
     expression: str
 
 app = FastAPI()
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
